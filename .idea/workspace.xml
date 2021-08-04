@@ -2,26 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="83057b5b-d6ea-4185-b881-ad696202e3df" name="Changes" comment="Django configuration">
-      <change afterPath="$PROJECT_DIR$/django_project/django_project/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django_project/django_project/asgi.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django_project/django_project/settings.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django_project/django_project/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django_project/django_project/wsgi.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/django_project/manage.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/Scripts/Activate.ps1" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/Scripts/activate" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/Scripts/activate.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/Scripts/deactivate.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/Scripts/django-admin.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/Scripts/django-admin.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/Scripts/pip.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/Scripts/pip3.9.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/Scripts/pip3.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/Scripts/python.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/Scripts/pythonw.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/Scripts/sqlformat.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/pyvenv.cfg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/django_project/web_app/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/django_project/django_project/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_project/django_project/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/django_project/web_app/templates/hello.html" beforeDir="false" afterPath="$PROJECT_DIR$/django_project/web_app/templates/hello.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/django_project/web_app/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_project/web_app/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/django_project/web_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_project/web_app/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
