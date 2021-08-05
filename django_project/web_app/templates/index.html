@@ -103,34 +103,17 @@
     <div class="music-box">
         <div class="container">
             <div class="row">
+
+                {% for artist in artists %}
                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
                     <div class="for-box">
-                        <i><img src="{{artist1.img}}" alt="icon"/></i>
-                        <h3>{{artist1.name}}</h3>
-                        <p>{{artist1.desc}}</p>
+                        <i><img src="{{artist.img}}" alt="icon"/></i>
+                        <h3>{{artist.name}}</h3>
+                        <p>{{artist.desc}}</p>
                     </div>
                 </div>
-                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                    <div class="for-box">
-                        <i><img src="{{artist2.img}}" alt="icon"/></i>
-                        <h3>{{artist2.name}}</h3>
-                        <p>{{artist2.desc}}</p>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                    <div class="for-box">
-                        <i><img src="{{artist3.img}}" alt="icon"/></i>
-                        <h3>{{artist3.name}}</h3>
-                        <p>{{artist3.desc}}</p>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-                    <div class="for-box">
-                        <i><img src="{{artist4.img}}" alt="icon"/></i>
-                        <h3>{{artist4.name}}</h3>
-                        <p>{{artist4.desc}}</p>
-                    </div>
-                </div>
+                {% endfor %}
+
             </div>
         </div>
     </div>
@@ -169,30 +152,18 @@
                 </div>
             </div>
             <div class="row">
+
+                {% for s_news in news %}
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                     <div class="news-box">
-                        <figure><img src="{{news_1.img}}" alt="img" /></figure>
-                        <h3>{{news_1.title}}</h3>
-                        <span> {{news_1.date}}</span><span>Comment</span>
+                        <figure><img src="{{s_news.img}}" alt="img" /></figure>
+                        <h3>{{s_news.title}}</h3>
+                        <span> {{s_news.date}}</span><span>Comment</span>
                         <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, </p>
                     </div>
                 </div>
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                    <div class="news-box">
-                        <figure><img src="{{news_2.img}}" alt="img" /></figure>
-                        <h3>{{news_2.title}}</h3>
-                        <span> {{news_2.date}}</span><span>Comment</span>
-                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, </p>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
-                    <div class="news-box">
-                        <figure><img src="{{news_3.img}}" alt="img" /></figure>
-                        <h3>{{news_3.title}}</h3>
-                        <span> {{news_3.date}}</span><span>Comment</span>
-                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, </p>
-                    </div>
-                </div>
+                {% endfor %}
+
             </div>
         </div>
     </div>
