@@ -3,29 +3,16 @@ from django.db import models
 
 # Create your models here.
 
-class Artist:
-    id: int
-    name: str
-    img: str
-    desc: str
+class Artist(models.Model):
 
-    def __init__(self, id, name, img, desc):
-        self.id = id
-        self.name = name
-        self.img = img
-        self.desc = desc
+    name = models.CharField(max_length=200)
+    img = models.ImageField(upload_to='imgs')
+    desc = models.TextField()
 
 
-class News:
-    id: int
-    title: str
-    img: str
-    desc: str
-    date: str
+class News(models.Model):
 
-    def __init__(self, id, title, img, desc, date):
-        self.id = id
-        self.title = title
-        self.img = img
-        self.desc = desc
-        self.date = date
+    title = models.TextField()
+    img = models.ImageField(upload_to='imgs')
+    desc = models.TextField()
+    date = models.DateTimeField()
