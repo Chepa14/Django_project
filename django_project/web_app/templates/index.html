@@ -107,7 +107,7 @@
                 {% for artist in artists %}
                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
                     <div class="for-box">
-                        <i><img src="{{artist.img}}" alt="icon"/></i>
+                        <i><img src="{{artist.img.url}}" alt="icon"/></i>
                         <h3>{{artist.name}}</h3>
                         <p>{{artist.desc}}</p>
                     </div>
@@ -156,9 +156,9 @@
                 {% for s_news in news %}
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                     <div class="news-box">
-                        <figure><img src="{{s_news.img}}" alt="img" /></figure>
+                        <figure><img src="{{s_news.img.url}}" alt="img" /></figure>
                         <h3>{{s_news.title}}</h3>
-                        <span> {{s_news.date}}</span><span>Comment</span>
+                        <span> {{s_news.date|date:'d F'}}</span><span>Comment</span>
                         <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, </p>
                     </div>
                 </div>
