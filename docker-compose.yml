@@ -1,28 +1,23 @@
 version: "2"
 services:
   db:
-   image: postgres:9.6
-   environment:
-    POSTGRES_DB: django_db
-    POSTGRES_USER: postgres
-    POSTGRES_PASSWORD: postgres
-    POSTGRES_HOST: localhost
-   expose:
-    - 5432
-   ports:
-     - "5432:5432"
-  web:
-    image: quantumobile/rc-base
+    image: postgres:9.6
+    expose:
+      - 5432
     environment:
-     - DJANGO_SETTINGS_MODULE=django_project.settings
-    env_file:
-      - .env.dev.txt
+      POSTGRES_USER: django_project
+      POSTGRES_PASSWORD: zyVIRs8rC91XwTA9
+
+  django:
+    image: quantumobile/rc-base:latest
+    environment:
+      - DJANGO_SETTINGS_MODULE=django_project.settings
+    env_file: .env.dev.txt
     volumes:
-     - ./:/django_project
+      - ./:/django_project
     working_dir: /django_project
     links:
-     - db:db
+      - db:db
     ports:
       - "8000:8000"
-    command: bash -c "pip install -r requirements.txt &&
-      python ./django_project/manage.py runserver 0.0.0.0:8000"
+    command: bash -c "pip install -r requirements.txt && python ./django_project/manage.py runserver 0.0.0.0:8000"
