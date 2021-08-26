@@ -1,6 +1,21 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+
+# from rest_framework.response import Response
+# from rest_framework.views import ApiView
+
 from .models import Artist, News
+
+
+# class ArtistView(ApiView):
+#     def get(self, request):
+#         artists = Artist.objects.all()
+#         return Response({'artists': artists})
+#
+#
+# class NewsView(ApiView):
+#     def get(self, request):
+#         news = News.objects.all()
+#         return Response({'news': news})
 
 
 def home(request):

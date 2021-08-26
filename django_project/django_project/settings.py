@@ -27,19 +27,20 @@ SECRET_KEY = 'django-insecure-$+%8=vr!(k0$lkhe&*17^(1yg9c-f&vij==1x=dp3#3(q!xc-4
 DEBUG = True
 # DEBUG = int(os.environ.get("DEBUG", default=0))
 
-ALLOWED_HOSTS = '*'  # []
+ALLOWED_HOSTS = ['*']
 # ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
 # Application definition
 
 INSTALLED_APPS = [
+    # 'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'web_app'
+    'web_app',
 ]
 
 MIDDLEWARE = [
@@ -82,7 +83,8 @@ DATABASES = {
         'NAME': 'django_db',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': 'localhost'
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
 }
 
@@ -105,6 +107,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
