@@ -1,11 +1,37 @@
-version: '3.7'
+#version: '3.7'
+#services:
+#  web:
+#    container_name: web_app
+#    build: .
+#    command: python ./django_project/manage.py runserver 0.0.0.0:8000
+#    ports:
+#      - 8000:8000
+
+version: "2"
 services:
-  web:
-    build: ./django_project
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - ./django_project/:./django_project
+  db:
+   image: postgres:9.6
+   environment:
+    POSTGRES_DB: django_db
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: postgres
+    POSTGRES_HOST: localhost
+    expose:
+      "5432"
     ports:
-      - 8000:8000
+      "5432:5432"
+  web:
+    image: quantumobile/rc-base
+    environment:
+     - DJANGO_SETTINGS_MODULE=django_project.settings
     env_file:
-      - ./.env.dev
+      - ./venv/.env.dev.txt
+    volumes:
+     - ./:/django_project
+    working_dir: /django_project
+    links:
+     - db:db
+    ports:
+      - "8000:8000"
+    command: bash -c "pip install -r requirements.txt &&
+      python ./django_project/manage.py runserver"

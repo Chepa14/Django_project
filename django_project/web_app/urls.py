@@ -1,7 +1,8 @@
 from django.urls import path
-from . import views
+from .views import home #ArtistView, NewsView, home
 
 # URLConf
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('', home, name='home'),
+    # path('artists/', ArtistView.as_view())
 ]
