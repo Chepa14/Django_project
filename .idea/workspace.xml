@@ -2,16 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="83057b5b-d6ea-4185-b881-ad696202e3df" name="Changes" comment="Docker-compose">
-      <change afterPath="$PROJECT_DIR$/.idea/Django_project.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/runserver.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/django_project/django_project/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_project/django_project/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_project/django_project/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_project/django_project/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_project/web_app/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_project/web_app/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/django_project/web_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_project/web_app/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/django_project/web_app/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/django_project/web_app/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/django_project/web_app/migrations/0002_alter_news_img.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
@@ -38,8 +33,14 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Dockerfile" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/venv/.env.dev.txt" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/django_project/web_app/views.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/django_project/web_app/admin.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/django_project/web_app/models.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/django_project/web_app/urls.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/requirements.txt" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/docker-compose.yml" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/django_project/django_project/settings.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/django_project/django_project/urls.py" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1wCsIIXVveq3hYlFAerfdb9Hvef" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -75,6 +76,7 @@
       <workItem from="1629651979685" duration="42000" />
       <workItem from="1629652038533" duration="3511000" />
       <workItem from="1629655569999" duration="119000" />
+      <workItem from="1629959086747" duration="10414000" />
     </task>
     <task id="LOCAL-00001" summary="Django configuration">
       <created>1627978683759</created>
