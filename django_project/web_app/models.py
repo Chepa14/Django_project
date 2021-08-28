@@ -5,7 +5,7 @@ from django.db import models
 
 class Artist(models.Model):
     # добавить текстовое поле с его {именем} (c миграцией)
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=100)
     img = models.ImageField(upload_to='imgs')
     desc = models.TextField()
 
