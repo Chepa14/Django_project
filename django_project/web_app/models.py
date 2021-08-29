@@ -9,6 +9,8 @@ class Artist(models.Model):
     img = models.ImageField(upload_to='imgs')
     desc = models.TextField()
 
+    def __str__(self):
+        return self.name
 
 class News(models.Model):
 
@@ -16,3 +18,6 @@ class News(models.Model):
     img = models.ImageField(upload_to='imgs')
     desc = models.TextField()
     date = models.DateTimeField()
+
+    def __str__(self):
+        return self.title[:50] + '...'

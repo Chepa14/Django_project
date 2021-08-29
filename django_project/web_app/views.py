@@ -1,21 +1,33 @@
 from django.shortcuts import render
-
-# from rest_framework.response import Response
-# from rest_framework.views import ApiView
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .models import Artist, News
+from .serializers import ArtistSerializer, NewsSerializer
 
 
-# class ArtistView(ApiView):
-#     def get(self, request):
-#         artists = Artist.objects.all()
-#         return Response({'artists': artists})
-#
-#
-# class NewsView(ApiView):
-#     def get(self, request):
-#         news = News.objects.all()
-#         return Response({'news': news})
+class ArtistView(APIView):
+
+    def get(self, request):
+        artists = Artist.objects.all()
+        serializer = ArtistSerializer(artists, many=True)
+        return Response({'artists': serializer.data})
+
+    def post(self, request):
+        artist = request.data.get('artist')
+
+        # Create an article from the above data
+        serializer = ArtistSerializer(data=artist)
+        if serializer.is_valid(raise_exception=True):
+            article_saved = serializer.save()
+        return Response({"success": "Article '{}' created successfully".format(article_saved.title)})
+
+
+class NewsView(APIView):
+    def get(self, request):
+        news = News.objects.all()
+        serializer = NewsSerializer(news, many=True)
+        return Response({'news': serializer.data})
 
 
 def home(request):
