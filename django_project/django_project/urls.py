@@ -22,7 +22,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('web_app.urls')),
     path('account/', include('account.urls')),
-    # path('api/', include('rest_framework.urls'))
+    path('auth/', include('rest_auth.urls')),
+    path('auth/registration/', include('rest_auth.registration.urls'))
 ]
 
 urlpatterns = urlpatterns + static(settings.MEDIA_URL,
