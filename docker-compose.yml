@@ -22,4 +22,6 @@ services:
       - db
     ports:
       - "8000:8000"
-    command: bash -c "pip install -r requirements.txt && python ./django_project/manage.py runserver 0.0.0.0:8000"
+    command: bash -c "pip install -r requirements.txt
+                    && invoke build
+                    && python ./django_project/manage.py runserver 0.0.0.0:8000"
