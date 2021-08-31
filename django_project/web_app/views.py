@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from rest_framework import generics
+from rest_framework.permissions import IsAdminUser
 from .models import Artist, News
 from .serializers import ArtistSerializer, NewsSerializer
 
@@ -11,7 +12,7 @@ class ArtistView(APIView):
     def get(self, request):
         artists = Artist.objects.all()
         serializer = ArtistSerializer(artists, many=True)
-        return Response({'artists': serializer.data})
+        return Response(serializer.data)
 
     def post(self, request):
         artist = request.data.get('artist')

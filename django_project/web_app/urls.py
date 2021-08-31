@@ -5,5 +5,6 @@ from .views import ArtistView, NewsView, home
 urlpatterns = [
     path('', home, name='home'),
     path('artists/', ArtistView.as_view()),
+    # path('artists/<int:id>/', ArtistView.as_view()),
     path('news/', NewsView.as_view())
 ]
