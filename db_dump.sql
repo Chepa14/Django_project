@@ -573,7 +573,8 @@ CREATE TABLE public.web_app_artist (
     id bigint NOT NULL,
     name character varying(100) NOT NULL,
     img character varying(100) NOT NULL,
-    "desc" text NOT NULL
+    "desc" text NOT NULL,
+    welcome_str character varying(100) NOT NULL
 );
 
 
@@ -1053,6 +1054,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 27	socialaccount	0001_initial	2021-08-30 07:20:10.715392+00
 28	socialaccount	0002_token_max_lengths	2021-08-30 07:20:10.749645+00
 29	socialaccount	0003_extra_data_default_dict	2021-08-30 07:20:10.76691+00
+30	web_app	0002_artist_welcome_str	2021-09-03 07:47:35.300375+00
 \.
 
 
@@ -1060,7 +1062,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 29, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 30, true);
 
 
 --
@@ -1152,11 +1154,11 @@ SELECT pg_catalog.setval('public.socialaccount_socialtoken_id_seq', 1, false);
 -- Data for Name: web_app_artist; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.web_app_artist (id, name, img, "desc") FROM stdin;
-1	ASAP ROCKY	imgs/Rocky_XzDvICl.jpg	October 3, 1988 (age 32)\r\nHarlem, New York City, New York
-2	KANYE WEST	imgs/Kanye_OSgdigw.jpg	June 8, 1977 (age 44)\r\nAtlanta, Georgia\r\nKanye is one of the most successful artists in Grammy Awards history.\r\nAs of 2017 he has won a total of 21 Grammys
-3	TUPAC SHAKUR	imgs/Tupac_F19L9hl.jpg	June 16, 1971 - September 13, 1996\r\nNew York, New York\r\nTamalpais High School,\r\nPaul Laurence Dunbar High School Baltimore School for the Arts
-4	THE WEEKEND	imgs/Weekend_eckcEF7.jpg	February 16, 1990 (age 31)\r\nToronto, Canada
+COPY public.web_app_artist (id, name, img, "desc", welcome_str) FROM stdin;
+1	ASAP ROCKY	imgs/Rocky_XzDvICl.jpg	October 3, 1988 (age 32)\r\nHarlem, New York City, New York	Hi, ASAP ROCKY!
+2	KANYE WEST	imgs/Kanye_OSgdigw.jpg	June 8, 1977 (age 44)\r\nAtlanta, Georgia\r\nKanye is one of the most successful artists in Grammy Awards history.\r\nAs of 2017 he has won a total of 21 Grammys	Hi, KANYE WEST!
+3	TUPAC SHAKUR	imgs/Tupac_F19L9hl.jpg	June 16, 1971 - September 13, 1996\r\nNew York, New York\r\nTamalpais High School,\r\nPaul Laurence Dunbar High School Baltimore School for the Arts	Hi, TUPAC SHAKUR!
+4	THE WEEKEND	imgs/Weekend_eckcEF7.jpg	February 16, 1990 (age 31)\r\nToronto, Canada	Hi, THE WEEKEND!
 \.
 
 
