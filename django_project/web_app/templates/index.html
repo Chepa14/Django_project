@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <!-- site metas -->
-    <title>HIP-HOP</title>
+    <title>Music</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -59,12 +59,12 @@
                             <div class="limit-box">
                                 <nav class="main-menu">
                                     <ul class="menu-area-main">
-                                        <li class="active"> <a href="index.html">Home</a> </li>
-                                        <li> <a href="">about</a> </li>
-                                        <li> <a href=""> Albums</a> </li>
-                                        <li> <a href="">Blog</a> </li>
-                                        <li> <a href="">Contact</a> </li>
-                                        <li> <a href="account/register">Login</a> </li>
+                                        <li class="active"> <a href="/">Home</a> </li>
+                                        <li> <a href="api/about/">about</a> </li>
+                                        <li> <a href="api/albums/"> Albums</a> </li>
+                                        <li> <a href="api/blog/">Blog</a> </li>
+                                        <li> <a href="api/contact/">Contact</a> </li>
+                                        <li> <a href="">Login</a> </li>
                                     </ul>
                                 </nav>
                             </div>
@@ -110,6 +110,8 @@
                         <i><img src="{{artist.img.url}}" alt="icon"/></i>
                         <h3>{{artist.name}}</h3>
                         <p>{{artist.desc}}</p>
+                        <br/>
+                        <p>{{ artist.welcome_str }}</p>
                     </div>
                 </div>
                 {% endfor %}
