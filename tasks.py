@@ -2,13 +2,14 @@ from invoke import task
 
 
 @task
-def build(c): #run_local
-    c.run(
-        "PGPASSWORD=postgres dropdb -h db -U postgres -W django_db &&" #add to script
-        "PGPASSWORD=postgres createdb -h db -U postgres django_db &&"
-        "python3 ./django_project/manage.py dbshell < db_dump.sql"
+def run_local(c): #run_local
+    # c.run(
+    #     "PGPASSWORD=postgres dropdb -h db -U postgres -W django_db" #add to script
+    # )
+    # c.run("PGPASSWORD=postgres createdb -h db -U postgres django_db")
+    # c.run("python3 ./django_project/manage.py dbshell < db_dump.sql")
 
-        # "python3 ./django_project/manage.py migrate web_app"
-        # collect static
-    )
-    # runserver
+    c.run("python3 ./django_project/manage.py makemigrations")  # makemigrations
+    c.run("python3 ./django_project/manage.py migrate")    #migrate
+    # c.run("python3 ./django_project/manage.py collectstatic")    #collect static
+    c.run("python ./django_project/manage.py runserver 0.0.0.0:8000")    # runserver
