@@ -10,7 +10,7 @@ $ source venv/bin/activate
 $ docker-compose up
 ```
 
-If error with port occured write following command: ```sudo kill -9 `sudo lsof -t -i:5432``` to clar port for DB.
+If error with port occured write following command: ```sudo kill -9 `sudo lsof -t -i:5432``` to clear port for DB.
 
 ## Requirements
 
@@ -24,10 +24,10 @@ ALLOWED_HOSTS = '*'
 
 To create dump you must run server (```docker-compose up```) and than write following command to terminal:
 ```
-docker-compose exec db pg_dump -U postgres django_db > db_dump.sql
+$ PGPASSWORD="your's_password" docker exec -i django_project_db_1  pg_dump --no-owner -U <User name> <DB Name> > db_dump.sql
 ```
 To import dump write following command to terminal:
 ```
-docker-compose exec pg_dump -U postgres django_db < db_dump.sql
+$ invoke run-local
 ```
 
