@@ -1,10 +1,10 @@
 from django.urls import path
-from .views import about, albums, contact, blog
+from .views import about, albums, blog, CurrentUserApiView
 
 # URLConf
 urlpatterns = [
     path('about/', about),
     path('albums/', albums),
     path('blog/', blog),
-    path('contact/', contact),
+    path('users/', CurrentUserApiView.as_view())
 ]

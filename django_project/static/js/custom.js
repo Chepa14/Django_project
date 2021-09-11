@@ -278,7 +278,6 @@ $(function () {
 
 	$('.deal-slider').slick({
 		dots: false,
-		infinite: false,
 		prevArrow: '.previous-deal',
 		nextArrow: '.next-deal',
 		speed: 500,

@@ -64,7 +64,7 @@
                                         <li> <a href="api/albums/"> Albums</a> </li>
                                         <li> <a href="api/blog/">Blog</a> </li>
                                         <li> <a href="api/contact/">Contact</a> </li>
-                                        <li> <a href="">Login</a> </li>
+                                        <li> <a href="admin/">Login</a> </li>  {# # TODO check authentication #}
                                     </ul>
                                 </nav>
                             </div>
@@ -158,9 +158,9 @@
                 {% for s_news in news %}
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                     <div class="news-box">
-                        <figure><img src="{{s_news.img.url}}" alt="img" /></figure>
-                        <h3>{{s_news.title}}</h3>
-                        <span> {{s_news.date|date:'d F'}}</span><span>Comment</span>
+                        <figure><img src=" {{ s_news.img.url }} " alt="img" /></figure>
+                        <h3> {{ s_news.title }} </h3>
+                        <span> {{ s_news.date|date:'d F' }} </span><span>Comment</span>
                         <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, </p>
                     </div>
                 </div>

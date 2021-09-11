@@ -43,51 +43,55 @@
     <header>
         <!-- header inner -->
         <div class="header">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col logo_section">
-                        <div class="full">
-                            <div class="center-desk">
-                                <div class="logo">
-                                    <a href=""><img width="50" height="50" src="{{ icon }}" alt="logo" /></a>
+            <div class="row">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col logo_section">
+                            <div class="full">
+                                <div class="center-desk">
+                                    <div class="logo">
+                                        <a href=""><img width="50" height="50" src="{{ icon }}" alt="logo" /></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
-                        <div class="menu-area">
-                            <div class="limit-box">
-                                <nav class="main-menu">
-                                    <ul class="menu-area-main">
-                                        <li> <a href="/">Home</a> </li>
-                                        <li> <a href="/api/about/">about</a> </li>
-                                        <li> <a href="/api/albums/"> Albums</a> </li>
-                                        <li> <a href="/api/blog/">Blog</a> </li>
-                                        <li class="active"> <a href="/api/contact/">Contact</a> </li>
-                                        <li> <a href="">Login</a> </li>
-                                    </ul>
-                                </nav>
+                        <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
+                            <div class="menu-area">
+                                <div class="limit-box">
+                                    <nav class="main-menu">
+                                        <ul class="menu-area-main">
+                                            <li> <a href="/">Home</a> </li>
+                                            <li> <a href="/api/about/">about</a> </li>
+                                            <li> <a href="/api/albums/"> Albums</a> </li>
+                                            <li> <a href="/api/blog/">Blog</a> </li>
+                                            <li class="active"> <a href="/api/contact/">Contact </a> </li>
+                                        </ul>
+                                    </nav>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2">
-                        <form class="search">
-                            <input class="form-control" type="text" placeholder="Search">
-                            <button><img src="{% static 'images/search_icon.png' %}"></button>
-                        </form>
+                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2">
+                            <form class="search">
+                                <input class="form-control" type="text" placeholder="Search">
+                                <button><img src="{% static 'images/search_icon.png' %}"></button>
+                            </form>
+                        </div>
                     </div>
                 </div>
+                <div style="width: 300px">
+                    <h4 style="color: white; text-align: center;"> <u>{{ user.username }}</u> / <u>logout</u></h4>
+                </div>
             </div>
-            <!-- end header inner -->
+        </div>
     </header>
     <!-- end header -->
 
     <div class="contactbg">
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col">
                     <div class="contacttitlepage">
-                        <h2>contact</h2>
+                        <h2>Profile</h2>
                     </div>
                 </div>
             </div>
@@ -96,25 +100,55 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class=" col-md-6 offset-md-3">
+            <div class="col">
                 <div class="address">
-
+                    <form>
+                        <div class="row">
+                            <div style="margin: auto; border: 1px solid black">
+                                {% if user.avatar %}
+                                    <img width="100" height="100" src="{{ user.avatar }}">
+                                {% else %}
+                                    <img src="{% static 'images/1.jpg' %}">
+                                {% endif %}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        <div class="col">
+                <div class="address">
                     <form>
                         <div class="row">
                             <div class="col-sm-12">
-                                <input class="contactus" placeholder="Name" type="text" name="Name">
+                                <p>Username:</p>
+                                <h2> {{ user.username }} </h2>
                             </div>
                             <div class="col-sm-12">
-                                <input class="contactus" placeholder="Phone" type="text" name="Email">
+                                <p>Email:</p>
+                                <h2> {{ user.email }} </h2>
                             </div>
                             <div class="col-sm-12">
-                                <input class="contactus" placeholder="Email" type="text" name="Email">
+                                <p>First Name:</p>
+                                {% if user.first_name %}
+                                    <h2> {{ user.first_name }} </h2>
+                                {% else %}
+                                    <h2>-</h2>
+                                {% endif %}
                             </div>
                             <div class="col-sm-12">
-                                <textarea class="textarea" placeholder="Message" type="text" name="Message"></textarea>
+                                <p>Last Name:</p>
+                                {% if user.last_name %}
+                                    <h2> {{ user.last_name }} </h2>
+                                {% else %}
+                                    <h2>-</h2>
+                                {% endif %}
                             </div>
                             <div class="col-sm-12">
-                                <button class="send">Send</button>
+                                <p>About me:</p>
+                                <textarea class="textarea" placeholder="A couple of words..." type="text"></textarea>
+                            </div>
+                            <div class="col-sm-12">
+                                <button class="send">Save</button>
                             </div>
                         </div>
                     </form>
@@ -124,11 +158,11 @@
     </div>
     <!--  footer -->
 
-    <div class="copyright">
-        <div class="container">
-            <p>© 2019 All Rights Reserved. <a href="https://html.design/">Free html Templates</a></p>
-        </div>
-    </div>
+{#    <div class="copyright">#}
+{#        <div class="container">#}
+{#            <p>© 2019 All Rights Reserved. <a href="https://html.design/">Free html Templates</a></p>#}
+{#        </div>#}
+{#    </div>#}
 
     <!-- end footer -->
     <!-- Javascript files-->
