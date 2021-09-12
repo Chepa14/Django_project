@@ -17,12 +17,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from user.views import LoginApiView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('user.urls')),
     path('', include('web_app.urls')),
-    path('auth/', include('rest_auth.urls')),
+    # path('auth/', include('rest_auth.urls')),
+    path('auth/login/', LoginApiView.as_view()),
     path('auth/registration/', include('rest_auth.registration.urls'))
 ]
 

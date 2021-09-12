@@ -43,39 +43,43 @@
     <header>
         <!-- header inner -->
         <div class="header">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col logo_section">
-                        <div class="full">
-                            <div class="center-desk">
-                                <div class="logo">
-                                    <a href="index.html"><img width="50" height="50" src="{{icon}}" alt="logo" /></a>
+            <div class="row">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col logo_section">
+                            <div class="full">
+                                <div class="center-desk">
+                                    <div class="logo">
+                                        <a href="index.html"><img width="50" height="50" src="{{icon}}" alt="logo" /></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
-                        <div class="menu-area">
-                            <div class="limit-box">
-                                <nav class="main-menu">
-                                    <ul class="menu-area-main">
-                                        <li class="active"> <a href="/">Home</a> </li>
-                                        <li> <a href="api/about/">about</a> </li>
-                                        <li> <a href="api/albums/"> Albums</a> </li>
-                                        <li> <a href="api/blog/">Blog</a> </li>
-                                        <li> <a href="api/contact/">Contact</a> </li>
-                                        <li> <a href="admin/">Login</a> </li>  {# # TODO check authentication #}
-                                    </ul>
-                                </nav>
+                        <div class="col-xl-8 col-lg-8 col-md-10 col-sm-10">
+                            <div class="menu-area">
+                                <div class="limit-box">
+                                    <nav class="main-menu">
+                                        <ul class="menu-area-main">
+                                            <li class="active"> <a href="/">Home</a> </li>
+                                            <li> <a href="api/about/">about</a> </li>
+                                            <li> <a href="api/albums/"> Albums</a> </li>
+                                            <li> <a href="api/blog/">Blog</a> </li>
+                                            <li> <a href="api/contact/">Contact</a> </li>
+                                        </ul>
+                                    </nav>
+                                </div>
                             </div>
                         </div>
+                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2">
+                            <form class="search">
+                                <input class="form-control" type="text" placeholder="Search">
+                                <button><img src="{% static 'images/search_icon.png' %}"></button>
+                            </form>
+                        </div>
                     </div>
-                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2">
-                        <form class="search">
-                            <input class="form-control" type="text" placeholder="Search">
-                            <button><img src="{% static 'images/search_icon.png' %}"></button>
-                        </form>
-                    </div>
+                </div>
+                <div style="width: 300px">
+                    <h4 style="color: white; text-align: center;"> <a href="auth/login/"><u>Login</u></a> / <a href="auth/registration/"><u>Sign out</u></a></h4> {# #TODO login + registration redirect #}
                 </div>
             </div>
         </div>
