@@ -88,7 +88,7 @@
             <div class="row">
                 <div class="col">
                     <div class="contacttitlepage">
-                        <h2>Login</h2>
+                        <h2>Sign Up</h2>
                     </div>
                 </div>
             </div>
@@ -98,7 +98,7 @@
     <div class="container">
         <div class="col">
             <div class="address">
-                <form action="/auth/login/" method="post">
+                <form action="/auth/registration/" method="post">
                     {% csrf_token %}
                     <fieldset>
                         <div class="row">
@@ -107,11 +107,19 @@
                                 <input name="username" type="text" value>
                             </div>
                             <div class="col-md-3 offset-md-4 form-group">
+                                <p>Email:</p>
+                                <input name="email" type="text" value>
+                            </div>
+                            <div class="col-md-3 offset-md-4 form-group">
                                 <p>Password:</p>
-                                <input name="password" type="password" value>
+                                <input name="password1" type="password" value>
+                            </div>
+                            <div class="col-md-3 offset-md-4 form-group">
+                                <p>Confirm password:</p>
+                                <input name="password2" type="password" value>
                             </div>
                             <div class="col-sm-12 form-actions">
-                                <button class="send" type="submit">Login</button>
+                                <button class="send" type="submit">Sign Up</button>
                             </div>
                         </div>
                     </fieldset>
