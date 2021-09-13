@@ -5,6 +5,7 @@ from django.contrib.auth import get_user
 from .serializers import UserSerializer
 from rest_auth.views import LoginView
 from rest_auth.registration.views import RegisterView
+from django.core.mail import send_mail
 
 # Create your views here.
 hip_hop_icon = "https://iconsplace.com/wp-content/uploads/_icons/ffffff/256/png/music-icon-18-256.png"
@@ -40,6 +41,12 @@ class LoginApiView(LoginView):
 class RegistrationApiView(RegisterView):
 
     def get(self, request):
+        send_mail(
+            'Test',
+            'The message goes from RegistrationApiView!',
+            'i.chepets@quantumobile.com',
+            ['ivanchepets14@gmail.com'],
+            fail_silently=False)
         return render(request, "registration.html", {'icon': hip_hop_icon})
 
 

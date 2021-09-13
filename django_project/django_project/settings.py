@@ -135,6 +135,15 @@ REST_AUTH_SERIALIZERS = {
 }
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
+# SendGrid
+SENDGRID_API_KEY = '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'
+# os.getenv('SENDGRID_API_KEY')
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
