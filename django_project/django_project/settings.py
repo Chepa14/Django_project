@@ -133,15 +133,19 @@ REST_FRAMEWORK = {
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'user.serializers.UserSerializer'
 }
-ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 # SendGrid
+
 SENDGRID_API_KEY = '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'
 # os.getenv('SENDGRID_API_KEY')
+
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_REQUIRED = True
 
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_HOST_USER = 'apikey'
 EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
+DEFAULT_FROM_EMAIL = 'i.chepets@quantumobile.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 # Internationalization

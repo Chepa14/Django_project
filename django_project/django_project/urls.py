@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
+from django.conf.urls import url
 from django.conf.urls.static import static
 from user.views import LoginApiView, RegistrationApiView
 
@@ -24,7 +25,8 @@ urlpatterns = [
     path('api/', include('user.urls')),
     path('', include('web_app.urls')),
     path('auth/login/', LoginApiView.as_view()),
-    path('auth/registration/', RegistrationApiView.as_view())
+    path('auth/registration/', RegistrationApiView.as_view()),
+    url(r'^account/', include('allauth.urls')),
 ]
 
 urlpatterns = urlpatterns + static(settings.MEDIA_URL,
