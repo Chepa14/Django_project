@@ -41,12 +41,6 @@ class LoginApiView(LoginView):
 class RegistrationApiView(RegisterView):
 
     def get(self, request):
-        send_mail(
-            'Test',
-            'The message goes from RegistrationApiView!',
-            'i.chepets@quantumobile.com',
-            ['ivanchepets14@gmail.com'],
-            fail_silently=False)
         return render(request, "registration.html", {'icon': hip_hop_icon})
 
 

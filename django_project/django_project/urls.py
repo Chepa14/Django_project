@@ -26,7 +26,8 @@ urlpatterns = [
     path('', include('web_app.urls')),
     path('auth/login/', LoginApiView.as_view()),
     path('auth/registration/', RegistrationApiView.as_view()),
-    url(r'^account/', include('allauth.urls')),
+    url(r'^accounts/', include('allauth.urls')),  # TODO confirm-email design
+    # path('accounts/login/', LoginApiView.as_view())
 ]
 
 urlpatterns = urlpatterns + static(settings.MEDIA_URL,
