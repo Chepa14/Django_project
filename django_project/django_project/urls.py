@@ -18,16 +18,22 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls import url
 from django.conf.urls.static import static
-from user.views import LoginApiView, RegistrationApiView
+from .views import home
+
+main_url = [
+    # TODO add urls started with api/
+]
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include('user.urls')),
-    path('', include('web_app.urls')),
-    path('auth/login/', LoginApiView.as_view()),
-    path('auth/registration/', RegistrationApiView.as_view()),
-    url(r'^accounts/', include('allauth.urls')),  # TODO confirm-email design
-    # path('accounts/login/', LoginApiView.as_view())
+    url('admin/', admin.site.urls),
+    url('api/', include('user.urls')),
+    url('home/', home, name='home'),
+    url('', include('news.urls')),
+    url('', include('artist.urls')),
+    # url('auth/login/', LoginView.as_view()),
+    # url('auth/registration/', RegistrationApiView.as_view()),
+    # url(r'^accounts/', include('allauth.urls')),
+    # url('accounts/login/', LoginApiView.as_view())
 ]
 
 urlpatterns = urlpatterns + static(settings.MEDIA_URL,

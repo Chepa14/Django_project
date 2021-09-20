@@ -11,24 +11,22 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
+import dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
+dotenv_file = os.path.join(BASE_DIR, ".env.dev.txt")
+if os.path.isfile(dotenv_file):
+    dotenv.load_dotenv(dotenv_file)
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$+%8=vr!(k0$lkhe&*17^(1yg9c-f&vij==1x=dp3#3(q!xc-4'
-# SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-# DEBUG = int(os.environ.get("DEBUG", default=0))
+DEBUG = os.environ['DEBUG']
 
-ALLOWED_HOSTS = ['*']
-# ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS = [os.environ['ALLOWED_HOSTS']]
 
 # Application definition
 
@@ -48,7 +46,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'rest_auth.registration',
     'user',
-    'web_app',
+    'artist',
+    'news',
 ]
 
 SITE_ID = 1
@@ -92,11 +91,11 @@ AUTH_USER_MODEL = 'user.User'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django_db',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'db',
-        'PORT': '5432'
+        'NAME': os.environ['DB_NAME'],
+        'USER': os.environ['DB_USERNAME'],
+        'PASSWORD': os.environ['DB_PASSWORD'],
+        'HOST': os.environ['DB_HOST'],
+        'PORT': os.environ['DB_PORT'],
     }
 }
 
@@ -136,8 +135,7 @@ REST_AUTH_SERIALIZERS = {
 
 # SendGrid
 
-SENDGRID_API_KEY = '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'
-# os.getenv('SENDGRID_API_KEY')
+SENDGRID_API_KEY = os.environ['SENDGRID_API_KEY'],
 
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_EMAIL_REQUIRED = True
@@ -145,7 +143,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_HOST_USER = 'apikey'
 EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
-DEFAULT_FROM_EMAIL = 'i.chepets@quantumobile.com'
+DEFAULT_FROM_EMAIL = os.environ['EMAIL']
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 # Internationalization
@@ -164,6 +162,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
+
+SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
+TEMPLATE_DIRS = (
+    os.path.join(SETTINGS_PATH, 'templates'),
+)
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
