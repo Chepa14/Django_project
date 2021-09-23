@@ -1,10 +1,13 @@
 from rest_auth.registration.views import RegisterView
+from rest_framework_swagger.views import get_swagger_view
 from django.conf.urls.static import static
 from rest_auth.views import LoginView
 from django.urls import path, include
 from django.contrib import admin
 from django.conf import settings
 from .views import home
+
+schema_view = get_swagger_view(title='Django Project Swagger')
 
 main_url = [
     path('', include('user.urls')),
@@ -21,6 +24,7 @@ urlpatterns = [
     path('', home, name='home'),
     path('admin/', admin.site.urls),
     path('api/', include(main_url)),
+    path('rest_docs', schema_view)
 ]
 
 urlpatterns = urlpatterns + static(settings.MEDIA_URL,
