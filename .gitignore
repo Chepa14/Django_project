@@ -8,8 +8,8 @@ __pycache__/
 
 # Distribution / packaging
 .idea
-media/
-static/
+django_project/media/
+django_project/static/
 .Python
 build/
 develop-eggs/
@@ -106,6 +106,7 @@ celerybeat.pid
 
 # Environments
 test/
+.env.dev.txt
 .env
 .venv
 env/

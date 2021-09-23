@@ -1,31 +1,20 @@
-from django.shortcuts import render, redirect
-from rest_framework.views import APIView  # TODO Difference between Generic and .
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from rest_framework.response import Response
-from django.contrib.auth import get_user
+from django.shortcuts import render
+from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from .serializers import UserSerializer
+from django.contrib.auth import get_user
 
 
 # Create your views here.
 hip_hop_icon = "https://iconsplace.com/wp-content/uploads/_icons/ffffff/256/png/music-icon-18-256.png"
 
 
-class CurrentUserApiView(APIView):  # TODO RetriveUpdateAPIView ??
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticatedOrReadOnly,)  # TODO add permission to each endpoint
+class CurrentUserApiView(RetrieveUpdateAPIView):
+    permission_classes = (IsAuthenticated, IsAdminUser,)
+    serializer_class = UserSerializer
 
-    def get(self, request):
-        curr_user = get_user(request)
-        if curr_user.is_authenticated:
-            serializer = UserSerializer(curr_user)
-            args = {
-                'icon': hip_hop_icon,
-                'user': serializer.data
-            }
-            return Response(serializer.data)
-        else:
-            return Response('Need to login!')
+    def get_object(self):
+        return get_user(self.request)
 
 
 def about(request):
