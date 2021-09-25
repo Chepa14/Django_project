@@ -16,8 +16,8 @@ services:
       - DJANGO_SETTINGS_MODULE=django_project.settings
     env_file: .env.dev.txt
     volumes:
-      - ./:/django_project
-    working_dir: /django_project
+      - ./:/Django_project
+    working_dir: /Django_project
     depends_on:
       - db
     ports:

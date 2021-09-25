@@ -8,6 +8,8 @@ __pycache__/
 
 # Distribution / packaging
 .idea
+media/
+static/
 .Python
 build/
 develop-eggs/
@@ -104,6 +106,7 @@ celerybeat.pid
 
 # Environments
 test/
+.env.dev.txt
 .env
 .venv
 env/

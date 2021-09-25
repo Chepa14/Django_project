@@ -4,9 +4,6 @@
 ```
 $ git clone https://github.com/Chepa14/Django_project.git
 $ cd Django_project
-$ pip install virtualenv
-$ virtualenv venv
-$ source venv/bin/activate
 $ docker-compose up
 ```
 
