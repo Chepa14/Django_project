@@ -1,11 +1,11 @@
 from django.shortcuts import render
+from artist.models import Artist
+from news.models import News
 
 
 def home(request):
-    # artists = Artist.objects.all()
-    artists = []
-    news = []
-    # news = News.objects.all()
+    artists = Artist.objects.all()
+    news = News.objects.all()
 
     bckg_img = "https://wallpapers-hub.art/wallpaper-images/781042.jpg"
     hip_hop_icon = "https://iconsplace.com/wp-content/uploads/_icons/ffffff/256/png/music-icon-18-256.png"

@@ -1,16 +1,14 @@
 from django.shortcuts import render
 from rest_framework.generics import RetrieveUpdateAPIView
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated
 from .serializers import UserSerializer
 from django.contrib.auth import get_user
 
-
-# Create your views here.
 hip_hop_icon = "https://iconsplace.com/wp-content/uploads/_icons/ffffff/256/png/music-icon-18-256.png"
 
 
 class CurrentUserApiView(RetrieveUpdateAPIView):
-    permission_classes = (IsAuthenticated, IsAdminUser,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = UserSerializer
 
     def get_object(self):

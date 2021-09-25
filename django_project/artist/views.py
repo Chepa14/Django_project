@@ -1,20 +1,17 @@
-from rest_framework.response import Response
-from rest_framework.generics import ListCreateAPIView, GenericAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from .models import Artist
 from .serializers import ArtistSerializer
+from .models import Artist
 
 
-class ArtistView(GenericAPIView):
+class ArtistView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticatedOrReadOnly,)
-
-    def get(self, request, id=None):
-        artists = Artist.objects.get(id=id)
-        serializer = ArtistSerializer(artists)
-        return Response(serializer.data)
+    serializer_class = ArtistSerializer
+    queryset = Artist.objects.all()
+    lookup_field = 'id'
 
 
 class ArtistList(ListCreateAPIView):
-    queryset = Artist.objects.all()
-    serializer_class = ArtistSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
+    serializer_class = ArtistSerializer
+    queryset = Artist.objects.all()
