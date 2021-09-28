@@ -5,5 +5,5 @@ urlpatterns = [
     path('about/', about),
     path('albums/', albums),
     path('blog/', blog),
-    path('', CurrentUserApiView.as_view()),
+    path('', CurrentUserApiView.as_view(), name="user_detail"),
 ]
