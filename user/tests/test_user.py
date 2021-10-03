@@ -1,7 +1,6 @@
 from rest_framework.test import APITestCase
-from django.contrib.auth import get_user_model
+from user.models import User
 from rest_framework.status import HTTP_200_OK, HTTP_401_UNAUTHORIZED
-from rest_framework.authtoken.models import Token
 from django.urls import reverse
 
 
@@ -10,36 +9,54 @@ class UserTest(APITestCase):
 
     def setUp(self) -> None:
         self.url = reverse("user_detail")
-        self.user = get_user_model().objects.get(pk=1)
-        self.user.set_password('023320qw')
-        self.user.save()
+        self.user = User.objects.get(pk=1)
 
-    def test_get_wo_credentials(self):
+    def test_get_current_user_failed_unauthorized(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, HTTP_401_UNAUTHORIZED)
 
-    def test_get_with_credentials(self):
+    def test_get_current_user_successful_authorized(self):
         self.client.force_login(self.user)
-        token, is_created = Token.objects.get_or_create(user=self.user)
-        self.client.credentials(HTTP_AUTHORIZATION=f"Token {token.key}")
 
+        current_user_data = {
+            "username": "User14",
+            "email": "",
+            "first_name": "Ivan",
+            "last_name": "",
+            "avatar": None,
+            "about_me": "",
+        }
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, HTTP_200_OK)
+        self.assertEqual(response.data, current_user_data)
 
     def test_put_user_successful(self):
         self.client.force_login(self.user)
-        token, is_created = Token.objects.get_or_create(user=self.user)
-        self.client.credentials(HTTP_AUTHORIZATION=f"Token {token.key}")
 
         response = self.client.put(self.url, {"about_me": "A few words"})
         self.assertEqual(response.status_code, HTTP_200_OK)
+
+        updated_current_user_data = {
+            "username": "User14",
+            "email": "",
+            "first_name": "Ivan",
+            "last_name": "",
+            "avatar": None,
+            "about_me": "A few words",
+        }
         self.assertEqual(response.data['about_me'], 'A few words')
+        self.assertEqual(response.data, updated_current_user_data)
 
-    def test_patch_user_successful(self):
+    def test_user_email_not_updated_successful(self):
         self.client.force_login(self.user)
-        token, is_created = Token.objects.get_or_create(user=self.user)
-        self.client.credentials(HTTP_AUTHORIZATION=f"Token {token.key}")
 
-        response = self.client.patch(self.url, {"last_name": "Chepets"})
+        response = self.client.put(self.url, {"email": "test@mail.com"})
+        self.assertNotEqual(response.data['email'], "test@mail.com")
         self.assertEqual(response.status_code, HTTP_200_OK)
-        self.assertEqual(response.data['last_name'], 'Chepets')
+
+    def test_user_username_not_updated_successful(self):
+        self.client.force_login(self.user)
+
+        response = self.client.put(self.url, {"username": "Chepets"})
+        self.assertNotEqual(response.data['username'], "Chepets")
+        self.assertEqual(response.status_code, HTTP_200_OK)
