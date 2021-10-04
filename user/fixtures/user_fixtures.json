@@ -6,10 +6,10 @@
       "username": "User14",
       "first_name": "Ivan",
       "last_name": "",
-      "email": "",
+      "email": "i.chepets@mail.com",
       "avatar": "",
       "about_me": "",
-      "password": "023320qw"
+      "password": "pbkdf2_sha256$260000$St16QJI1jZVpiPS0MQOZb5$SohNw8V0xvNQvyG8iPazBBlyQDDnFC1ZK8mnLQaN8VY="
     }
   }
 ]

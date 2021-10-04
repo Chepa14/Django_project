@@ -19,8 +19,8 @@ urlpatterns = [
     path("", home, name="home"),
     path("admin/", admin.site.urls),
     path("api/", include(main_url)),
-    path("auth/login/", LoginView.as_view(), name="login"),
-    path("auth/registration/", RegisterView.as_view(), name="register"),
+    path("auth/login/", LoginView.as_view(), name="account_login"),
+    path("auth/registration/", RegisterView.as_view(), name="account_signup"),
     path(
         "account-confirm-email/",
         VerifyEmailView.as_view(),

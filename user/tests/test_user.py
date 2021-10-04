@@ -20,7 +20,7 @@ class UserTest(APITestCase):
 
         current_user_data = {
             "username": "User14",
-            "email": "",
+            "email": "i.chepets@mail.com",
             "first_name": "Ivan",
             "last_name": "",
             "avatar": None,
@@ -33,30 +33,22 @@ class UserTest(APITestCase):
     def test_put_user_successful(self):
         self.client.force_login(self.user)
 
-        response = self.client.put(self.url, {"about_me": "A few words"})
+        response = self.client.put(self.url,
+                                   {"about_me": "A few words",
+                                    "email": "test@mail.com",
+                                    "username": "Chepets"}
+                                   )
         self.assertEqual(response.status_code, HTTP_200_OK)
 
         updated_current_user_data = {
             "username": "User14",
-            "email": "",
+            "email": "i.chepets@mail.com",
             "first_name": "Ivan",
             "last_name": "",
             "avatar": None,
             "about_me": "A few words",
         }
         self.assertEqual(response.data['about_me'], 'A few words')
+        self.assertEqual(response.data['email'], "i.chepets@mail.com")
+        self.assertEqual(response.data['username'], "User14")
         self.assertEqual(response.data, updated_current_user_data)
-
-    def test_user_email_not_updated_successful(self):
-        self.client.force_login(self.user)
-
-        response = self.client.put(self.url, {"email": "test@mail.com"})
-        self.assertNotEqual(response.data['email'], "test@mail.com")
-        self.assertEqual(response.status_code, HTTP_200_OK)
-
-    def test_user_username_not_updated_successful(self):
-        self.client.force_login(self.user)
-
-        response = self.client.put(self.url, {"username": "Chepets"})
-        self.assertNotEqual(response.data['username'], "Chepets")
-        self.assertEqual(response.status_code, HTTP_200_OK)

@@ -1,4 +1,5 @@
 from rest_framework.test import APITestCase
+from django.core import mail
 from django.urls import reverse
 from rest_framework.status import (
     HTTP_200_OK,
@@ -6,13 +7,15 @@ from rest_framework.status import (
     HTTP_201_CREATED,
     HTTP_400_BAD_REQUEST,
 )
+import re
 from user.models import User
 
 
 class AuthTest(APITestCase):
     def setUp(self) -> None:
-        self.register_url = reverse("register")
-        self.login_url = reverse("login")
+        self.register_url = reverse("account_signup")
+        self.login_url = reverse("account_login")
+        self.confirm_email = reverse("account_email_verification_sent")
 
     def test_register_page_get_method_failed(self):
         response = self.client.get(self.register_url)
@@ -47,18 +50,27 @@ class AuthTest(APITestCase):
         response = self.client.get(self.login_url)
         self.assertEqual(response.status_code, HTTP_405_METHOD_NOT_ALLOWED)
 
-    # def test_login_page_post_method_successful(self):
-    #     user = User.objects.create_user("Ivan", "", "023320qw")
-    #     self.client.force_login(user)
-    #
-    #     post_data = {
-    #         "username": "Ivan",
-    #         "email": "",
-    #         "password": "023320qw"
-    #     }
-    #     response = self.client.post(self.login_url, post_data)
-    #     print(response.data)
-    #     self.assertEqual(response.status_code, HTTP_200_OK)
+    def test_login_page_post_method_successful(self):
+        self.test_register_page_post_method_successful()
+
+        post_data = {
+            "username": "Ivan",
+            "email": "i.chepets@email.com",
+            "password": "023320qw",
+        }
+        response = self.client.post(self.login_url, post_data)
+        self.assertEqual(response.status_code, HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['non_field_errors'][0], "E-mail is not verified.")
+
+        token_regex = r"\/account-confirm-email\/([A-Za-z0-9:\-_]+)\/"
+        email_content = mail.outbox[0].body
+        match = re.search(token_regex, email_content)
+        self.assertNotEqual(match, None)
+        token = match.group(1)
+
+        response = self.client.post(self.confirm_email, {'key': token})
+        self.assertEqual(response.status_code, HTTP_200_OK)
+        self.assertEqual(response.data['detail'], 'ok')
 
     def test_login_page_post_method_failed(self):
         user = User.objects.create_user("Ivan", "", "023320qw")
