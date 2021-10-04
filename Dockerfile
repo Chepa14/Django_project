@@ -2,7 +2,7 @@
 FROM python:3.8.2-slim-buster
 
 # set work directory
-WORKDIR ./django_project
+WORKDIR .
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1

@@ -10,6 +10,11 @@ services:
       POSTGRES_DB: django_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   django:
     image: quantumobile/rc-base:latest
     environment:
@@ -19,7 +24,8 @@ services:
       - ./:/Django_project
     working_dir: /Django_project
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
       - "8000:8000"
     command: bash -c "pip install -r requirements.txt
