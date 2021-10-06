@@ -1,8 +1,9 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from django.shortcuts import get_object_or_404
 from .serializers import ArtistSerializer, SongSerializer
 from django.http import HttpResponseRedirect
+from rest_framework.decorators import api_view, permission_classes
 from django.db.models import Value as V
 from django.db.models.functions import Concat
 from django.db.models import Q
@@ -10,6 +11,8 @@ from django.urls import reverse
 from .models import Artist, Song
 
 
+@api_view(['GET'])
+@permission_classes((IsAuthenticated,))
 def like_artist(request, id):
     artist = get_object_or_404(Artist, id=id)
     if artist.likes.filter(id=request.user.id).exists():

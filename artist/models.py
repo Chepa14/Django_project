@@ -4,19 +4,17 @@ import os
 
 
 def get_song_upload_path(instance, filename):
-    print(instance)
     return os.path.join(
-        instance.author.pseudonym,
-        instance.file_path,
+        'songs',
+        instance.name,
         filename
     )
 
 
 def get_artist_upload_path(instance, filename):
-    print(instance)
     return os.path.join(
+        'artists',
         instance.pseudonym,
-        instance.file_path,
         filename
     )
 
@@ -50,6 +48,7 @@ class Song(models.Model):
     name = models.CharField(max_length=30)
     author = models.ManyToManyField(Artist, default=[None], blank=True)
     image = models.ImageField(upload_to=get_song_upload_path, default=None, blank=True)
+    media_file = models.FileField(upload_to=get_song_upload_path, default=None, blank=True)
     time_length_sec = models.IntegerField(default=0, blank=True)
 
     def __str__(self):
