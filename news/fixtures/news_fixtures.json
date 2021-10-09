@@ -1,0 +1,15 @@
+[
+  {
+    "model": "news.News",
+    "pk": "1",
+    "fields": {
+      "title": "Release of album by Artist",
+      "image": "",
+      "description": "A few words about this news...",
+      "create_datetime": "",
+      "update_datetime": "",
+      "tags": [1],
+      "author": [1]
+    }
+  }
+]

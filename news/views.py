@@ -6,6 +6,9 @@ from django.shortcuts import get_object_or_404
 from news.serializers import NewsSerializer, CommentSerializer
 from django.urls import reverse
 from news.models import News, Comment
+from django.db.models import Value as V
+from django.db.models.functions import Concat
+from django.db.models import Q
 
 
 @api_view(['POST'])
@@ -28,4 +31,12 @@ class NewsView(RetrieveUpdateDestroyAPIView):
 class NewsList(ListCreateAPIView):
     permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = NewsSerializer
-    queryset = News.objects.all()
+
+    def get_queryset(self):
+        search_name = self.kwargs.get("search_name")
+        if search_name:
+            return News.objects.filter(
+                Q(title__icontains=search_name) | Q(tags__pseudonym__icontains=search_name)
+            ).distinct()
+        else:
+            return News.objects.all()

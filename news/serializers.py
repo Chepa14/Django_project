@@ -1,9 +1,7 @@
 from rest_framework import serializers
 from user.serializers import UserSerializer
 from artist.serializers import ArtistSerializer
-from django.shortcuts import get_object_or_404
 from news.models import News, Comment
-from user.models import User
 
 
 class CommentSerializer(serializers.ModelSerializer):
