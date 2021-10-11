@@ -6,10 +6,10 @@
       "title": "Release of album by Artist",
       "image": "",
       "description": "A few words about this news...",
-      "create_datetime": "",
-      "update_datetime": "",
-      "tags": [1],
-      "author": [1]
+      "create_datetime": "2021-10-08T15:21:51.735015Z",
+      "update_datetime": "2021-10-08T15:21:51.735015Z",
+      "tags": [],
+      "author": 1
     }
   }
 ]

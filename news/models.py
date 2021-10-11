@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 from artist.models import Artist
 from user.models import User
 import os
