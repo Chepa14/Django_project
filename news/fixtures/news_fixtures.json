@@ -11,5 +11,18 @@
       "tags": [],
       "author": 1
     }
+  },
+  {
+    "model": "news.News",
+    "pk": "2",
+    "fields": {
+      "title": "SoundCLoud shared new feature!",
+      "image": "",
+      "description": "A few words about this news...",
+      "create_datetime": "2021-09-08T15:21:51.735015Z",
+      "update_datetime": "2021-09-08T15:21:51.735015Z",
+      "tags": [],
+      "author": 1
+    }
   }
 ]

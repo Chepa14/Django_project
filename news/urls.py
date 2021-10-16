@@ -1,9 +1,8 @@
 from django.urls import path
-from .views import NewsView, NewsList, comment_news
+from .views import NewsListCreateAPIView, NewsRetrieveUpdateDestroyAPIView, CommentsListCreateAPIView
 
 urlpatterns = [
-    path('<int:id>/', NewsView.as_view(), name='news'),
-    path('<str:search_name>/', NewsList.as_view(), name='filtered-news'),
-    path('<int:id>/comment/', comment_news, name='comment-news'),
-    path('', NewsList.as_view(), name='news-list')
+    path('', NewsListCreateAPIView.as_view(), name='list-create-view'),
+    path('<int:id>/', NewsRetrieveUpdateDestroyAPIView.as_view(), name='retrieve-update-destroy-view'),
+    path('<int:id>/comments/', CommentsListCreateAPIView.as_view(), name='comments-list-create')
 ]
