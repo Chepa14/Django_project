@@ -12,7 +12,7 @@ schema_view = get_swagger_view(title="Django Project Swagger")
 main_url = [
     path("user/", include("user.urls")),
     path("news/", include("news.urls")),
-    path("artists/", include("artist.urls")),
+    path("artists/", include(("artist.urls", "artists"), namespace="artists")),
 ]
 
 urlpatterns = [

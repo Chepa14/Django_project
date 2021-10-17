@@ -1,12 +1,33 @@
 from django.urls import path
-from .views import ArtistView, ArtistList, SongView, SongsList, like_artist
+from .views import (
+    ArtistListCreateAPIView,
+    ArtistRetrieveUpdateDestroyAPIView,
+    SongRetrieveUpdateDestroyAPIView,
+    SongsListCreateAPIView,
+    # like_artist,
+    LikeArtistRetrieveAPIView,
+)
 
 urlpatterns = [
-    path('', ArtistList.as_view(), name='artist-list'),
-    path('<int:id>/', ArtistView.as_view(), name='artist'),
-    path('<str:full_name>/', ArtistList.as_view(), name='artists-filtered-by-name'),
-    path('<int:id>/like/', like_artist, name='like-artist'),
-    path('<int:artist_id>/songs/', SongsList.as_view(), name='artist-songs-list'),
-    path('<int:artist_id>/songs/<int:song_id>/', SongView.as_view(), name='artist-song'),
-    path('<int:artist_id>/songs/<str:search_name>/', SongsList.as_view(), name='artist-songs-filtered-by-name')
+    path("", ArtistListCreateAPIView.as_view(), name="list-create-view"),
+    path(
+        "<int:pk>/",
+        ArtistRetrieveUpdateDestroyAPIView.as_view(),
+        name="retrieve-update-destroy-view",
+    ),
+    path(
+        "<int:pk>/like/",
+        LikeArtistRetrieveAPIView.as_view(),
+        name="like-retrieve-view"
+    ),
+    path(
+        "<int:artist_id>/songs/",
+        SongsListCreateAPIView.as_view(),
+        name="songs-list-create-view",
+    ),
+    path(
+        "<int:artist_id>/songs/<int:pk>/",
+        SongRetrieveUpdateDestroyAPIView.as_view(),
+        name="song-retrieve-update-destroy-view",
+    ),
 ]

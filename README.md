@@ -31,5 +31,5 @@ $ invoke run-local
 
 Tests cover all objects and are run by the following command: 
 ```
-$ docker-compose exec django python3 manage.py test
+$ docker-compose exec django python manage.py test
 ```

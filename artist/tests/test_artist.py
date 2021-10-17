@@ -1,5 +1,4 @@
 from rest_framework.test import APITestCase
-from artist.models import Artist
 from user.models import User
 from rest_framework.status import (
     HTTP_200_OK,
@@ -12,46 +11,40 @@ from django.urls import reverse
 class ArtistTest(APITestCase):
     fixtures = ("artist_fixtures.json",)
 
-    def setUp(self) -> None:
-        self.user = User.objects.create_user("Tester", "test@mail.com", "123456789")
-        self.artist = Artist.objects.get(pk=1)
-        self.artist_view = reverse("artist", kwargs={"id": self.artist.id})
-        self.artists_filtered = reverse(
-            "artists-filtered-by-name", kwargs={"full_name": "RZA"}
-        )
-        self.artist_list = reverse("artist-list")
-        self.like_artist = reverse("like-artist", kwargs={"id": self.artist.id})
-
     def test_get_artist_successful(self):
-        response = self.client.get(self.artist_view)
+        artist_view = reverse("artists:retrieve-update-destroy-view", kwargs={"pk": 1})
+        response = self.client.get(artist_view)
         data = {
             "pseudonym": "RZA",
             "first_name": "Robert Fitzgerald",
             "last_name": "Diggs",
             "image": None,
             "description": "A few words...",
-            "likes": [],
             "likes_number": 0,
+            "is_liked": False
         }
         self.assertEqual(response.status_code, HTTP_200_OK)
         self.assertEqual(response.data, data)
 
     def test_put_artist_failed_unauthorized(self):
-        response = self.client.put(self.artist_view, {"first_name": "Robert"})
+        artist_view = reverse("artists:retrieve-update-destroy-view", kwargs={"pk": 1})
+        response = self.client.put(artist_view, {"first_name": "Robert"})
         self.assertEqual(response.status_code, HTTP_401_UNAUTHORIZED)
         self.assertEqual(
             response.data["detail"], "Authentication credentials were not provided."
         )
 
     def test_put_artist_successful_authorized(self):
-        self.client.force_login(self.user)
+        user = User.objects.create_user("Tester", "test@mail.com", "123456789")
+        self.client.force_login(user)
         put_data = {
             "pseudonym": "New pseudonym",
             "first_name": "Robert",
             "description": "Born in New-York!",
             "likes_number": 3434,
         }
-        response = self.client.patch(self.artist_view, put_data)
+        artist_view = reverse("artists:retrieve-update-destroy-view", kwargs={"pk": 1})
+        response = self.client.patch(artist_view, put_data)
         self.assertEqual(response.status_code, HTTP_200_OK)
         self.assertEqual(response.data["pseudonym"], "New pseudonym")
         self.assertEqual(response.data["first_name"], "Robert")
@@ -59,8 +52,10 @@ class ArtistTest(APITestCase):
         self.assertEqual(response.data["likes_number"], 0)
 
     def test_delete_artist_successful_authorized(self):
-        self.client.force_login(self.user)
-        response = self.client.delete(self.artist_view)
+        user = User.objects.create_user("Tester", "test@mail.com", "123456789")
+        self.client.force_login(user)
+        artist_view = reverse("artists:retrieve-update-destroy-view", kwargs={"pk": 1})
+        response = self.client.delete(artist_view)
         self.assertEqual(response.status_code, HTTP_204_NO_CONTENT)
 
     def test_get_artists_by_full_name(self):
@@ -70,28 +65,33 @@ class ArtistTest(APITestCase):
             "last_name": "Diggs",
             "image": None,
             "description": "A few words...",
-            "likes": [],
             "likes_number": 0,
+            "is_liked": False
         }
-        response = self.client.get(self.artists_filtered)
+        artist_list = reverse("artists:list-create-view")
+        response = self.client.get("%s?pseudonym__contains=%s" % (artist_list, "RZA"))
         self.assertEqual(response.status_code, HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0], data)
 
     def test_get_artists_list(self):
-        response = self.client.get(self.artist_list)
+        artist_list = reverse("artists:list-create-view")
+        response = self.client.get(artist_list)
         self.assertEqual(response.status_code, HTTP_200_OK)
         self.assertEqual(len(response.data), 2)
 
     def test_like_artist_failed_unauthorized(self):
-        response = self.client.get(self.like_artist)
+        like_artist = reverse("artists:like-retrieve-view", kwargs={"pk": 1})
+        response = self.client.get(like_artist)
         self.assertEqual(response.status_code, HTTP_401_UNAUTHORIZED)
         self.assertEqual(response.data['detail'], "Authentication credentials were not provided.")
 
     def test_like_artist_failed_authorized(self):
-        self.client.force_login(self.user)
-        self.client.get(self.like_artist)
-        response = self.client.get(self.artist_view)
+        user = User.objects.create_user("Tester", "test@mail.com", "123456789")
+        self.client.force_login(user)
+        like_artist = reverse("artists:like-retrieve-view", kwargs={"pk": 1})
+        self.client.get(like_artist)
+        artist_view = reverse("artists:retrieve-update-destroy-view", kwargs={"pk": 1})
+        response = self.client.get(artist_view)
         self.assertEqual(response.status_code, HTTP_200_OK)
-        self.assertEqual(len(response.data['likes']), 1)
         self.assertEqual(response.data['likes_number'], 1)
