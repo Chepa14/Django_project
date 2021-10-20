@@ -31,18 +31,10 @@ class Artist(models.Model):
     def __str__(self):
         return self.pseudonym
 
-    @property
-    def number_of_likes(self):
-        return self.likes.all().count()
-
-    @number_of_likes.setter
-    def number_of_likes(self, value):
-        self.likes_number = value
-
 
 class Song(models.Model):
     name = models.CharField(max_length=30)
-    author = models.ManyToManyField(Artist, default=[None], blank=True)
+    authors = models.ManyToManyField(Artist, default=[None], blank=True)
     image = models.ImageField(upload_to=get_song_upload_path, null=True, blank=True)
     media_file = models.FileField(upload_to=get_song_upload_path, null=True, blank=True)
     time_length_sec = models.IntegerField(default=0, blank=True)

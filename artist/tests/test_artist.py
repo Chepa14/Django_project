@@ -4,12 +4,50 @@ from rest_framework.status import (
     HTTP_200_OK,
     HTTP_401_UNAUTHORIZED,
     HTTP_204_NO_CONTENT,
+    HTTP_201_CREATED
 )
 from django.urls import reverse
 
 
 class ArtistTest(APITestCase):
-    fixtures = ("artist_fixtures.json",)
+    fixtures = ("artist_fixtures.json", "user_fixtures.json")
+
+    def test_create_artist_failed_unauthorized(self):
+        artist_list = reverse("artists:list-create-view")
+        data = {
+            "pseudonym": "SHA",
+            "first_name": "Richard",
+            "last_name": "Mallic",
+            "image": "",
+            "description": "A few words..."
+        }
+        response = self.client.post(artist_list, data)
+        self.assertEqual(response.status_code, HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.data['detail'], 'Authentication credentials were not provided.')
+
+    def test_create_song_successful_authorized(self):
+        user = User.objects.get(pk=1)
+        self.client.force_login(user)
+        artist_list = reverse("artists:list-create-view")
+        data = {
+            "pseudonym": "SHA",
+            "first_name": "Richard",
+            "last_name": "Mallic",
+            "image": "",
+            "description": "A few words..."
+        }
+        response = self.client.post(artist_list, data)
+        self.assertEqual(response.status_code, HTTP_201_CREATED)
+        data_check = {
+          "pseudonym": "SHA",
+          "first_name": "Richard",
+          "last_name": "Mallic",
+          "image": None,
+          "description": "A few words...",
+          "likes_number": 0,
+          "is_liked": False
+        }
+        self.assertEqual(response.data, data_check)
 
     def test_get_artist_successful(self):
         artist_view = reverse("artists:retrieve-update-destroy-view", kwargs={"pk": 1})
@@ -35,7 +73,7 @@ class ArtistTest(APITestCase):
         )
 
     def test_put_artist_successful_authorized(self):
-        user = User.objects.create_user("Tester", "test@mail.com", "123456789")
+        user = User.objects.get(pk=1)
         self.client.force_login(user)
         put_data = {
             "pseudonym": "New pseudonym",
@@ -52,7 +90,7 @@ class ArtistTest(APITestCase):
         self.assertEqual(response.data["likes_number"], 0)
 
     def test_delete_artist_successful_authorized(self):
-        user = User.objects.create_user("Tester", "test@mail.com", "123456789")
+        user = User.objects.get(pk=1)
         self.client.force_login(user)
         artist_view = reverse("artists:retrieve-update-destroy-view", kwargs={"pk": 1})
         response = self.client.delete(artist_view)
@@ -69,7 +107,7 @@ class ArtistTest(APITestCase):
             "is_liked": False
         }
         artist_list = reverse("artists:list-create-view")
-        response = self.client.get("%s?pseudonym__contains=%s" % (artist_list, "RZA"))
+        response = self.client.get(f"{artist_list}?search={'RZA Robert Fitzgerald'}")
         self.assertEqual(response.status_code, HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0], data)
@@ -82,15 +120,15 @@ class ArtistTest(APITestCase):
 
     def test_like_artist_failed_unauthorized(self):
         like_artist = reverse("artists:like-retrieve-view", kwargs={"pk": 1})
-        response = self.client.get(like_artist)
+        response = self.client.put(like_artist)
         self.assertEqual(response.status_code, HTTP_401_UNAUTHORIZED)
         self.assertEqual(response.data['detail'], "Authentication credentials were not provided.")
 
     def test_like_artist_failed_authorized(self):
-        user = User.objects.create_user("Tester", "test@mail.com", "123456789")
+        user = User.objects.get(pk=1)
         self.client.force_login(user)
         like_artist = reverse("artists:like-retrieve-view", kwargs={"pk": 1})
-        self.client.get(like_artist)
+        self.client.put(like_artist)
         artist_view = reverse("artists:retrieve-update-destroy-view", kwargs={"pk": 1})
         response = self.client.get(artist_view)
         self.assertEqual(response.status_code, HTTP_200_OK)

@@ -3,7 +3,7 @@
     "model": "artist.Song",
     "pk": "1",
     "fields": {
-      "author": [1],
+      "authors": [1],
       "name": "Call me",
       "image": "",
       "media_file": "",

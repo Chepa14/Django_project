@@ -1,19 +1,40 @@
-from django_filters import FilterSet
+from django_filters import FilterSet, CharFilter
 from artist.models import Artist, Song
+from django.db.models.functions import Concat
+from django.db.models import Q
+from django.db.models import Value as V
 
 
-class ArtistsListFilter(FilterSet):
+class ArtistsFilter(FilterSet):
+    search = CharFilter(method='custom_filter', field_name='search')
+
     class Meta:
         model = Artist
-        fields = {
-            'pseudonym': ['contains']
-        }
+        fields = []
+
+    def custom_filter(self, queryset, _, value):
+        search_values = value.split(" ")
+        q = Q()
+        queryset = queryset.annotate(
+                    _full_name=Concat("first_name", V(" "), "last_name")
+                )
+        for search_value in search_values:
+            q |= Q(_full_name__icontains=search_value) |\
+                    Q(pseudonym__icontains=search_value)
+        return queryset.filter(q).distinct()
 
 
-class SongsListFilter(FilterSet):
+class SongsFilter(FilterSet):
+    search = CharFilter(method='custom_filter', field_name='search')
+
     class Meta:
         model = Song
-        fields = {
-            'author__pseudonym': ['exact'],
-            'name': ['contains']
-        }
+        fields = []
+
+    def custom_filter(self, queryset, _, value):
+        search_values = value.split(" ")
+        q = Q()
+        for search_value in search_values:
+            q |= Q(name__icontains=search_value) |\
+                    Q(authors__pseudonym__icontains=search_value)
+        return queryset.filter(q).distinct()

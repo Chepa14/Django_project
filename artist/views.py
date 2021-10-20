@@ -1,11 +1,11 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, RetrieveAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from .serializers import ArtistSerializer, SongSerializer
-from artist.filters import ArtistsListFilter, SongsListFilter
+from artist.filters import ArtistsFilter, SongsFilter
 from .models import Artist, Song
 
 
-class LikeArtistRetrieveAPIView(RetrieveAPIView):
+class LikeArtistRetrieveAPIView(UpdateAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = ArtistSerializer
     queryset = Artist.objects.all()
@@ -16,7 +16,7 @@ class LikeArtistRetrieveAPIView(RetrieveAPIView):
             obj.likes.remove(self.request.user)
         else:
             obj.likes.add(self.request.user)
-        obj.number_of_likes = obj.number_of_likes
+        obj.likes_number = obj.likes.count()
         obj.save()
         return obj
 
@@ -30,7 +30,7 @@ class ArtistRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
 class ArtistListCreateAPIView(ListCreateAPIView):
     permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = ArtistSerializer
-    filterset_class = ArtistsListFilter
+    filterset_class = ArtistsFilter
     queryset = Artist.objects.all()
 
 
@@ -39,20 +39,17 @@ class SongRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = SongSerializer
 
     def get_queryset(self):
-        return Song.objects.filter(author__id=self.kwargs["artist_id"])
+        return Song.objects.filter(authors__id=self.kwargs["artist_id"])
 
 
 class SongsListCreateAPIView(ListCreateAPIView):
     permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = SongSerializer
-    filterset_class = SongsListFilter
+    filterset_class = SongsFilter
 
     def perform_create(self, serializer):
-        if not serializer.validated_data['author']:
-            current_artist = Artist.objects.get(pk=self.kwargs['artist_id'])
-            serializer.save(author=[current_artist])
-        else:
-            serializer.save()
+        current_artist = Artist.objects.get(pk=self.kwargs['artist_id'])
+        serializer.save(authors=[current_artist])
 
     def get_queryset(self):
-        return Song.objects.filter(author__id=self.kwargs["artist_id"])
+        return Song.objects.filter(authors__id=self.kwargs["artist_id"])

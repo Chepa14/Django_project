@@ -26,4 +26,14 @@ class SongSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Song
-        fields = ("author", "name", "image", "media_file", "time_length_sec")
+        fields = ("authors", "name", "image", "media_file", "time_length_sec")
+
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        ret['authors'] = [
+            {
+                'id': author.id,
+                'first_name': author.first_name,
+                'last_name': author.last_name
+            } for author in instance.authors.all()]
+        return ret
