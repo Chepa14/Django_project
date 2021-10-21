@@ -15,12 +15,13 @@ class ArtistsFilter(FilterSet):
     def custom_filter(self, queryset, _, value):
         search_values = value.split(" ")
         q = Q()
-        queryset = queryset.annotate(
-                    _full_name=Concat("first_name", V(" "), "last_name")
-                )
+        # queryset = queryset.annotate(
+        #             _full_name=Concat("first_name", V(" "), "last_name")
+        #         )
         for search_value in search_values:
-            q |= Q(_full_name__icontains=search_value) |\
-                    Q(pseudonym__icontains=search_value)
+            q |= Q(first_name__icontains=search_value) | \
+                 Q(last_name__icontains=search_value) | \
+                 Q(pseudonym__icontains=search_value)
         return queryset.filter(q).distinct()
 
 

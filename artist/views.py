@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticate
 from .serializers import ArtistSerializer, SongSerializer
 from artist.filters import ArtistsFilter, SongsFilter
 from .models import Artist, Song
+from rest_framework.response import Response
 
 
 class LikeArtistRetrieveAPIView(UpdateAPIView):
@@ -10,15 +11,17 @@ class LikeArtistRetrieveAPIView(UpdateAPIView):
     serializer_class = ArtistSerializer
     queryset = Artist.objects.all()
 
-    def get_object(self):
-        obj = super().get_object()
-        if obj.likes.filter(id=self.request.user.id).exists():
-            obj.likes.remove(self.request.user)
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if instance.likes.filter(id=self.request.user.id).exists():
+            instance.likes.remove(self.request.user)
         else:
-            obj.likes.add(self.request.user)
-        obj.likes_number = obj.likes.count()
-        obj.save()
-        return obj
+            instance.likes.add(self.request.user)
+        instance.likes_number = instance.likes.count()
+        serializer = self.get_serializer(instance, data={})
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+        return Response(serializer.data)
 
 
 class ArtistRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
