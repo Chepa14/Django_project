@@ -30,3 +30,16 @@ services:
       - "8000:8000"
     command: bash -c "pip install -r requirements.txt
                     && invoke run-local"
+
+  react:
+    image: node:16.11
+    volumes:
+      - ./frontend:/frontend
+    working_dir: /frontend
+    expose:
+      - 3000
+    ports:
+      - "3000:3000"
+    command: bash -c "npm install && npm start"
+    depends_on:
+      - django
