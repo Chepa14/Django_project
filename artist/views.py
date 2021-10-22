@@ -18,9 +18,8 @@ class LikeArtistRetrieveAPIView(UpdateAPIView):
         else:
             instance.likes.add(self.request.user)
         instance.likes_number = instance.likes.count()
-        serializer = self.get_serializer(instance, data={})
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
+        instance.save()
+        serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
 
