@@ -1,0 +1,13 @@
+[
+  {
+    "model": "artist.Song",
+    "pk": "1",
+    "fields": {
+      "authors": [1],
+      "name": "Call me",
+      "image": "",
+      "media_file": "",
+      "time_length_sec": "100"
+    }
+  }
+]

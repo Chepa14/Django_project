@@ -27,4 +27,9 @@ To import dump write following command to terminal:
 ```
 $ invoke run-local
 ```
+## Run tests
 
+Tests cover all objects and are run by the following command: 
+```
+$ docker-compose exec django python manage.py test
+```
