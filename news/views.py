@@ -3,25 +3,26 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from news.permissions import AuthorEditPermissions
 from news.serializers import NewsSerializer, CommentSerializer
 from news.models import News, Comment
-from news.filters import NewsListFilter, CommentsListFilter
+from news.filters import NewsListFilter
 
 
 class CommentsListCreateAPIView(ListCreateAPIView):
     permission_classes = (IsAuthenticatedOrReadOnly, AuthorEditPermissions)
     serializer_class = CommentSerializer
-    filterset_class = CommentsListFilter
     queryset = Comment.objects.all()
 
     def perform_create(self, serializer):
-        news = News.objects.get(pk=self.kwargs['id'])
+        news = News.objects.get(pk=self.kwargs['pk'])
         serializer.save(author=self.request.user, news=news)
+
+    def get_queryset(self):
+        return Comment.objects.filter(news__id=self.kwargs["pk"])
 
 
 class NewsRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticatedOrReadOnly, AuthorEditPermissions)
     serializer_class = NewsSerializer
     queryset = News.objects.all()
-    lookup_field = "id"
 
 
 class NewsListCreateAPIView(ListCreateAPIView):

@@ -17,7 +17,7 @@ class NewsTest(APITestCase):
         self.news_list = reverse("news:list-create-view")
 
     def test_get_news_successful(self):
-        self.news_view = reverse("news:retrieve-update-destroy-view", kwargs={"id": 1})
+        self.news_view = reverse("news:retrieve-update-destroy-view", kwargs={"pk": 1})
         response = self.client.get(self.news_view)
         data = {
             "title": "Release of album by Artist",
@@ -38,7 +38,7 @@ class NewsTest(APITestCase):
         self.assertEqual(response.data, data)
 
     def test_put_news_failed_unauthorized(self):
-        self.news_view = reverse("news:retrieve-update-destroy-view", kwargs={"id": 1})
+        self.news_view = reverse("news:retrieve-update-destroy-view", kwargs={"pk": 1})
         response = self.client.put(self.news_view, {"title": "Some interesting title"})
         self.assertEqual(response.status_code, HTTP_401_UNAUTHORIZED)
         self.assertEqual(
@@ -48,7 +48,7 @@ class NewsTest(APITestCase):
     def test_put_news_failed_not_author(self):
         self.user = User.objects.get(pk=2)
         self.client.force_login(self.user)
-        self.news_view = reverse("news:retrieve-update-destroy-view", kwargs={"id": 1})
+        self.news_view = reverse("news:retrieve-update-destroy-view", kwargs={"pk": 1})
         response = self.client.put(self.news_view, {"title": "Some interesting title"})
         self.assertEqual(response.status_code, HTTP_403_FORBIDDEN)
         self.assertEqual(
@@ -64,7 +64,7 @@ class NewsTest(APITestCase):
             "author": 1
         }
         author = {'id': 1}
-        self.news_view = reverse("news:retrieve-update-destroy-view", kwargs={"id": 1})
+        self.news_view = reverse("news:retrieve-update-destroy-view", kwargs={"pk": 1})
         response = self.client.patch(self.news_view, put_data)
         self.assertEqual(response.status_code, HTTP_200_OK)
         self.assertEqual(response.data["title"], "Some interesting title")
@@ -74,14 +74,14 @@ class NewsTest(APITestCase):
     def test_delete_news_failed_not_author(self):
         self.user = User.objects.get(pk=2)
         self.client.force_login(self.user)
-        self.news_view = reverse("news:retrieve-update-destroy-view", kwargs={"id": 1})
+        self.news_view = reverse("news:retrieve-update-destroy-view", kwargs={"pk": 1})
         response = self.client.delete(self.news_view)
         self.assertEqual(response.status_code, HTTP_403_FORBIDDEN)
 
     def test_delete_news_successful_authorized(self):
         self.user = User.objects.get(pk=1)
         self.client.force_login(self.user)
-        self.news_view = reverse("news:retrieve-update-destroy-view", kwargs={"id": 1})
+        self.news_view = reverse("news:retrieve-update-destroy-view", kwargs={"pk": 1})
         response = self.client.delete(self.news_view)
         self.assertEqual(response.status_code, HTTP_204_NO_CONTENT)
 
@@ -102,7 +102,7 @@ class NewsTest(APITestCase):
             }
         }
         self.news_filtered = reverse("news:list-create-view")
-        response = self.client.get("%s?title__contains=%s" % (self.news_filtered, "album"))
+        response = self.client.get(f"{self.news_filtered}?search={'album'}")
         self.assertEqual(response.status_code, HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0], data)
@@ -119,7 +119,7 @@ class NewsTest(APITestCase):
             "text": "New comment to news!",
             "created_at": "2222-10-09T15:21:51.735015Z"
         }
-        self.comment_news = reverse("news:comments-list-create", kwargs={"id": 1})
+        self.comment_news = reverse("news:comments-list-create", kwargs={"pk": 1})
         response = self.client.post(self.comment_news, post_data)
         self.assertEqual(response.status_code, HTTP_401_UNAUTHORIZED)
         self.assertEqual(response.data['detail'], "Authentication credentials were not provided.")
@@ -133,9 +133,9 @@ class NewsTest(APITestCase):
             "text": "New comment to news!",
             "created_at": "2222-10-09T15:21:51.735015Z"
         }
-        self.comment_news = reverse("news:comments-list-create", kwargs={"id": 1})
+        self.comment_news = reverse("news:comments-list-create", kwargs={"pk": 1})
         self.client.post(self.comment_news, post_data)
-        self.news_view = reverse("news:retrieve-update-destroy-view", kwargs={"id": 1})
+        self.news_view = reverse("news:retrieve-update-destroy-view", kwargs={"pk": 1})
         response = self.client.get(self.news_view)
         self.assertEqual(response.status_code, HTTP_200_OK)
         self.assertEqual(len(response.data['comments']), 2)
