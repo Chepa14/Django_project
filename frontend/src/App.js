@@ -1,4 +1,15 @@
 import './App.css';
+import './css/animate.min.css';
+import './css/bootstrap.min.css';
+// import './css/jquery.mCustomScrollbar.min.css';
+// import './css/jquery-ui.css';
+// import './css/meanmenu.css';
+// import './css/nice-select.css';
+// import './css/normalize.css';
+// import './css/owl.carousel.min.css';
+// import './css/slick.css';
+// import './css/style.css';
+
 import React from "react";
 import {
   BrowserRouter as Router,
@@ -41,15 +52,4 @@ function App() {
   );
 }
 
-function Home() {
-  return <h2>Home</h2>;
-}
-
-function About() {
-  return <h2>About</h2>;
-}
-
-function Users() {
-  return <h2>Users</h2>;
-}
 export default App;
