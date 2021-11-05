@@ -1,33 +1,46 @@
 import React, { Component } from "react";
 
 class Artist extends Component {
-    state = {
-      artist_list: [
-          {
-              "img": "https://img.theculturetrip.com/1440x807/smart/wp-content/uploads/2017/05/33109174793_876f731fe3_k.jpg",
-              "pseudonym": "Artist #1",
-              "desc": "A few words about me..."
-          },
-          {
-              "img": "https://img.theculturetrip.com/1440x807/smart/wp-content/uploads/2017/05/33109174793_876f731fe3_k.jpg",
-              "pseudonym": "Artist #2",
-              "desc": "A few words about me..."
-          },
-          {
-              "img": "https://img.theculturetrip.com/1440x807/smart/wp-content/uploads/2017/05/33109174793_876f731fe3_k.jpg",
-              "pseudonym": "Artist #3",
-              "desc": "A few words about me..."
-          },
-          {
-              "img": "https://img.theculturetrip.com/1440x807/smart/wp-content/uploads/2017/05/33109174793_876f731fe3_k.jpg",
-              "pseudonym": "Artist #4",
-              "desc": "A few words about me..."
-          }
-      ]
+    constructor(props) {
+    super(props);
+    this.state = {
+      error: null,
+      isLoaded: false,
+      items: []
     };
+  }
 
-    render() {
-        return(
+  async componentDidMount() {
+    await fetch("http://localhost:8000/api/artists/", {
+      headers : {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+       }
+    })
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            items: result
+          });
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
+  }
+  render() {
+    const { error, isLoaded, items } = this.state;
+    if (error) {
+      return <div>Error: {error.message}</div>;
+    } else if (!isLoaded) {
+      return <div>Loading...</div>;
+    } else {
+        return (
             <div className="Lastestnews">
                 <div className="container">
                     <div className="row">
@@ -44,7 +57,7 @@ class Artist extends Component {
                     </div>
                     <div className="row">
                         <React.Fragment>
-                            {this.state.artist_list.map(artist => (
+                            {items.map(artist => (
                                 render_artist(artist)
                             ))}
                         </React.Fragment>
@@ -52,16 +65,17 @@ class Artist extends Component {
                 </div>
             </div>
         );
+        }
     }
 }
 
 function render_artist(artist) {
     return(
         <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-            <div className="for-box">
-                <i><img src={artist.img} alt="icon"/></i>
+            <div className="for-box" key={artist.pseudonym}>
+                <i><img src={artist.image} alt="icon"/></i>
                 <h3>{artist.pseudonym}</h3>
-                <p>{artist.desc}</p>
+                <p>{artist.description}</p>
             </div>
         </div>
     );

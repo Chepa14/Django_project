@@ -1,14 +1,7 @@
 import React, { Component } from "react";
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
   Link
 } from "react-router-dom";
-import LoginPage from "../pages/LoginPage";
-import RegisterPage from "../pages/RegisterPage";
-import HomePage from "../pages/HomePage";
 
 class Header extends Component {
     render() {

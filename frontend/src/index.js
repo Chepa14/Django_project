@@ -21,6 +21,7 @@ import UserProfilePage from "./pages/UserProfilePage";
 
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
+import Logout from "./components/Logout";
 
 ReactDOM.render(
     <BrowserRouter>
@@ -32,6 +33,7 @@ ReactDOM.render(
            <Route path="/profile" component={UserProfilePage} />
            <Route path="/login" component={LoginPage} />
            <Route path="/register" component={RegisterPage} />
+           <Route path="/logout" component={Logout} />
         </Switch>
     </BrowserRouter>,
   document.getElementById('root')
