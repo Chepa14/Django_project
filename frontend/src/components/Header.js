@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
   Link
 } from "react-router-dom";
-import LoginPage from "../pages/LoginPage";
-import RegisterPage from "../pages/RegisterPage";
-import HomePage from "../pages/HomePage";
+import Cookies from "js-cookie";
 
 class Header extends Component {
+
+    componentDidMount() {
+        Cookies.set('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone);
+
+    }
+
     render() {
         return (
             <div className="header">
