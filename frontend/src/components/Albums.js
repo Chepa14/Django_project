@@ -38,7 +38,7 @@ class Albums extends Component{
                                                 </a>
                                                 <span className="hoverle">
                                     <a href="../images/album2.jpg" className="fancybox" rel="ligthbox">
-                                        <img src="../images/search.png"/>
+                                        <img src="../images/search.png" alt=""/>
                                     </a>
                                     </span>
                                 </figure>

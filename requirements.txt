@@ -39,3 +39,4 @@ django-rest-swagger
 django-filter
 django-cors-headers
 uwsgi==2.0.18
+django-filter
