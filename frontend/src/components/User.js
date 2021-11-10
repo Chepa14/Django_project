@@ -1,16 +1,14 @@
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import Cookies from "js-cookie";
-import cookie from 'react-cookies';
 
 const User = () => {
     const [user, setUser] = useState({});
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        console.log(cookie.loadAll());
         if (localStorage.getItem('token') == null) {
-          window.location.replace('http://localhost:3000/login');
+          window.location.replace('http://localhost:8000/login');
         } else {
           fetch('http://localhost:8000/api/user/', {
             headers: {
@@ -27,18 +25,6 @@ const User = () => {
             });
         }
     }, []);
-    //
-    // state = {
-    //     user: {
-    //         "username": "i.chepets",
-    //         "first_name": "Ivan",
-    //         "last_name": "Chepets",
-    //         "email": "i.chepets@email.com",
-    //         "avatar": "https://cdn.shopify.com/s/files/1/2262/1373/files/WU-TANG-LOGO_3148x.png?v=1510278597",
-    //         "about_me": "A few words about me..."
-    //     },
-    //     isLoggedIn: false
-    // }
 
     return(
         <div className="container">
@@ -85,7 +71,6 @@ const User = () => {
                                     defaultValue={user.about_me}/>
                                 </div>
                                 <div className="col-sm-12 offset-4">
-                                    {/*<button className="send">Save</button>*/}
                                     <Link to="/logout"> Save </Link>
                                 </div>
                             </div>

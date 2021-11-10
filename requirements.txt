@@ -38,3 +38,4 @@ invoke==1.6.0
 django-rest-swagger
 django-cors-headers
 uwsgi==2.0.18
+django-filter

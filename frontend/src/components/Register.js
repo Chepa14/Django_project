@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 
@@ -7,16 +7,6 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password1, setPassword1] = useState('');
   const [password2, setPassword2] = useState('');
-  // const [errors, setErrors] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // if (localStorage.getItem('token') !== null) {
-    //   window.location.replace('http://localhost:3000/dashboard');
-    // } else {
-      setLoading(false);
-    // }
-  }, []);
 
   const onSubmit = e => {
     e.preventDefault();
@@ -28,7 +18,7 @@ const Register = () => {
       password2: password2
     };
 
-    fetch('http://localhost:8000/auth/registration/', {
+    fetch('http://localhost:4000/auth/registration/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -40,7 +30,7 @@ const Register = () => {
                 'Success registration!',
                 5000,
                 ()=>{
-                    window.location.replace('http://localhost:3000/')
+                    window.location.replace('http://localhost:4000/')
                 }
             );
         }

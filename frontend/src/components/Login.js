@@ -9,7 +9,7 @@ const Login = () => {
 
     useEffect(() => {
         if (localStorage.getItem('token') !== null) {
-          window.location.replace('http://localhost:3000/profile');
+          window.location.replace('http://localhost:4000/profile');
         } else {
           setLoading(false);
         }
@@ -23,7 +23,7 @@ const Login = () => {
           password: password
         };
 
-        fetch('http://localhost:8000/auth/login/', {
+        fetch('http://localhost:4000/auth/login/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -70,7 +70,8 @@ const Login = () => {
                                         value={password}
                                         required
                                         onChange={e => setPassword(e.target.value)}/>
-                                    <a href=""><p>Forgot your password?</p></a>
+                                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                                    <a href=""><p>Forgot your password?</p></a> {/*TODO*/}
                                 </div>
                                 <div className="col-md-3 offset-md-5 form-actions">
                                     <input type='submit' value='Login' />

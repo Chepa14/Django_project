@@ -1937,3 +1937,28 @@
  .menu-area-main.cutom-li li:hover a, .menu-area-main.cutom-li li:focus a {
      color: black;
  }
+ .submenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  -webkit-transition: 0.5s ease-in-out;
+  -moz-transition: 0.5s ease-in-out;
+  -o-transition: 0.5s ease-in-out;
+  transition: 0.5s ease-in-out;
+ }
+ .one ul {
+   background: black;
+ }
+ .one ul Link {
+   color: #695753;
+ }
+ .one .submenu {
+   display: none;
+   background: black;
+ }
+ .one ul li:hover .submenu {
+   background: greenyellow;
+   display: block;
+ }
