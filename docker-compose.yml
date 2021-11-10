@@ -13,8 +13,9 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
-      timeout: 5s
+      timeout: 2s
       retries: 5
+
   django:
     image: quantumobile/rc-base:latest
     environment:
@@ -26,8 +27,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    ports:
-      - "8000:8000"
+    expose:
+      - 8000
     command: bash -c "pip install -r requirements.txt
                     && invoke run-local"
 
@@ -36,10 +37,20 @@ services:
     volumes:
       - ./frontend:/frontend
     working_dir: /frontend
-    expose:
-      - 3000
-    ports:
-      - "3000:3000"
     command: bash -c "npm install && npm start"
     depends_on:
       - django
+
+  nginx:
+    image: nginx:latest
+    expose:
+      - 8000
+      - 3000
+    ports:
+      - "8000:8000"
+      - "3000:3000"
+    depends_on:
+      - django
+      - react
+    volumes:
+      - ./nginx/custom_nginx.conf:/etc/nginx/conf.d/web.conf
