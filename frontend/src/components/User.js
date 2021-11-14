@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
 import Cookies from "js-cookie";
 
 const User = () => {
@@ -24,6 +23,10 @@ const User = () => {
           })
             .then(res => res.json())
             .then(data => {
+              if (data['detail']){
+                  localStorage.clear();
+                  window.location.replace('http://localhost:3000/login');
+              }
               setUser(data);
               setFirstname(data.first_name);
               setLastname(data.last_name);
