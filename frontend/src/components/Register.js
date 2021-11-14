@@ -18,11 +18,12 @@ const Register = () => {
       password2: password2
     };
 
-    fetch('http://localhost:4000/auth/registration/', {
+    fetch('http://localhost:8000/auth/registration/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
+      credentials: "include",
       body: JSON.stringify(user)
     }).then(()=> {
             NotificationManager.info(
@@ -30,7 +31,7 @@ const Register = () => {
                 'Success registration!',
                 5000,
                 ()=>{
-                    window.location.replace('http://localhost:4000/')
+                    window.location.replace('http://localhost:3000/')
                 }
             );
         }

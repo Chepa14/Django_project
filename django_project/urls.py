@@ -1,7 +1,7 @@
 from rest_auth.registration.views import RegisterView, VerifyEmailView
 from rest_framework_swagger.views import get_swagger_view
 from django.conf.urls.static import static
-from rest_auth.views import LoginView, LogoutView
+from rest_auth.views import LoginView, LogoutView, PasswordChangeView
 from django.urls import path, re_path, include
 from django.contrib import admin
 from django.conf import settings
@@ -22,6 +22,7 @@ urlpatterns = [
     path("auth/login/", LoginView.as_view(), name="account_login"),
     path("auth/registration/", RegisterView.as_view(), name="account_signup"),
     path("auth/logout/", LogoutView.as_view(), name="account_logout"),
+    path("auth/change_password/", PasswordChangeView.as_view(), name="password_change"),
     path(
         "account-confirm-email/",
         VerifyEmailView.as_view(),

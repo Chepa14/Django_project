@@ -11,11 +11,12 @@ class Artist extends Component {
   }
 
   async componentDidMount() {
-    await fetch("http://localhost:4000/api/artists/", {
+    await fetch("http://localhost:8000/api/artists/", {
       headers : {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
-       }
+       },
+      credentials: 'include'
     })
       .then(res => res.json())
       .then(

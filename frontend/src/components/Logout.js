@@ -19,13 +19,14 @@ const Logout = () => {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Token ${localStorage.getItem('token')}`
-      }
+      },
+      credentials: "include"
     })
       .then(res => res.json())
       .then(data => {
         console.log(data);
         localStorage.clear();
-        window.location.replace('http://localhost:8000/login');
+        window.location.replace('http://localhost:3000/login');
       });
   };
 

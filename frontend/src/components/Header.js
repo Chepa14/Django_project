@@ -8,8 +8,9 @@ import Cookies from "js-cookie";
 class Header extends Component {
 
     componentDidMount() {
-        Cookies.set('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone);
-
+        if (Cookies.get('timezone')==null){
+            Cookies.set('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone);
+        }
     }
 
     render() {

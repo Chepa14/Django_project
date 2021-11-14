@@ -9,7 +9,7 @@ const Login = () => {
 
     useEffect(() => {
         if (localStorage.getItem('token') !== null) {
-          window.location.replace('http://localhost:4000/profile');
+          window.location.replace('http://localhost:3000/profile');
         } else {
           setLoading(false);
         }
@@ -23,13 +23,14 @@ const Login = () => {
           password: password
         };
 
-        fetch('http://localhost:4000/auth/login/', {
+        fetch('http://localhost:8000/auth/login/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': Cookies.get('csrftoken'),
           },
-          body: JSON.stringify(user)
+          body: JSON.stringify(user),
+          credentials: 'include'
         })
           .then(res => res.json())
           .then(data => {
