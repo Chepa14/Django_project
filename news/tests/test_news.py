@@ -1,8 +1,8 @@
 from rest_framework.test import APITestCase
 from user.models import User
-from news.models import News, Comment
 from rest_framework.status import (
     HTTP_200_OK,
+    HTTP_201_CREATED,
     HTTP_401_UNAUTHORIZED,
     HTTP_204_NO_CONTENT,
     HTTP_403_FORBIDDEN
@@ -26,16 +26,48 @@ class NewsTest(APITestCase):
             "create_datetime": "2021-10-08T15:21:51.735015Z",
             "update_datetime": "2021-10-08T15:21:51.735015Z",
             "tags": [],
-            "author": {'id': 1},
-            "comments": [1],
+            "author": {
+                'id': 1,
+                'username': 'User14',
+                'avatar': None
+            },
             "last_comment": {
                 'text': 'Description of news',
-                'author': {'id': 1},
-                'created_at': '2021-10-09T15:21:51.735015Z'
+                "author": {
+                    'id': 1,
+                    'username': 'User14',
+                    'avatar': None
+                },
+                'create_datetime': '2021-10-09T15:21:51.735015Z'
             }
         }
         self.assertEqual(response.status_code, HTTP_200_OK)
         self.assertEqual(response.data, data)
+
+    def test_create_news_successful(self):
+        self.user = User.objects.get(pk=1)
+        self.client.force_login(self.user)
+        post_data = {
+            'title': 'Testing news creation!',
+            'author': 1
+        }
+        author = {
+            'id': 1,
+            'username': 'User14',
+            'avatar': None
+        }
+        response = self.client.post(self.news_list, post_data)
+        self.assertEqual(response.status_code, HTTP_201_CREATED)
+        self.assertEqual(response.data['title'], post_data['title'])
+        self.assertEqual(response.data['author'], author)
+
+    def test_create_news_failed_unauthorized(self):
+        post_data = {
+            'title': 'Testing news creation!',
+            'author': 1
+        }
+        response = self.client.post(self.news_list, post_data)
+        self.assertEqual(response.status_code, HTTP_401_UNAUTHORIZED)
 
     def test_put_news_failed_unauthorized(self):
         self.news_view = reverse("news:retrieve-update-destroy-view", kwargs={"pk": 1})
@@ -60,10 +92,13 @@ class NewsTest(APITestCase):
         self.client.force_login(self.user)
         put_data = {
             "title": "Some interesting title",
-            "description": "Something interesting...",
-            "author": 1
+            "description": "Something interesting..."
         }
-        author = {'id': 1}
+        author = {
+            'id': 1,
+            'username': 'User14',
+            'avatar': None
+        }
         self.news_view = reverse("news:retrieve-update-destroy-view", kwargs={"pk": 1})
         response = self.client.patch(self.news_view, put_data)
         self.assertEqual(response.status_code, HTTP_200_OK)
@@ -93,16 +128,23 @@ class NewsTest(APITestCase):
             "create_datetime": "2021-10-08T15:21:51.735015Z",
             "update_datetime": "2021-10-08T15:21:51.735015Z",
             "tags": [],
-            "author": {'id': 1},
-            "comments": [1],
+            "author": {
+                'id': 1,
+                'username': 'User14',
+                'avatar': None
+            },
             "last_comment": {
                 'text': 'Description of news',
-                'author': {'id': 1},
-                'created_at': '2021-10-09T15:21:51.735015Z'
+                "author": {
+                    'id': 1,
+                    'username': 'User14',
+                    'avatar': None
+                },
+                'create_datetime': '2021-10-09T15:21:51.735015Z'
             }
         }
         self.news_filtered = reverse("news:list-create-view")
-        response = self.client.get(f"{self.news_filtered}?search={'album'}")
+        response = self.client.get(f"{self.news_filtered}?search=album")
         self.assertEqual(response.status_code, HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
         self.assertEqual(response.data[0], data)
@@ -112,12 +154,15 @@ class NewsTest(APITestCase):
         self.assertEqual(response.status_code, HTTP_200_OK)
         self.assertEqual(len(response.data), 2)
 
+    def test_get_comments_list(self):
+        self.comments_news = reverse("news:comments-list-create", kwargs={"pk": 1})
+        response = self.client.get(self.comments_news)
+        self.assertEqual(response.status_code, HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+
     def test_comment_news_failed_unauthorized(self):
         post_data = {
-            "news": "null",
-            "author": "null",
-            "text": "New comment to news!",
-            "created_at": "2222-10-09T15:21:51.735015Z"
+            "text": "New comment to news!"
         }
         self.comment_news = reverse("news:comments-list-create", kwargs={"pk": 1})
         response = self.client.post(self.comment_news, post_data)
@@ -128,16 +173,15 @@ class NewsTest(APITestCase):
         self.user = User.objects.get(pk=1)
         self.client.force_login(self.user)
         post_data = {
-            "news": "null",
-            "author": "null",
-            "text": "New comment to news!",
-            "created_at": "2222-10-09T15:21:51.735015Z"
+            "author": 1,
+            "text": "New comment to news!"
         }
         self.comment_news = reverse("news:comments-list-create", kwargs={"pk": 1})
         self.client.post(self.comment_news, post_data)
-        self.news_view = reverse("news:retrieve-update-destroy-view", kwargs={"pk": 1})
-        response = self.client.get(self.news_view)
+        self.comments_view = reverse("news:comments-list-create", kwargs={"pk": 1})
+        response = self.client.get(self.comments_view)
         self.assertEqual(response.status_code, HTTP_200_OK)
-        self.assertEqual(len(response.data['comments']), 2)
-        comment_id = response.data['comments'][-1]
-        self.assertEqual(Comment.objects.get(pk=comment_id).text, "New comment to news!")
+        self.assertEqual(len(response.data), 2)
+        self.assertEqual(response.data[-1]['text'], "New comment to news!")
+
+        # TODO create news successfully

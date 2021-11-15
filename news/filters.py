@@ -4,11 +4,11 @@ from django.db.models import Q
 
 
 class NewsListFilter(FilterSet):
-    search = CharFilter(method='custom_filter', field_name='search')
+    search = CharFilter(method='custom_filter')
 
     class Meta:
         model = News
-        fields = []
+        fields = ('search',)
 
     def custom_filter(self, queryset, _, value):
         search_values = value.split(" ")

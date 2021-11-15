@@ -6,13 +6,17 @@ class CommentSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
-        ret['author'] = {'id': instance.author.id}
+        ret['author'] = {
+            'id': instance.author.id,
+            'username': instance.author.username,
+            'avatar': instance.author.avatar or None
+        }
         return ret
 
     class Meta:
         model = Comment
-        fields = ("text", "author", "created_at")
-        read_only_fields = ("author",)
+        fields = ("text", "author", "create_datetime")
+        read_only_fields = ("create_datetime",)
 
 
 class NewsSerializer(serializers.ModelSerializer):
@@ -26,14 +30,17 @@ class NewsSerializer(serializers.ModelSerializer):
             "create_datetime",
             "update_datetime",
             "tags",
-            "author",
-            "comments"
+            "author"
         )
-        read_only_fields = ('create_datetime', 'update_datetime', 'author', 'comments')
+        read_only_fields = ('create_datetime', 'update_datetime')
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
-        ret['author'] = {'id': instance.author.id}
+        ret['author'] = {
+            'id': instance.author.id,
+            'username': instance.author.username,
+            'avatar': instance.author.avatar or None
+        }
         last_comment = instance.comments.last()
         if last_comment:
             ret['last_comment'] = CommentSerializer(last_comment).to_representation(last_comment)

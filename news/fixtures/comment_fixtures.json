@@ -6,7 +6,7 @@
       "news": 1,
       "author": 1,
       "text": "Description of news",
-      "created_at": "2021-10-09T15:21:51.735015Z"
+      "create_datetime": "2021-10-09T15:21:51.735015Z"
     }
   }
 ]
