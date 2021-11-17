@@ -12,7 +12,7 @@ class TimezoneMiddleware(object):
         self.get_response = get_response
 
     def __call__(self, request):
-        tz_name = request.COOKIES.get('timezone', None)
+        tz_name = request.headers.get('Timezone', None)
         tz = pytz.timezone(tz_name)
         timezone.activate(tz)
         response = self.get_response(request)

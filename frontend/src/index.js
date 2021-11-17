@@ -22,6 +22,8 @@ import UserProfilePage from "./pages/UserProfilePage";
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 
+const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
 ReactDOM.render(
     <BrowserRouter>
         <Switch>
@@ -37,4 +39,5 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
+export {timezone};
 reportWebVitals();

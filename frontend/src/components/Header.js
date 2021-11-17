@@ -2,14 +2,8 @@ import React, { Component } from "react";
 import {
   Link
 } from "react-router-dom";
-import Cookies from "js-cookie";
 
 class Header extends Component {
-
-    componentDidMount() {
-        Cookies.set('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone);
-
-    }
 
     render() {
         return (
