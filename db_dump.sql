@@ -104,10 +104,12 @@ ALTER SEQUENCE public.account_emailconfirmation_id_seq OWNED BY public.account_e
 
 CREATE TABLE public.artist_artist (
     id bigint NOT NULL,
-    name character varying(100) NOT NULL,
-    image character varying(100) NOT NULL,
+    image character varying(100),
     description text NOT NULL,
-    welcome_str character varying(100) NOT NULL
+    first_name character varying(20) NOT NULL,
+    last_name character varying(30) NOT NULL,
+    likes_number integer NOT NULL,
+    pseudonym character varying(20) NOT NULL
 );
 
 
@@ -128,6 +130,98 @@ CREATE SEQUENCE public.artist_artist_id_seq
 --
 
 ALTER SEQUENCE public.artist_artist_id_seq OWNED BY public.artist_artist.id;
+
+
+--
+-- Name: artist_artist_likes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.artist_artist_likes (
+    id bigint NOT NULL,
+    artist_id bigint NOT NULL,
+    user_id bigint NOT NULL
+);
+
+
+--
+-- Name: artist_artist_likes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.artist_artist_likes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: artist_artist_likes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.artist_artist_likes_id_seq OWNED BY public.artist_artist_likes.id;
+
+
+--
+-- Name: artist_song; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.artist_song (
+    id bigint NOT NULL,
+    name character varying(30) NOT NULL,
+    image character varying(100),
+    media_file character varying(100),
+    time_length_sec integer NOT NULL
+);
+
+
+--
+-- Name: artist_song_authors; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.artist_song_authors (
+    id bigint NOT NULL,
+    song_id bigint NOT NULL,
+    artist_id bigint NOT NULL
+);
+
+
+--
+-- Name: artist_song_authors_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.artist_song_authors_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: artist_song_authors_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.artist_song_authors_id_seq OWNED BY public.artist_song_authors.id;
+
+
+--
+-- Name: artist_song_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.artist_song_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: artist_song_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.artist_song_id_seq OWNED BY public.artist_song.id;
 
 
 --
@@ -653,6 +747,27 @@ ALTER TABLE ONLY public.artist_artist ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- Name: artist_artist_likes id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.artist_artist_likes ALTER COLUMN id SET DEFAULT nextval('public.artist_artist_likes_id_seq'::regclass);
+
+
+--
+-- Name: artist_song id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.artist_song ALTER COLUMN id SET DEFAULT nextval('public.artist_song_id_seq'::regclass);
+
+
+--
+-- Name: artist_song_authors id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.artist_song_authors ALTER COLUMN id SET DEFAULT nextval('public.artist_song_authors_id_seq'::regclass);
+
+
+--
 -- Name: auth_group id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -791,7 +906,7 @@ SELECT pg_catalog.setval('public.account_emailconfirmation_id_seq', 1, false);
 -- Data for Name: artist_artist; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.artist_artist (id, name, image, description, welcome_str) FROM stdin;
+COPY public.artist_artist (id, image, description, first_name, last_name, likes_number, pseudonym) FROM stdin;
 \.
 
 
@@ -800,6 +915,51 @@ COPY public.artist_artist (id, name, image, description, welcome_str) FROM stdin
 --
 
 SELECT pg_catalog.setval('public.artist_artist_id_seq', 1, false);
+
+
+--
+-- Data for Name: artist_artist_likes; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.artist_artist_likes (id, artist_id, user_id) FROM stdin;
+\.
+
+
+--
+-- Name: artist_artist_likes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.artist_artist_likes_id_seq', 1, false);
+
+
+--
+-- Data for Name: artist_song; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.artist_song (id, name, image, media_file, time_length_sec) FROM stdin;
+\.
+
+
+--
+-- Data for Name: artist_song_authors; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.artist_song_authors (id, song_id, artist_id) FROM stdin;
+\.
+
+
+--
+-- Name: artist_song_authors_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.artist_song_authors_id_seq', 1, false);
+
+
+--
+-- Name: artist_song_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.artist_song_id_seq', 1, false);
 
 
 --
@@ -901,6 +1061,10 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 62	Can change news	16	change_news
 63	Can delete news	16	delete_news
 64	Can view news	16	view_news
+65	Can add song	17	add_song
+66	Can change song	17	change_song
+67	Can delete song	17	delete_song
+68	Can view song	17	view_song
 \.
 
 
@@ -908,7 +1072,7 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 -- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.auth_permission_id_seq', 64, true);
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 68, true);
 
 
 --
@@ -955,6 +1119,7 @@ COPY public.django_content_type (id, app_label, model) FROM stdin;
 14	user	user
 15	artist	artist
 16	news	news
+17	artist	song
 \.
 
 
@@ -962,7 +1127,7 @@ COPY public.django_content_type (id, app_label, model) FROM stdin;
 -- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.django_content_type_id_seq', 16, true);
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 17, true);
 
 
 --
@@ -1006,6 +1171,9 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 34	socialaccount	0003_extra_data_default_dict	2021-10-02 18:39:18.042182+00
 35	socialaccount	0004_auto_20211002_1839	2021-10-02 18:39:18.242979+00
 36	user	0002_auto_20210926_1130	2021-10-02 18:39:18.277406+00
+37	account	0003_auto_20211016_0647	2021-11-01 10:52:02.229057+00
+38	artist	0003_auto_20211020_1441	2021-11-01 10:52:02.397178+00
+39	socialaccount	0004_auto_20211016_0647	2021-11-01 10:52:02.481753+00
 \.
 
 
@@ -1013,7 +1181,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 36, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 39, true);
 
 
 --
@@ -1120,6 +1288,7 @@ SELECT pg_catalog.setval('public.socialaccount_socialtoken_id_seq', 1, false);
 --
 
 COPY public.user_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined, avatar, about_me) FROM stdin;
+1	pbkdf2_sha256$260000$XcYaS9qlyRf0K3PpwCqtUv$tNoO+i90ftlsCclqujXTE1WG8wBK43Yyuq2m/h+QnmQ=	\N	t	i.chepets			i.chepets@quantumobile.com	t	t	2021-11-01 10:53:29.746654+00		
 \.
 
 
@@ -1142,7 +1311,7 @@ SELECT pg_catalog.setval('public.user_user_groups_id_seq', 1, false);
 -- Name: user_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.user_user_id_seq', 1, false);
+SELECT pg_catalog.setval('public.user_user_id_seq', 1, true);
 
 
 --
@@ -1193,11 +1362,51 @@ ALTER TABLE ONLY public.account_emailconfirmation
 
 
 --
+-- Name: artist_artist_likes artist_artist_likes_artist_id_user_id_04090366_uniq; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.artist_artist_likes
+    ADD CONSTRAINT artist_artist_likes_artist_id_user_id_04090366_uniq UNIQUE (artist_id, user_id);
+
+
+--
+-- Name: artist_artist_likes artist_artist_likes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.artist_artist_likes
+    ADD CONSTRAINT artist_artist_likes_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: artist_artist artist_artist_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.artist_artist
     ADD CONSTRAINT artist_artist_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: artist_song_authors artist_song_authors_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.artist_song_authors
+    ADD CONSTRAINT artist_song_authors_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: artist_song_authors artist_song_authors_song_id_artist_id_728b1006_uniq; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.artist_song_authors
+    ADD CONSTRAINT artist_song_authors_song_id_artist_id_728b1006_uniq UNIQUE (song_id, artist_id);
+
+
+--
+-- Name: artist_song artist_song_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.artist_song
+    ADD CONSTRAINT artist_song_pkey PRIMARY KEY (id);
 
 
 --
@@ -1461,6 +1670,34 @@ CREATE INDEX account_emailconfirmation_key_f43612bd_like ON public.account_email
 
 
 --
+-- Name: artist_artist_likes_artist_id_2b3dab67; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX artist_artist_likes_artist_id_2b3dab67 ON public.artist_artist_likes USING btree (artist_id);
+
+
+--
+-- Name: artist_artist_likes_user_id_fdd2ba10; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX artist_artist_likes_user_id_fdd2ba10 ON public.artist_artist_likes USING btree (user_id);
+
+
+--
+-- Name: artist_song_authors_artist_id_21a33e86; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX artist_song_authors_artist_id_21a33e86 ON public.artist_song_authors USING btree (artist_id);
+
+
+--
+-- Name: artist_song_authors_song_id_f5126844; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX artist_song_authors_song_id_f5126844 ON public.artist_song_authors USING btree (song_id);
+
+
+--
 -- Name: auth_group_name_a6ea08ec_like; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1614,6 +1851,38 @@ ALTER TABLE ONLY public.account_emailaddress
 
 ALTER TABLE ONLY public.account_emailconfirmation
     ADD CONSTRAINT account_emailconfirmation_email_address_id_5b7f8c58_fk FOREIGN KEY (email_address_id) REFERENCES public.account_emailaddress(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: artist_artist_likes artist_artist_likes_artist_id_2b3dab67_fk_artist_artist_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.artist_artist_likes
+    ADD CONSTRAINT artist_artist_likes_artist_id_2b3dab67_fk_artist_artist_id FOREIGN KEY (artist_id) REFERENCES public.artist_artist(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: artist_artist_likes artist_artist_likes_user_id_fdd2ba10_fk_user_user_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.artist_artist_likes
+    ADD CONSTRAINT artist_artist_likes_user_id_fdd2ba10_fk_user_user_id FOREIGN KEY (user_id) REFERENCES public.user_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: artist_song_authors artist_song_authors_artist_id_21a33e86_fk_artist_artist_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.artist_song_authors
+    ADD CONSTRAINT artist_song_authors_artist_id_21a33e86_fk_artist_artist_id FOREIGN KEY (artist_id) REFERENCES public.artist_artist(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: artist_song_authors artist_song_authors_song_id_f5126844_fk_artist_song_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.artist_song_authors
+    ADD CONSTRAINT artist_song_authors_song_id_f5126844_fk_artist_song_id FOREIGN KEY (song_id) REFERENCES public.artist_song(id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --

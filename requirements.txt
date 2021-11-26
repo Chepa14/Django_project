@@ -37,3 +37,6 @@ django-allauth==0.45.0
 invoke==1.6.0
 django-rest-swagger
 django-filter
+django-cors-headers
+uwsgi==2.0.18
+django-filter
