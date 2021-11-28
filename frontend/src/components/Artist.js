@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {timezone} from "../index";
 
 class Artist extends Component {
     constructor(props) {
@@ -11,12 +12,13 @@ class Artist extends Component {
   }
 
   async componentDidMount() {
+        console.log(timezone);
     await fetch("http://localhost:8000/api/artists/", {
       headers : {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
-       },
-      credentials: 'include'
+        'Accept': 'application/json',
+        'Timezone': timezone
+       }
     })
       .then(res => res.json())
       .then(

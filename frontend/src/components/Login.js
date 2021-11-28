@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import {timezone} from "../index";
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -28,9 +29,9 @@ const Login = () => {
           headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': Cookies.get('csrftoken'),
+            'Timezone': timezone
           },
-          body: JSON.stringify(user),
-          credentials: 'include'
+          body: JSON.stringify(user)
         })
           .then(res => res.json())
           .then(data => {
@@ -38,7 +39,7 @@ const Login = () => {
               localStorage.clear();
               localStorage.setItem('token', data.key);
               window.location.replace('http://localhost:3000/profile');
-            } else {
+            } else {  // TODO push notification
               setUsername('');
               setPassword('');
               localStorage.clear();

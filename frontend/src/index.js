@@ -18,11 +18,12 @@ import HomePage from './pages/HomePage';
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import UserProfilePage from "./pages/UserProfilePage";
-
-import reportWebVitals from './reportWebVitals';
-import {BrowserRouter, Route, Switch} from "react-router-dom";
 import Logout from "./components/Logout";
 import PasswordChangePage from "./pages/PasswordChangePage";
+import reportWebVitals from './reportWebVitals';
+import {BrowserRouter, Route, Switch} from "react-router-dom";
+
+const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 ReactDOM.render(
     <BrowserRouter>
@@ -41,4 +42,5 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
+export {timezone};
 reportWebVitals();
