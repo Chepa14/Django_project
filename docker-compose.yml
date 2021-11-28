@@ -10,17 +10,47 @@ services:
       POSTGRES_DB: django_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 2s
+      retries: 5
+
   django:
     image: quantumobile/rc-base:latest
     environment:
       - DJANGO_SETTINGS_MODULE=django_project.settings
     env_file: .env.dev.txt
     volumes:
-      - ./:/django_project
-    working_dir: /django_project
+      - ./:/Django_project
+    working_dir: /Django_project
     depends_on:
-      - db
-    ports:
-      - "8000:8000"
+      db:
+        condition: service_healthy
+    expose:
+      - 8000
     command: bash -c "pip install -r requirements.txt
                     && invoke run-local"
+
+  react:
+    image: node:16.11
+    volumes:
+      - ./frontend:/frontend
+    working_dir: /frontend
+    command: bash -c "npm install && npm start"
+    depends_on:
+      - django
+
+  nginx:
+    image: nginx:latest
+    expose:
+      - 8000
+      - 3000
+    ports:
+      - "8000:8000"
+      - "3000:3000"
+    depends_on:
+      - django
+      - react
+    volumes:
+      - ./nginx/custom_nginx.conf:/etc/nginx/conf.d/web.conf

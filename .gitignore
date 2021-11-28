@@ -8,8 +8,8 @@ __pycache__/
 
 # Distribution / packaging
 .idea
-django_project/media/
-django_project/static/
+media/
+static/
 .Python
 build/
 develop-eggs/

@@ -1,0 +1,28 @@
+[
+  {
+    "model": "artist.Artist",
+    "pk": "1",
+    "fields": {
+      "pseudonym": "RZA",
+      "first_name": "Robert Fitzgerald",
+      "last_name": "Diggs",
+      "image": "",
+      "description": "A few words...",
+      "likes": "",
+      "likes_number": "0"
+    }
+  },
+  {
+    "model": "artist.Artist",
+    "pk": "2",
+    "fields": {
+      "pseudonym": "The Notorious B.I.G.",
+      "first_name": "Christopher George",
+      "last_name": "Latore Wallace",
+      "image": "",
+      "description": "A few words...",
+      "likes": "",
+      "likes_number": "0"
+    }
+  }
+]

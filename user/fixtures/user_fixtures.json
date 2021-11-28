@@ -1,0 +1,15 @@
+[
+  {
+    "model": "user.User",
+    "pk": "1",
+    "fields": {
+      "username": "User14",
+      "first_name": "Ivan",
+      "last_name": "",
+      "email": "i.chepets@mail.com",
+      "avatar": "",
+      "about_me": "",
+      "password": "pbkdf2_sha256$260000$St16QJI1jZVpiPS0MQOZb5$SohNw8V0xvNQvyG8iPazBBlyQDDnFC1ZK8mnLQaN8VY="
+    }
+  }
+]
