@@ -464,15 +464,49 @@ ALTER SEQUENCE public.django_site_id_seq OWNED BY public.django_site.id;
 
 
 --
+-- Name: news_comment; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.news_comment (
+    id bigint NOT NULL,
+    text text NOT NULL,
+    create_datetime timestamp with time zone NOT NULL,
+    author_id bigint NOT NULL,
+    news_id bigint NOT NULL
+);
+
+
+--
+-- Name: news_comment_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.news_comment_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: news_comment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.news_comment_id_seq OWNED BY public.news_comment.id;
+
+
+--
 -- Name: news_news; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.news_news (
     id bigint NOT NULL,
     title text NOT NULL,
-    image character varying(100) NOT NULL,
+    image character varying(100),
     description text NOT NULL,
-    date timestamp with time zone NOT NULL
+    create_datetime timestamp with time zone,
+    update_datetime timestamp with time zone,
+    author_id bigint NOT NULL
 );
 
 
@@ -493,6 +527,36 @@ CREATE SEQUENCE public.news_news_id_seq
 --
 
 ALTER SEQUENCE public.news_news_id_seq OWNED BY public.news_news.id;
+
+
+--
+-- Name: news_news_tags; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.news_news_tags (
+    id bigint NOT NULL,
+    news_id bigint NOT NULL,
+    artist_id bigint NOT NULL
+);
+
+
+--
+-- Name: news_news_tags_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.news_news_tags_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: news_news_tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.news_news_tags_id_seq OWNED BY public.news_news_tags.id;
 
 
 --
@@ -817,10 +881,24 @@ ALTER TABLE ONLY public.django_site ALTER COLUMN id SET DEFAULT nextval('public.
 
 
 --
+-- Name: news_comment id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.news_comment ALTER COLUMN id SET DEFAULT nextval('public.news_comment_id_seq'::regclass);
+
+
+--
 -- Name: news_news id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.news_news ALTER COLUMN id SET DEFAULT nextval('public.news_news_id_seq'::regclass);
+
+
+--
+-- Name: news_news_tags id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.news_news_tags ALTER COLUMN id SET DEFAULT nextval('public.news_news_tags_id_seq'::regclass);
 
 
 --
@@ -1057,22 +1135,25 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 58	Can change artist	15	change_artist
 59	Can delete artist	15	delete_artist
 60	Can view artist	15	view_artist
-61	Can add news	16	add_news
-62	Can change news	16	change_news
-63	Can delete news	16	delete_news
-64	Can view news	16	view_news
-65	Can add song	17	add_song
-66	Can change song	17	change_song
-67	Can delete song	17	delete_song
-68	Can view song	17	view_song
-\.
+61	Can add song	16	add_song
+62	Can change song	16	change_song
+63	Can delete song	16	delete_song
+64	Can view song	16	view_song
+65	Can add news	17	add_news
+66	Can change news	17	change_news
+67	Can delete news	17	delete_news
+68	Can view news	17	view_news
+69	Can add comment	18	add_comment
+70	Can change comment	18	change_comment
+71	Can delete comment	18	delete_comment
+72	Can view comment	18	view_comment
 
 
 --
 -- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.auth_permission_id_seq', 68, true);
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 72, true);
 
 
 --
@@ -1118,8 +1199,9 @@ COPY public.django_content_type (id, app_label, model) FROM stdin;
 13	socialaccount	socialtoken
 14	user	user
 15	artist	artist
-16	news	news
-17	artist	song
+16	artist	song
+17	news	news
+18	news	comment
 \.
 
 
@@ -1127,7 +1209,7 @@ COPY public.django_content_type (id, app_label, model) FROM stdin;
 -- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.django_content_type_id_seq', 17, true);
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 18, true);
 
 
 --
@@ -1209,10 +1291,25 @@ SELECT pg_catalog.setval('public.django_site_id_seq', 1, true);
 
 
 --
+-- Data for Name: news_comment; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.news_comment (id, text, create_datetime, author_id, news_id) FROM stdin;
+\.
+
+
+--
+-- Name: news_comment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.news_comment_id_seq', 1, false);
+
+
+--
 -- Data for Name: news_news; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public.news_news (id, title, image, description, date) FROM stdin;
+COPY public.news_news (id, title, image, description, create_datetime, update_datetime, author_id) FROM stdin;
 \.
 
 
@@ -1221,6 +1318,21 @@ COPY public.news_news (id, title, image, description, date) FROM stdin;
 --
 
 SELECT pg_catalog.setval('public.news_news_id_seq', 1, false);
+
+
+--
+-- Data for Name: news_news_tags; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.news_news_tags (id, news_id, artist_id) FROM stdin;
+\.
+
+
+--
+-- Name: news_news_tags_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.news_news_tags_id_seq', 1, false);
 
 
 --
@@ -1530,11 +1642,35 @@ ALTER TABLE ONLY public.django_site
 
 
 --
+-- Name: news_comment news_comment_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.news_comment
+    ADD CONSTRAINT news_comment_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: news_news news_news_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.news_news
     ADD CONSTRAINT news_news_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: news_news_tags news_news_tags_news_id_artist_id_a7e91847_uniq; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.news_news_tags
+    ADD CONSTRAINT news_news_tags_news_id_artist_id_a7e91847_uniq UNIQUE (news_id, artist_id);
+
+
+--
+-- Name: news_news_tags news_news_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.news_news_tags
+    ADD CONSTRAINT news_news_tags_pkey PRIMARY KEY (id);
 
 
 --
@@ -1768,6 +1904,41 @@ CREATE INDEX django_site_domain_a2e37b91_like ON public.django_site USING btree 
 
 
 --
+-- Name: news_comment_author_id_088b3054; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX news_comment_author_id_088b3054 ON public.news_comment USING btree (author_id);
+
+
+--
+-- Name: news_comment_news_id_18ce08a8; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX news_comment_news_id_18ce08a8 ON public.news_comment USING btree (news_id);
+
+
+--
+-- Name: news_news_author_id_9f88be71; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX news_news_author_id_9f88be71 ON public.news_news USING btree (author_id);
+
+
+--
+-- Name: news_news_tags_artist_id_3495cefd; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX news_news_tags_artist_id_3495cefd ON public.news_news_tags USING btree (artist_id);
+
+
+--
+-- Name: news_news_tags_news_id_89daf256; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX news_news_tags_news_id_89daf256 ON public.news_news_tags USING btree (news_id);
+
+
+--
 -- Name: socialaccount_socialaccount_user_id_8146e70c; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1931,6 +2102,46 @@ ALTER TABLE ONLY public.django_admin_log
 
 ALTER TABLE ONLY public.django_admin_log
     ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_user_user_id FOREIGN KEY (user_id) REFERENCES public.user_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: news_comment news_comment_author_id_088b3054_fk_user_user_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.news_comment
+    ADD CONSTRAINT news_comment_author_id_088b3054_fk_user_user_id FOREIGN KEY (author_id) REFERENCES public.user_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: news_comment news_comment_news_id_18ce08a8_fk_news_news_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.news_comment
+    ADD CONSTRAINT news_comment_news_id_18ce08a8_fk_news_news_id FOREIGN KEY (news_id) REFERENCES public.news_news(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: news_news news_news_author_id_9f88be71_fk_user_user_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.news_news
+    ADD CONSTRAINT news_news_author_id_9f88be71_fk_user_user_id FOREIGN KEY (author_id) REFERENCES public.user_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: news_news_tags news_news_tags_artist_id_3495cefd_fk_artist_artist_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.news_news_tags
+    ADD CONSTRAINT news_news_tags_artist_id_3495cefd_fk_artist_artist_id FOREIGN KEY (artist_id) REFERENCES public.artist_artist(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: news_news_tags news_news_tags_news_id_89daf256_fk_news_news_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.news_news_tags
+    ADD CONSTRAINT news_news_tags_news_id_89daf256_fk_news_news_id FOREIGN KEY (news_id) REFERENCES public.news_news(id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
