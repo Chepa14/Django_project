@@ -1147,7 +1147,6 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 70	Can change comment	18	change_comment
 71	Can delete comment	18	delete_comment
 72	Can view comment	18	view_comment
-\.
 
 
 --
@@ -1218,42 +1217,45 @@ SELECT pg_catalog.setval('public.django_content_type_id_seq', 18, true);
 --
 
 COPY public.django_migrations (id, app, name, applied) FROM stdin;
-1	contenttypes	0001_initial	2021-11-15 09:07:05.176216+00
-2	contenttypes	0002_remove_content_type_name	2021-11-15 09:07:05.187588+00
-3	auth	0001_initial	2021-11-15 09:07:05.27384+00
-4	auth	0002_alter_permission_name_max_length	2021-11-15 09:07:05.286706+00
-5	auth	0003_alter_user_email_max_length	2021-11-15 09:07:05.300605+00
-6	auth	0004_alter_user_username_opts	2021-11-15 09:07:05.311422+00
-7	auth	0005_alter_user_last_login_null	2021-11-15 09:07:05.320157+00
-8	auth	0006_require_contenttypes_0002	2021-11-15 09:07:05.323308+00
-9	auth	0007_alter_validators_add_error_messages	2021-11-15 09:07:05.330853+00
-10	auth	0008_alter_user_username_max_length	2021-11-15 09:07:05.33923+00
-11	auth	0009_alter_user_last_name_max_length	2021-11-15 09:07:05.347392+00
-12	auth	0010_alter_group_name_max_length	2021-11-15 09:07:05.355082+00
-13	auth	0011_update_proxy_permissions	2021-11-15 09:07:05.363081+00
-14	auth	0012_alter_user_first_name_max_length	2021-11-15 09:07:05.371103+00
-15	user	0001_initial	2021-11-15 09:07:05.433309+00
-16	account	0001_initial	2021-11-15 09:07:05.481868+00
-17	account	0002_email_max_length	2021-11-15 09:07:05.492987+00
-18	account	0003_auto_20211114_1924	2021-11-15 09:07:05.597026+00
-19	admin	0001_initial	2021-11-15 09:07:05.652546+00
-20	admin	0002_logentry_remove_auto_add	2021-11-15 09:07:05.674294+00
-21	admin	0003_logentry_add_action_flag_choices	2021-11-15 09:07:05.688133+00
-22	artist	0001_initial	2021-11-15 09:07:05.698855+00
-23	artist	0002_auto_20210920_1938	2021-11-15 09:07:05.708674+00
-24	artist	0003_auto_20211020_1441	2021-11-15 09:07:05.851857+00
-25	authtoken	0001_initial	2021-11-15 09:07:05.895755+00
-26	authtoken	0002_auto_20160226_1747	2021-11-15 09:07:05.968827+00
-27	authtoken	0003_tokenproxy	2021-11-15 09:07:05.979952+00
-28	news	0001_initial	2021-11-15 09:07:06.082825+00
-29	sessions	0001_initial	2021-11-15 09:07:06.11501+00
-30	sites	0001_initial	2021-11-15 09:07:06.136359+00
-31	sites	0002_alter_domain_unique	2021-11-15 09:07:06.153338+00
-32	socialaccount	0001_initial	2021-11-15 09:07:06.29407+00
-33	socialaccount	0002_token_max_lengths	2021-11-15 09:07:06.350962+00
-34	socialaccount	0003_extra_data_default_dict	2021-11-15 09:07:06.368788+00
-35	socialaccount	0004_auto_20211114_1924	2021-11-15 09:07:06.574684+00
-36	user	0002_auto_20210926_1130	2021-11-15 09:07:06.623823+00
+1	contenttypes	0001_initial	2021-10-02 18:39:17.167454+00
+2	contenttypes	0002_remove_content_type_name	2021-10-02 18:39:17.177597+00
+3	auth	0001_initial	2021-10-02 18:39:17.251894+00
+4	auth	0002_alter_permission_name_max_length	2021-10-02 18:39:17.271847+00
+5	auth	0003_alter_user_email_max_length	2021-10-02 18:39:17.287487+00
+6	auth	0004_alter_user_username_opts	2021-10-02 18:39:17.296386+00
+7	auth	0005_alter_user_last_login_null	2021-10-02 18:39:17.305666+00
+8	auth	0006_require_contenttypes_0002	2021-10-02 18:39:17.308459+00
+9	auth	0007_alter_validators_add_error_messages	2021-10-02 18:39:17.317474+00
+10	auth	0008_alter_user_username_max_length	2021-10-02 18:39:17.326686+00
+11	auth	0009_alter_user_last_name_max_length	2021-10-02 18:39:17.334572+00
+12	auth	0010_alter_group_name_max_length	2021-10-02 18:39:17.342163+00
+13	auth	0011_update_proxy_permissions	2021-10-02 18:39:17.349914+00
+14	auth	0012_alter_user_first_name_max_length	2021-10-02 18:39:17.357295+00
+15	user	0001_initial	2021-10-02 18:39:17.41142+00
+16	account	0001_initial	2021-10-02 18:39:17.485706+00
+17	account	0002_email_max_length	2021-10-02 18:39:17.511048+00
+18	account	0003_auto_20211002_1839	2021-10-02 18:39:17.590922+00
+19	admin	0001_initial	2021-10-02 18:39:17.652865+00
+20	admin	0002_logentry_remove_auto_add	2021-10-02 18:39:17.681489+00
+21	admin	0003_logentry_add_action_flag_choices	2021-10-02 18:39:17.695371+00
+22	artist	0001_initial	2021-10-02 18:39:17.706583+00
+23	artist	0002_auto_20210920_1938	2021-10-02 18:39:17.715765+00
+24	authtoken	0001_initial	2021-10-02 18:39:17.739956+00
+25	authtoken	0002_auto_20160226_1747	2021-10-02 18:39:17.781043+00
+26	authtoken	0003_tokenproxy	2021-10-02 18:39:17.785347+00
+27	news	0001_initial	2021-10-02 18:39:17.795863+00
+28	news	0002_auto_20210920_1938	2021-10-02 18:39:17.804564+00
+29	sessions	0001_initial	2021-10-02 18:39:17.831768+00
+30	sites	0001_initial	2021-10-02 18:39:17.846841+00
+31	sites	0002_alter_domain_unique	2021-10-02 18:39:17.86237+00
+32	socialaccount	0001_initial	2021-10-02 18:39:17.978077+00
+33	socialaccount	0002_token_max_lengths	2021-10-02 18:39:18.028849+00
+34	socialaccount	0003_extra_data_default_dict	2021-10-02 18:39:18.042182+00
+35	socialaccount	0004_auto_20211002_1839	2021-10-02 18:39:18.242979+00
+36	user	0002_auto_20210926_1130	2021-10-02 18:39:18.277406+00
+37	account	0003_auto_20211016_0647	2021-11-01 10:52:02.229057+00
+38	artist	0003_auto_20211020_1441	2021-11-01 10:52:02.397178+00
+39	socialaccount	0004_auto_20211016_0647	2021-11-01 10:52:02.481753+00
 \.
 
 
@@ -1261,7 +1263,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 36, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 39, true);
 
 
 --
@@ -1398,6 +1400,7 @@ SELECT pg_catalog.setval('public.socialaccount_socialtoken_id_seq', 1, false);
 --
 
 COPY public.user_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined, avatar, about_me) FROM stdin;
+1	pbkdf2_sha256$260000$XcYaS9qlyRf0K3PpwCqtUv$tNoO+i90ftlsCclqujXTE1WG8wBK43Yyuq2m/h+QnmQ=	\N	t	i.chepets			i.chepets@quantumobile.com	t	t	2021-11-01 10:53:29.746654+00		
 \.
 
 
@@ -1420,7 +1423,7 @@ SELECT pg_catalog.setval('public.user_user_groups_id_seq', 1, false);
 -- Name: user_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.user_user_id_seq', 1, false);
+SELECT pg_catalog.setval('public.user_user_id_seq', 1, true);
 
 
 --
