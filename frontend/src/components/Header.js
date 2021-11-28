@@ -2,8 +2,16 @@ import React, { Component } from "react";
 import {
   Link
 } from "react-router-dom";
+import IsLoggedUser from "./LoggedInUser";
+import Cookies from "js-cookie";
 
 class Header extends Component {
+
+    componentDidMount() {
+        if (Cookies.get('timezone')==null){
+            Cookies.set('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone);
+        }
+    }
 
     render() {
         return (
@@ -15,13 +23,12 @@ class Header extends Component {
                                 <div className="full">
                                     <div className="center-desk">
                                         <div className="logo">
-                                            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                                            <a href="">
+                                            <Link to="/">
                                                 <img width="50"
                                                      height="50"
                                                      src="https://iconsplace.com/wp-content/uploads/_icons/ffffff/256/png/music-icon-18-256.png"
                                                      alt="logo"/>
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
@@ -49,19 +56,7 @@ class Header extends Component {
                             </div>
                         </div>
                     </div>
-                    <div style={{margin: "auto", width: "12%"}}>
-                        <div className="menu-area">
-                            <div className="limit-box">
-                                <nav className="main-menu">
-                                    <ul className="menu-area-main">
-                                        <li><Link to="/login">Sign In</Link></li>
-                                        <span>/</span>
-                                        <li><Link to="/register">Sign Up</Link></li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
+                    <IsLoggedUser/>
                 </div>
             </div>
         );

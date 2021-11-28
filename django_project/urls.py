@@ -1,7 +1,7 @@
 from rest_auth.registration.views import RegisterView, VerifyEmailView
 from rest_framework_swagger.views import get_swagger_view
 from django.conf.urls.static import static
-from rest_auth.views import LoginView
+from rest_auth.views import LoginView, LogoutView, PasswordChangeView
 from django.urls import path, re_path, include
 from django.contrib import admin
 from django.conf import settings
@@ -11,8 +11,8 @@ schema_view = get_swagger_view(title="Django Project Swagger")
 
 main_url = [
     path("user/", include("user.urls")),
-    path("news/", include("news.urls")),
-    path("artists/", include(("artist.urls", "artists"), namespace="artists")),
+    path("news/", include(("news.urls", "news"), namespace="news")),
+    path("artists/", include(("artist.urls", "artists"), namespace="artists"))
 ]
 
 urlpatterns = [
@@ -21,6 +21,8 @@ urlpatterns = [
     path("api/", include(main_url)),
     path("auth/login/", LoginView.as_view(), name="account_login"),
     path("auth/registration/", RegisterView.as_view(), name="account_signup"),
+    path("auth/logout/", LogoutView.as_view(), name="account_logout"),
+    path("auth/change_password/", PasswordChangeView.as_view(), name="password_change"),
     path(
         "account-confirm-email/",
         VerifyEmailView.as_view(),

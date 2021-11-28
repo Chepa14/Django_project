@@ -18,7 +18,8 @@ import HomePage from './pages/HomePage';
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import UserProfilePage from "./pages/UserProfilePage";
-
+import Logout from "./components/Logout";
+import PasswordChangePage from "./pages/PasswordChangePage";
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 
@@ -34,6 +35,8 @@ ReactDOM.render(
            <Route path="/profile" component={UserProfilePage} />
            <Route path="/login" component={LoginPage} />
            <Route path="/register" component={RegisterPage} />
+           <Route path="/logout" component={Logout} />
+           <Route path="/change_password" component={PasswordChangePage} />
         </Switch>
     </BrowserRouter>,
   document.getElementById('root')
