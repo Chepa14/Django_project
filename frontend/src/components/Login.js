@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import {timezone} from "../index";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [errors, setErrors] = useState(false);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -39,11 +41,9 @@ const Login = () => {
               localStorage.clear();
               localStorage.setItem('token', data.key);
               window.location.replace('http://localhost:3000/profile');
-            } else {  // TODO push notification
-              setUsername('');
-              setPassword('');
+            } else {
+              toast.warning("Cannot log in with provided credentials!");
               localStorage.clear();
-              setErrors(true);
             }
           });
     };
@@ -52,7 +52,6 @@ const Login = () => {
         <div className="container">
             <div className="col">
                 <div className="address">
-                  {errors === true && <h2>Cannot log in with provided credentials</h2>}
                   {loading === false && (
                     <form onSubmit={onSubmit}>
                         <fieldset>
