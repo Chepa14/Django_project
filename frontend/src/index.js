@@ -22,6 +22,8 @@ import Logout from "./components/Logout";
 import PasswordChangePage from "./pages/PasswordChangePage";
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
+
 
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -38,6 +40,16 @@ ReactDOM.render(
            <Route path="/logout" component={Logout} />
            <Route path="/change_password" component={PasswordChangePage} />
         </Switch>
+        <ToastContainer
+            position="top-right"
+            autoClose={4000}
+            hideProgressBar
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover/>
     </BrowserRouter>,
   document.getElementById('root')
 );

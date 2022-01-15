@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
+import {timezone} from "../index";
 
 const Register = () => {
   const [username, setUsername] = useState('');
@@ -21,9 +22,9 @@ const Register = () => {
     fetch('http://localhost:8000/auth/registration/', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Timezone': timezone
       },
-      credentials: "include",
       body: JSON.stringify(user)
     }).then(()=> {
             NotificationManager.info(

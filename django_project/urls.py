@@ -4,8 +4,8 @@ from django.conf.urls.static import static
 from rest_auth.views import LoginView, LogoutView, PasswordChangeView
 from django.urls import path, re_path, include
 from django.contrib import admin
-from django.conf import settings
 from .views import home
+from django_project import settings
 
 schema_view = get_swagger_view(title="Django Project Swagger")
 
@@ -36,6 +36,6 @@ urlpatterns = [
     path("rest_docs", schema_view),
 ]
 
-urlpatterns = urlpatterns + static(
-    settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
-)
+urlpatterns = urlpatterns + \
+              static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + \
+              static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
