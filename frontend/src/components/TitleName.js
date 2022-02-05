@@ -9,7 +9,6 @@ class TitleName extends Component{
                         <div className="row">
                             <div className="col">
                                 <div className="contacttitlepage">
-                                    {/*<h2>Login</h2>*/}
                                     <h2>{this.props.page_name}</h2>
                                 </div>
                             </div>

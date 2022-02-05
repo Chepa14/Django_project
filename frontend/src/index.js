@@ -22,22 +22,37 @@ import Logout from "./components/Logout";
 import PasswordChangePage from "./pages/PasswordChangePage";
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
+import NewsListPage from "./pages/NewsListPage";
+import NewsPage from "./pages/NewsPage";
+
 
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 ReactDOM.render(
     <BrowserRouter>
         <Switch>
-           <Route exact path="/" component={HomePage} />
-           <Route path="/about" component={HomePage} />
-           <Route path="/news" component={HomePage} />
-           <Route path="/artists" component={HomePage} />
-           <Route path="/profile" component={UserProfilePage} />
-           <Route path="/login" component={LoginPage} />
-           <Route path="/register" component={RegisterPage} />
-           <Route path="/logout" component={Logout} />
-           <Route path="/change_password" component={PasswordChangePage} />
+            <Route exact path="/" component={HomePage} />
+            <Route path="/about" component={HomePage} />
+            {/*<Route path="/news" component={NewsListPage} />*/}
+            <Route path="/news/:id" component={NewsPage} />/
+            <Route path="/artists" component={HomePage} />
+            <Route path="/profile" component={UserProfilePage} />
+            <Route path="/login" component={LoginPage} />
+            <Route path="/register" component={RegisterPage} />
+            <Route path="/logout" component={Logout} />
+            <Route path="/change_password" component={PasswordChangePage} />
         </Switch>
+        <ToastContainer
+            position="top-right"
+            autoClose={4000}
+            hideProgressBar
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover/>
     </BrowserRouter>,
   document.getElementById('root')
 );

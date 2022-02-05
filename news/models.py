@@ -1,14 +1,16 @@
-from django.db import models
+from django.utils.crypto import get_random_string
 from artist.models import Artist
+from django.db import models
 from user.models import User
+import datetime
 import os
 
 
-def get_news_upload_path(instance, filename):
+def get_news_upload_path(_, filename):
     return os.path.join(
         'news',
-        instance.date.strftime("%Y-%m-%d"),
-        filename
+        datetime.datetime.now().strftime("%Y-%m-%d"),
+        f'{get_random_string(20)}.{filename.split(".")[1]}'
     )
 
 

@@ -1147,6 +1147,7 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 70	Can change comment	18	change_comment
 71	Can delete comment	18	delete_comment
 72	Can view comment	18	view_comment
+\.
 
 
 --
@@ -1169,6 +1170,12 @@ COPY public.authtoken_token (key, created, user_id) FROM stdin;
 --
 
 COPY public.django_admin_log (id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) FROM stdin;
+1	2022-01-15 13:01:17.806572+00	1	DOJA CAT GETS LETDOWN AFTER RE...	1	[{"added": {}}]	17	1
+2	2022-01-15 13:03:43.469396+00	2	DRAKE CROWNED MOST-STREAMED AR...	1	[{"added": {}}]	17	1
+3	2022-01-15 13:05:56.201989+00	3	OUNG THUG & MARIAH THE SCIENTI...	1	[{"added": {}}]	17	1
+4	2022-01-15 13:06:03.142524+00	3	YOUNG THUG & MARIAH THE SCIENT...	2	[{"changed": {"fields": ["Title"]}}]	17	1
+5	2022-01-15 13:06:23.639407+00	3	YOUNG THUG & MARIAH THE SCIENT...	2	[{"changed": {"fields": ["Image"]}}]	17	1
+6	2022-01-15 14:03:48.951731+00	4	DRAKE, KENDRICK LAMAR, J. COLE...	1	[{"added": {}}]	17	1
 \.
 
 
@@ -1176,7 +1183,7 @@ COPY public.django_admin_log (id, action_time, object_id, object_repr, action_fl
 -- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.django_admin_log_id_seq', 1, false);
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 6, true);
 
 
 --
@@ -1256,6 +1263,8 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 37	account	0003_auto_20211016_0647	2021-11-01 10:52:02.229057+00
 38	artist	0003_auto_20211020_1441	2021-11-01 10:52:02.397178+00
 39	socialaccount	0004_auto_20211016_0647	2021-11-01 10:52:02.481753+00
+40	account	0003_auto_20220104_2022	2022-01-15 12:58:41.182275+00
+41	socialaccount	0004_auto_20220104_2022	2022-01-15 12:58:41.268367+00
 \.
 
 
@@ -1263,7 +1272,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 39, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 41, true);
 
 
 --
@@ -1271,6 +1280,7 @@ SELECT pg_catalog.setval('public.django_migrations_id_seq', 39, true);
 --
 
 COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
+mgdeqc0xc58qjlps6gafvmpc88zhb7to	.eJxVjDsOwjAQBe_iGln-r6GkzxmsjXeDA8iW4qRC3B0ipYD2zcx7iYTbWtLWeUkziYvQ4vS7jZgfXHdAd6y3JnOr6zKPclfkQbscGvHzerh_BwV7-dZh8jZwnjxpjwbHEPLEjiByNAo0QT6zBfIq-gAKLQSnHEQDWpMFyOL9AebPNyY:1n8ifI:P2E8SjcLB6k-rris4CCMs8KO_6XbSg-UDraGGyAW2F8	2022-01-29 13:00:16.924588+00
 \.
 
 
@@ -1310,6 +1320,10 @@ SELECT pg_catalog.setval('public.news_comment_id_seq', 1, false);
 --
 
 COPY public.news_news (id, title, image, description, create_datetime, update_datetime, author_id) FROM stdin;
+1	DOJA CAT GETS LETDOWN AFTER REALIZING CHARLES HAMILTON - NOT ANTHONY HAMILTON - DISSED HER	news/2022-01-15/gMPstrTv3kqNjX9ZX1hm.webp	Doja Cat was engaged in an unlikely war-of-words on Twitter on Thursday (January 14) with Cleveland-born rapper Charles Hamilton. The funny part for Doja was she actually mistaken Charles Hamilton’s identity for “Comin Where I’m From” artist Anthony Hamilton and didn’t realize it until she was knee-deep into the confrontation.\r\n\r\n“Doja Cat, you gotta chill. The whole world is watching and yes, judging you. Time to grow up,” Hamilton wrote while taking a shot at the “Kiss Me More” artist out of nowhere. “I know. SUcks. But yeah…”\r\n\r\nDoja Cat responded by telling the former Interscope Records artist that he “ain’t shit” before realizing it was Charles and not Anthony Hamilton. She then let the chopper sing with a series of disses which resulted in Charles Hamilton backing down by deleting his original tweet and not responding.\r\n\r\nThat seemed to be the end of the Twitter fireworks as both Doja Cat and Charles Hamilton have seemingly moved on from the clash.\r\n\r\nAlthough, it remains to be seen if any of the back-and-forth actually found its way onto Anthony Hamilton’s radar. Hamilton released his Love Is The New Black album in October with features from Rick Ross, Lil Jon and Jermaine Dupri.	2022-01-15 13:01:17.795196+00	2022-01-15 13:01:17.795406+00	1
+2	DRAKE CROWNED MOST-STREAMED ARTIST OF 2021 AS DOMINATING STREAMING STATS REVEALED	news/2022-01-15/rQ3RdckBqupKhuqRoUGK.webp	When it comes to streaming numbers, very few artists can match up to Drake and his music. According to new stats, though, the 6 God is in a category all his own with streaming in 2021.\r\n\r\nChart Data issued a tweet on Friday (January 14) stating no other artist had quite the year Drizzy did on DSPs. In 2021, Drake was the number one most streamed artist of 2021 in the country, with over 8.6 billion on-demand streams. To make that statistic sound even crazier, Drake was responsible for one out of every 131 streams in 2021 being his songs.\r\n\r\nWhat’s even wilder is that Drake dropped his only project of 2021, Certified Lover Boy, in September. That month also happens to be the fourth quarter, where most artists are closing shop, packing their bags and heading into the new year. The massive hype for Drake’s CLB played a role in those insane streaming numbers.\r\n\r\nCLB broke both Apple Music and Spotify’s single-day records as it remained a force on the Billboard 200 chart by holding on to the No. 1 spot for multiple weeks. Drake also became Spotify’s most-streamed artist of 2021 beating out the likes of Taylor Swift, Juice WRLD, Kanye West and Bad Bunny.\r\n\r\nDrake’s Certified Lover Boy was released on September 3 with appearances from JAY-Z, Future, Lil Baby, Lil Durk, Tems, 21 Savage and many more.	2022-01-15 13:03:43.459826+00	2022-01-15 13:03:43.459856+00	1
+3	YOUNG THUG & MARIAH THE SCIENTIST FURTHER FUEL ROMANCE RUMORS WITH WEDDING-THEMED 'WALKED IN' VIDEO	news/2022-01-15/ye3kG71eh9WGILHJ1H1g.webp	Young Thug and Mariah The Scientist sparked relationship rumors when they were spotted on a date at an Atlanta Falcons game in November, and they’re adding fuel to the fire with a wedding-themed visual for their “Walked In” collaboration on Friday (January 14), which is directed by Mariah herself.\r\n\r\nThe R&B rising star walks down the aisle with Thugger as her new husband. An opening scene of the clip finds the couple happily enjoying their wedding dinner with Gunna making a cameo as Thug’s best man.\r\n\r\nThere’s also a scene with Thug and Mariah cutting their wedding cake. The afterparty is where things are taken to another level at a rented-out strip club with dollars flying at every turn.\r\n\r\nThugger and the “Reminders” single reconnect at the strip club for a romantic moment even with the twerking women attempting to distract the YSL boss.\r\n\r\nThe night looks like such a success to the point it could convince people to actually hit up a strip club for their wedding afterparty which might seem like a disastrous idea on its surface.\r\n\r\nSocial media began to identify Thug and Mariah as a possible couple following November’s Atlanta Falcons game date. They were also seen hitting up a strip club earlier that same week.\r\n\r\n“Walked In” landed on Mariah The Scientist’s acclaimed RY RY WORLD project which was released via RCA Records in July and also featured an assist from Lil Baby.\r\n\r\nMariah The Scientist is also looking to continue her acting ways into Hollywood. She clamored for a spot in HBO’s Euphoria show earlier this week and knows the exact role she’d want.\r\n\r\n“I’m gonna go out on a limb and say they need to cast me as Alexa Demie’s girlfriend,” she wrote.	2022-01-15 13:05:56.189386+00	2022-01-15 13:06:23.635768+00	1
+4	DRAKE, KENDRICK LAMAR, J. COLE & NICKI MINAJ IMMORTALIZED WITH MT. RUSHMORE MURALS	news/2022-01-15/cCFmhyUZUxPSIPyGt4FK.webp	If there’s one debate that gets rap fans talking, it’s the topic of who belongs on the Mount Rushmore of Hip Hop.\r\n\r\nA “Big Four” of Atlanta rappers featuring Jeezy, Future, Lil Baby and Rich Homie Quan left Outkast, T.I., Gucci Mane and 2 Chainz fans livid last year, while Snoop Dogg had a tough time narrowing down his “Mount Eastmore” picks.\r\n\r\nWhen it comes to the greatest rappers of the 2010s, Spotify’s RapCaviar attempted to settle that debate once and for all in June when they crowned Drake, Kendrick Lamar, J. Cole and Nicki Minaj the four best MCs of the decade.\r\n\r\nNicki nabbed the last spot in a fan vote, beating out Kanye West, Future and her Young Money boss Lil Wayne.\r\n\r\nNow, RapCaviar has brought its 2010s Hip Hop Mount Rushmore to life by commissioning murals across North America featuring the faces of their “Big Four.”\r\n\r\nEach rapper’s hometown has been blessed with its own unique mural designed by a different artist, with Anderson Bluu erecting one in Nicki’s native New York City and Luke Pollard painting one in Drizzy’s home city of Toronto.\r\n\r\nMeanwhile, Jacob Rochester blessed K. Dot’s backyard of L.A. and JEKS ONE handled duties in Raleigh, North Carolina, not far from Cole’s hometown of Fayetteville.\r\n\r\n“Decided to bring our 2010s Mt. Rapmore to the streets,” RapCaviar announced on Thursday (January 13) while sharing images of all four murals on social media. “Pull up in NYC, Toronto, LA, or Raleigh to see these murals of some rap icons in real life.”\r\n\r\nThree of RapCaviar’s Mount Rushmore picks recently received high praise from a rap legend, with Nas comparing Drake, Kendrick Lamar and J. Cole to himself, JAY-Z and Biggie on his latest album Magic.\r\n\r\n“Me, Jay and Frank White is like Cole, Drizzy and Kenny,” the Queensbridge veteran declared on “Wu For the Children.”\r\n\r\nHowever, one artist who many felt was missing from RapCaviar‘s Mount Rushmore is Future. When the playlist platform put the fourth and final spot up for grabs, NBA star and rap connoisseur LeBron James cast his vote for the Atlanta hitmaker (much to Nicki Minaj’s dismay).\r\n\r\nEarlier this month, Joe Budden gave Future his flowers by arguing the Dirty Spite rapper belongs in the same conversation as Drake, Kendrick, Cole and Lil Wayne.\r\n\r\n“We don’t talk about Future enough on that list and he’s there,” the “Pump It Up” rapper said on The Joe Budden Podcast. “But he’s been there and we don’t discuss it. We just say Drake, Ye, Cole, Kendrick, Wayne — Hov is already G.O.A.T.ed — but Future is there.”\r\n\r\nAs for the Mount Rushmore of rap’s current generation, it’s hard to argue that Future, Travis Scott, Migos and Young Thug haven’t cemented their place atop the mountain.	2022-01-15 14:03:48.944886+00	2022-01-15 14:03:48.944924+00	1
 \.
 
 
@@ -1317,7 +1331,7 @@ COPY public.news_news (id, title, image, description, create_datetime, update_da
 -- Name: news_news_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.news_news_id_seq', 1, false);
+SELECT pg_catalog.setval('public.news_news_id_seq', 4, true);
 
 
 --
@@ -1400,7 +1414,7 @@ SELECT pg_catalog.setval('public.socialaccount_socialtoken_id_seq', 1, false);
 --
 
 COPY public.user_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined, avatar, about_me) FROM stdin;
-1	pbkdf2_sha256$260000$XcYaS9qlyRf0K3PpwCqtUv$tNoO+i90ftlsCclqujXTE1WG8wBK43Yyuq2m/h+QnmQ=	\N	t	i.chepets			i.chepets@quantumobile.com	t	t	2021-11-01 10:53:29.746654+00		
+1	pbkdf2_sha256$260000$XcYaS9qlyRf0K3PpwCqtUv$tNoO+i90ftlsCclqujXTE1WG8wBK43Yyuq2m/h+QnmQ=	2022-01-15 13:00:16.921056+00	t	i.chepets			i.chepets@quantumobile.com	t	t	2021-11-01 10:53:29.746654+00		
 \.
 
 
