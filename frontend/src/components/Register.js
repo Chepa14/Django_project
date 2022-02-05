@@ -1,6 +1,4 @@
 import React, {useState} from "react";
-import {NotificationContainer, NotificationManager} from 'react-notifications';
-import 'react-notifications/lib/notifications.css';
 import {timezone} from "../index";
 
 const Register = () => {
@@ -27,14 +25,7 @@ const Register = () => {
       },
       body: JSON.stringify(user)
     }).then(()=> {
-            NotificationManager.info(
-                null,
-                'Success registration!',
-                5000,
-                ()=>{
-                    window.location.replace('http://localhost:3000/')
-                }
-            );
+            /* TODO Register notification*/
         }
     );
   };
@@ -86,7 +77,6 @@ const Register = () => {
                     </form>
                 </div>
             </div>
-            <NotificationContainer/>
         </div>
     );
 }
