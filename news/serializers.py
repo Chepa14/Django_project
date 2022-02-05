@@ -1,5 +1,7 @@
+from datetime import datetime
 from rest_framework import serializers
 from news.models import News, Comment
+from django.utils.dateparse import parse_datetime
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -9,7 +11,7 @@ class CommentSerializer(serializers.ModelSerializer):
         ret['author'] = {
             'id': instance.author.id,
             'username': instance.author.username,
-            'avatar': instance.author.avatar or None
+            'avatar': instance.author.avatar.url or None
         }
         return ret
 
@@ -24,6 +26,7 @@ class NewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = News
         fields = (
+            "id",
             "title",
             "image",
             "description",
@@ -36,10 +39,12 @@ class NewsSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
+        ret['create_datetime'] = instance.create_datetime.strftime("%Y-%m-%d")
+        ret['image'] = instance.image.url
         ret['author'] = {
             'id': instance.author.id,
             'username': instance.author.username,
-            'avatar': instance.author.avatar or None
+            'avatar': instance.author.avatar.url if instance.author.avatar else None
         }
         last_comment = instance.comments.last()
         if last_comment:

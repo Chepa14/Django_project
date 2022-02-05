@@ -3,16 +3,15 @@ import {timezone} from "../index";
 
 class Artist extends Component {
     constructor(props) {
-    super(props);
-    this.state = {
-      error: null,
-      isLoaded: false,
-      items: []
-    };
-  }
+        super(props);
+        this.state = {
+          error: null,
+          isLoaded: false,
+          items: []
+        };
+    }
 
   async componentDidMount() {
-        console.log(timezone);
     await fetch("http://localhost:8000/api/artists/", {
       headers : {
         'Content-Type': 'application/json',

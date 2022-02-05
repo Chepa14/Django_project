@@ -30,7 +30,7 @@ class NewsListCreateAPIView(ListCreateAPIView):
     permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = NewsSerializer
     filterset_class = NewsListFilter
-    queryset = News.objects.all()
+    queryset = News.objects.order_by('create_datetime').reverse()
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
