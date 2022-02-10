@@ -3,7 +3,6 @@ import Header from "../components/Header";
 import TitleName from "../components/TitleName";
 import ScrollButton from '../components/ScrollButton';
 import {timezone} from "../index";
-import {Link} from "react-router-dom";
 
 class NewsPage extends Component{
     constructor(props) {
@@ -42,7 +41,7 @@ class NewsPage extends Component{
           )
     }
     render() {
-        const { error, isLoaded, item } = this.state;
+        const { error, isLoaded, item} = this.state;
         if (error) {
           this.content = <div>Error: {error.message}</div>  /* TODO Error component */
         } else if (!isLoaded) {
@@ -50,13 +49,6 @@ class NewsPage extends Component{
         } else {
             this.content =
                 <div>
-                    <div style={{height: "50px", display: "flex", alignItems: "center", justifyContent: "center",
-                        backgroundImage: "url(/images/writing_brush.png)",
-                        backgroundPosition: "center",
-                        backgroundSize: "contain",
-                        backgroundRepeat: "no-repeat"}}>
-                        <span>NEWS NAME</span>
-                    </div>
                     <div style={{display: "flex", alignItems: "center", width: "700px"}}>
                         <div id="dl_screenshot" className="Lastestnews_fpage">
                             <React.Fragment>
@@ -66,24 +58,21 @@ class NewsPage extends Component{
                     </div>
                 </div>
         }
-        // this.recommendation =
-        //     <div style={{width:"300px", marginLeft: "50px", backgroundColor: "#fff"}}>
-        //         <div style={{height: "50px", width: "300px", display: "flex",
-        //             alignItems: "center", justifyContent: "center",
-        //             backgroundImage: "url(/images/writing_brush.png)",
-        //             backgroundPosition: "center",
-        //             backgroundSize: "contain",
-        //             backgroundRepeat: "no-repeat"}}>
-        //             <span>RECOMMENDATION</span>
-        //         </div>
-        //         <div>
-        //             <React.Fragment>
-        //                     {items.map(news => (
-        //                         render_news(news, true)
-        //                     ))}
-        //                 </React.Fragment>
-        //         </div>
-        //     </div>
+        this.recommendation =
+            <div style={{width:"300px", marginLeft: "50px", backgroundColor: "#fff", border: "1px solid grey"}}>
+                <div style={{height: "50px", width: "300px", display: "flex",
+                    alignItems: "center", justifyContent: "center",
+                    backgroundImage: "url(/images/writing_brush.png)",
+                    backgroundPosition: "center",
+                    backgroundSize: "contain",
+                    backgroundRepeat: "no-repeat"}}>
+                    <span>RECOMMENDATION</span>
+                </div>
+                <div>
+                    <React.Fragment>
+                    </React.Fragment>
+                </div>
+            </div>
 
         return (
             <div>
@@ -94,7 +83,7 @@ class NewsPage extends Component{
                     <TitleName page_name="News"/>
                     <div style={{display: "flex", justifyContent: "center"}}>
                         {this.content}
-                        {/*{this.recommendation}*/}
+                        {this.recommendation}
                     </div>
                     <ScrollButton/>
                 </body>
@@ -104,6 +93,16 @@ class NewsPage extends Component{
 }
 
 function render_news(news) {
+    let news_info;
+
+    if(news.author.avatar){
+        news_info =
+            <span> {news.create_datetime} <b>·</b> {news.author.username}
+                <img className="news_author_image" src={news.author.avatar} alt={''}/>
+            </span>
+    }else{
+        news_info = <span> {news.create_datetime} <b>·</b> {news.author.username} </span>
+    }
     return (
         <div className="news-box">
             {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
@@ -112,11 +111,22 @@ function render_news(news) {
             <p> {news.description} </p>
             <div className="row" style={{height: "30px", marginLeft: "0px", marginRight: "0px", display: "flex",
                 justifyContent: "space-between"}}>
-                <span> {news.create_datetime} <b>·</b> {news.author.username} </span>
-                <span><Link to={"/news/" + news.id}>Read More</Link></span>
+                {news_info}
+                <span>{!!(news.tags && news.tags.length > 0)? "Tags:": null}
+                    <React.Fragment>
+                        {news.tags.map(tag => (
+                            render_tag(tag)
+                        ))}
+                    </React.Fragment>
+                </span>
             </div>
         </div>
     );
 }
 
+function render_tag(tag) {
+    return (
+        <img className="news_author_image" src={tag.image} alt={tag.pseudonym}/> //TODO add link to artist
+    );
+}
 export default NewsPage;

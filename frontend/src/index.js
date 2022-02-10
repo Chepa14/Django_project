@@ -34,8 +34,8 @@ ReactDOM.render(
         <Switch>
             <Route exact path="/" component={HomePage} />
             <Route path="/about" component={HomePage} />
-            {/*<Route path="/news" component={NewsListPage} />*/}
-            <Route path="/news/:id" component={NewsPage} />/
+            <Route path="/news/:id" component={NewsPage} />
+            <Route path="/news" component={NewsListPage} />
             <Route path="/artists" component={HomePage} />
             <Route path="/profile" component={UserProfilePage} />
             <Route path="/login" component={LoginPage} />
