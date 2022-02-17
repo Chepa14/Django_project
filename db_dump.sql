@@ -1179,6 +1179,7 @@ COPY public.django_admin_log (id, action_time, object_id, object_repr, action_fl
 6	2022-01-15 14:03:48.951731+00	4	DRAKE, KENDRICK LAMAR, J. COLE...	1	[{"added": {}}]	17	1
 7	2022-02-10 10:02:15.044665+00	1	Drake	1	[{"added": {}}]	15	1
 8	2022-02-10 10:02:26.964338+00	4	DRAKE, KENDRICK LAMAR, J. COLE...	2	[{"changed": {"fields": ["Tags"]}}]	17	1
+9	2022-02-16 13:07:18.637002+00	1	localhost:8000	2	[{"changed": {"fields": ["Domain name", "Display name"]}}]	8	1
 \.
 
 
@@ -1186,7 +1187,7 @@ COPY public.django_admin_log (id, action_time, object_id, object_repr, action_fl
 -- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.django_admin_log_id_seq', 8, true);
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 9, true);
 
 
 --
@@ -1268,6 +1269,8 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 39	socialaccount	0004_auto_20211016_0647	2021-11-01 10:52:02.481753+00
 40	account	0003_auto_20220104_2022	2022-01-15 12:58:41.182275+00
 41	socialaccount	0004_auto_20220104_2022	2022-01-15 12:58:41.268367+00
+42	account	0003_auto_20220216_1104	2022-02-16 13:03:56.13315+00
+43	socialaccount	0004_auto_20220216_1104	2022-02-16 13:03:56.240517+00
 \.
 
 
@@ -1275,7 +1278,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 41, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 43, true);
 
 
 --
@@ -1285,6 +1288,7 @@ SELECT pg_catalog.setval('public.django_migrations_id_seq', 41, true);
 COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
 mgdeqc0xc58qjlps6gafvmpc88zhb7to	.eJxVjDsOwjAQBe_iGln-r6GkzxmsjXeDA8iW4qRC3B0ipYD2zcx7iYTbWtLWeUkziYvQ4vS7jZgfXHdAd6y3JnOr6zKPclfkQbscGvHzerh_BwV7-dZh8jZwnjxpjwbHEPLEjiByNAo0QT6zBfIq-gAKLQSnHEQDWpMFyOL9AebPNyY:1n8ifI:P2E8SjcLB6k-rris4CCMs8KO_6XbSg-UDraGGyAW2F8	2022-01-29 13:00:16.924588+00
 kr1y1rqv2vj1p6pbs8l0ujv8owfkcoay	.eJxVjDsOwjAQBe_iGln-r6GkzxmsjXeDA8iW4qRC3B0ipYD2zcx7iYTbWtLWeUkziYvQ4vS7jZgfXHdAd6y3JnOr6zKPclfkQbscGvHzerh_BwV7-dZh8jZwnjxpjwbHEPLEjiByNAo0QT6zBfIq-gAKLQSnHEQDWpMFyOL9AebPNyY:1nI6H4:SiVFUW8V6iyHgQtn2kr8OYC1OO9cEOe_HlUugf9j5FM	2022-02-24 10:02:02.031322+00
+3i3zasjnuljn9ucp1vcxsmuenh13mm4j	.eJxVjDsOwjAQBe_iGln-r6GkzxmsjXeDA8iW4qRC3B0ipYD2zcx7iYTbWtLWeUkziYvQ4vS7jZgfXHdAd6y3JnOr6zKPclfkQbscGvHzerh_BwV7-dZh8jZwnjxpjwbHEPLEjiByNAo0QT6zBfIq-gAKLQSnHEQDWpMFyOL9AebPNyY:1nKK1V:G4e5kxo6q2rLtEv29CisoD5KId26-1tNt9RyCbPYX1A	2022-03-02 13:07:09.12138+00
 \.
 
 
@@ -1293,7 +1297,7 @@ kr1y1rqv2vj1p6pbs8l0ujv8owfkcoay	.eJxVjDsOwjAQBe_iGln-r6GkzxmsjXeDA8iW4qRC3B0ipY
 --
 
 COPY public.django_site (id, domain, name) FROM stdin;
-1	example.com	example.com
+1	localhost:8000	localhost:8000
 \.
 
 
@@ -1419,7 +1423,7 @@ SELECT pg_catalog.setval('public.socialaccount_socialtoken_id_seq', 1, false);
 --
 
 COPY public.user_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined, avatar, about_me) FROM stdin;
-1	pbkdf2_sha256$260000$XcYaS9qlyRf0K3PpwCqtUv$tNoO+i90ftlsCclqujXTE1WG8wBK43Yyuq2m/h+QnmQ=	2022-02-10 10:02:02.024975+00	t	i.chepets			i.chepets@quantumobile.com	t	t	2021-11-01 10:53:29.746654+00		
+1	pbkdf2_sha256$260000$XcYaS9qlyRf0K3PpwCqtUv$tNoO+i90ftlsCclqujXTE1WG8wBK43Yyuq2m/h+QnmQ=	2022-02-16 13:07:09.118179+00	t	i.chepets			i.chepets@quantumobile.com	t	t	2021-11-01 10:53:29.746654+00		
 \.
 
 

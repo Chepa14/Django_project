@@ -1,9 +1,6 @@
 from django.urls import path, include
-from .views import about, albums, blog, CurrentUserApiView
+from .views import CurrentUserApiView
 
 urlpatterns = [
-    path('about/', about),
-    path('albums/', albums),
-    path('blog/', blog),
     path('', CurrentUserApiView.as_view(), name="user_detail"),
 ]

@@ -19,6 +19,7 @@ class ArtistSerializer(serializers.ModelSerializer):
         ret = super().to_representation(instance)
         current_user = self.context["request"].user
         ret["is_liked"] = instance.likes.filter(id=current_user.id).exists()
+        ret['image'] = instance.image.url if instance.image else None
         return ret
 
 
