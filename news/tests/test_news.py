@@ -20,10 +20,11 @@ class NewsTest(APITestCase):
         self.news_view = reverse("news:retrieve-update-destroy-view", kwargs={"pk": 1})
         response = self.client.get(self.news_view)
         data = {
+            "id": 1,
             "title": "Release of album by Artist",
             "image": None,
             "description": "A few words about this news...",
-            "create_datetime": "2021-10-08T15:21:51.735015Z",
+            "create_datetime": "2021-10-08",
             "update_datetime": "2021-10-08T15:21:51.735015Z",
             "tags": [],
             "author": {
@@ -122,10 +123,11 @@ class NewsTest(APITestCase):
 
     def test_get_news_by_search_name(self):
         data = {
+            "id": 1,
             "title": "Release of album by Artist",
             "image": None,
             "description": "A few words about this news...",
-            "create_datetime": "2021-10-08T15:21:51.735015Z",
+            "create_datetime": "2021-10-08",
             "update_datetime": "2021-10-08T15:21:51.735015Z",
             "tags": [],
             "author": {

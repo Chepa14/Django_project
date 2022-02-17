@@ -11,7 +11,7 @@ class CommentSerializer(serializers.ModelSerializer):
         ret['author'] = {
             'id': instance.author.id,
             'username': instance.author.username,
-            'avatar': instance.author.avatar.url or None
+            'avatar': instance.author.avatar.url if instance.author.avatar else None
         }
         return ret
 
@@ -40,7 +40,7 @@ class NewsSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         ret = super().to_representation(instance)
         ret['create_datetime'] = instance.create_datetime.strftime("%Y-%m-%d")
-        ret['image'] = instance.image.url
+        ret['image'] = instance.image.url if instance.image else None
         ret['author'] = {
             'id': instance.author.id,
             'username': instance.author.username,
