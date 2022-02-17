@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {timezone} from "../index";
+import Loader from "./Loader";
 
 class News extends Component{
     constructor(props) {
@@ -40,9 +41,9 @@ class News extends Component{
         const { error, isLoaded, items } = this.state;
 
         if (error) {
-          return <div>Error: {error.message}</div>;  /* TODO Error component */
+          return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {
-          return <div>Loading...</div>;  /* TODO Loading component */
+          return <Loader/>
         } else {
             return (
                 <div id="dl_screenshot" className="Lastestnews">

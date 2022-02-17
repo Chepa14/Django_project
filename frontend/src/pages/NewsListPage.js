@@ -4,6 +4,7 @@ import TitleName from "../components/TitleName";
 import ScrollButton from '../components/ScrollButton';
 import {timezone} from "../index";
 import {Link} from "react-router-dom";
+import Loader from "../components/Loader";
 
 class NewsListPage extends Component{
     constructor(props) {
@@ -43,9 +44,9 @@ class NewsListPage extends Component{
     render() {
         const { error, isLoaded, items } = this.state;
         if (error) {
-          this.content = <div>Error: {error.message}</div>  /* TODO Error component */
+          this.content = <div>Error: {error.message}</div>
         } else if (!isLoaded) {
-          this.content = <div>Loading...</div>  /* TODO Loading component */
+          this.content = <Loader/>
         } else {
             this.content =
                 <div>

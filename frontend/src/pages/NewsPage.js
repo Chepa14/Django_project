@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import TitleName from "../components/TitleName";
 import ScrollButton from '../components/ScrollButton';
 import {timezone} from "../index";
+import Loader from "../components/Loader";
 
 class NewsPage extends Component{
     constructor(props) {
@@ -27,10 +28,17 @@ class NewsPage extends Component{
           .then(res => res.json())
           .then(
             (result) => {
-                this.setState({
+                if (result.hasOwnProperty('detail')){
+                    this.setState({
                     isLoaded: true,
-                    item: result
-                });
+                    error: result
+                    });
+                }else {
+                    this.setState({
+                        isLoaded: true,
+                        item: result
+                    });
+                }
             },
             (error) => {
                 this.setState({
@@ -38,14 +46,14 @@ class NewsPage extends Component{
                     error
                 });
             }
-          )
+          );
     }
     render() {
         const { error, isLoaded, item} = this.state;
         if (error) {
-          this.content = <div>Error: {error.message}</div>  /* TODO Error component */
+          this.content = <div>Error: {error.detail}</div>
         } else if (!isLoaded) {
-          this.content = <div>Loading...</div>  /* TODO Loading component */
+          this.content = <Loader/>
         } else {
             this.content =
                 <div>
@@ -57,22 +65,23 @@ class NewsPage extends Component{
                         </div>
                     </div>
                 </div>
+
+            this.recommendation =
+                <div style={{width:"300px", marginLeft: "50px", backgroundColor: "#fff", border: "1px solid grey"}}>
+                    <div style={{height: "50px", width: "300px", display: "flex",
+                        alignItems: "center", justifyContent: "center",
+                        backgroundImage: "url(/images/writing_brush.png)",
+                        backgroundPosition: "center",
+                        backgroundSize: "contain",
+                        backgroundRepeat: "no-repeat"}}>
+                        <span>RECOMMENDATION</span>
+                    </div>
+                    <div>
+                        <React.Fragment>
+                        </React.Fragment>
+                    </div>
+                </div>
         }
-        this.recommendation =
-            <div style={{width:"300px", marginLeft: "50px", backgroundColor: "#fff", border: "1px solid grey"}}>
-                <div style={{height: "50px", width: "300px", display: "flex",
-                    alignItems: "center", justifyContent: "center",
-                    backgroundImage: "url(/images/writing_brush.png)",
-                    backgroundPosition: "center",
-                    backgroundSize: "contain",
-                    backgroundRepeat: "no-repeat"}}>
-                    <span>RECOMMENDATION</span>
-                </div>
-                <div>
-                    <React.Fragment>
-                    </React.Fragment>
-                </div>
-            </div>
 
         return (
             <div>
