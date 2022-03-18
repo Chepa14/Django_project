@@ -25,6 +25,8 @@ import {BrowserRouter, Route, Switch} from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import NewsListPage from "./pages/NewsListPage";
 import NewsPage from "./pages/NewsPage";
+import ArtistsListPage from "./pages/ArtistsListPage";
+import ArtistPage from "./pages/ArtistPage";
 
 
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -36,7 +38,8 @@ ReactDOM.render(
             <Route path="/about" component={HomePage} />
             <Route path="/news/:id" component={NewsPage} />
             <Route path="/news" component={NewsListPage} />
-            <Route path="/artists" component={HomePage} />
+            <Route path="/artists/:id" component={ArtistPage} />
+            <Route path="/artists" component={ArtistsListPage} />
             <Route path="/profile" component={UserProfilePage} />
             <Route path="/login" component={LoginPage} />
             <Route path="/register" component={RegisterPage} />
