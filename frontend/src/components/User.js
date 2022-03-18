@@ -7,7 +7,7 @@ const User = () => {
     const [first_name, setFirstname] = useState(null);
     const [last_name, setLastname] = useState(null);
     const [about, setAbout] = useState(null);
-    const default_avatar = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnRFE3qvVvOoMsoGpAHPPr8bZVCOBIsrKDqNjsM8wo8DSwGCRSxzbQQmVVnPpiqZcxQ08&usqp=CAU';
+    const [avatar, setAvatar] = useState(null);
 
     useEffect(() => {
         if (localStorage.getItem('token') == null) {
@@ -39,28 +39,59 @@ const User = () => {
     const onSubmit = e => {
         e.preventDefault();
 
-        const user = {
-          first_name: first_name,
-          last_name: last_name,
-          about_me: about
-        };
+        if(first_name || last_name || about) {
+            const user = {
+              first_name: first_name,
+              last_name: last_name,
+              about_me: about
+            };
 
-        fetch('http://localhost:8000/api/user/', {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Token ${localStorage.getItem('token')}`,
-            'X-CSRFToken': Cookies.get('csrftoken'),
-          },
-          body: JSON.stringify(user),
-          credentials: 'include'
-        })
-          .then(res => res.json())
-          .then(data => {
-            setUser(data);
-            setLoading(false);
-          });
+            fetch('http://localhost:8000/api/user/', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${localStorage.getItem('token')}`,
+                    'X-CSRFToken': Cookies.get('csrftoken'),
+                },
+                body: JSON.stringify(user),
+                credentials: 'include'
+            })
+                .then(res => res.json())
+                .then(data => {
+                    setUser(data);
+                    setLoading(false);
+                });
+        }
+
+        if (avatar) {
+            const formData = new FormData();
+            formData.append('avatar', avatar);
+
+            fetch('http://localhost:8000/api/user/', {
+                method: 'PATCH',
+                headers: {
+                    'Authorization': `Token ${localStorage.getItem('token')}`,
+                    'X-CSRFToken': Cookies.get('csrftoken'),
+                },
+                body: formData,
+                credentials: 'include'
+            })
+                .then(res => res.json())
+                .then(data => {
+                    setUser(data);
+                    setLoading(false);
+                });
+        }
     };
+
+    const uploadFile = (event)=>{
+        const reader = new FileReader();
+        reader.onload = function(){
+            window.location.href = reader.result;
+        }
+        reader.readAsDataURL(event.target.files[0]);
+        setAvatar(event.target.files[0]);
+    }
 
     return(
         <div className="container">
@@ -71,7 +102,11 @@ const User = () => {
                         <form>
                             <div className="row">
                                 <div style={{margin: "auto"}}>
-                                    <img width="400" height="400" src={ user.avatar || default_avatar} alt=""/>
+                                    <img width="400" height="400" src={ user.avatar || "/images/default_user_img.png"}
+                                         alt=""/>
+                                    {!user.avatar &&
+                                        <input type="file" onChange={uploadFile}/>
+                                    }
                                 </div>
                             </div>
                         </form>

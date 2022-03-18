@@ -59,7 +59,7 @@ class Artist extends Component {
                     </div>
                     <div className="row">
                         <React.Fragment>
-                            {items.map(artist => (
+                            {items.slice(0, 3).map(artist => (
                                 render_artist(artist)
                             ))}
                         </React.Fragment>
@@ -73,11 +73,12 @@ class Artist extends Component {
 
 function render_artist(artist) {
     return(
-        <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-            <div className="for-box" key={artist.pseudonym}>
-                <i><img src={artist.image} alt="icon"/></i>
-                <h3>{artist.pseudonym}</h3>
-                <p>{artist.description}</p>
+        <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+            <div className="news-box">
+                {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
+                <figure><img src={artist.image} alt="Artist's image"/></figure>
+                <h3> {artist.pseudonym} </h3>
+                <p> {artist.description.slice(0, 444)}... </p>
             </div>
         </div>
     );

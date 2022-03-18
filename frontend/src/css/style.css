@@ -1535,7 +1535,6 @@
      background:#fff;
      box-shadow: #ddd 0px 0px 8px 4px;
      padding:10px 10px 10px 10px;
-     border: 1px solid red;
 }
  .Lastestnews_fpage .news-box {
      background:#fff;
@@ -1589,6 +1588,12 @@
      line-height: 23px;
      padding: 7px 20px 20px 20px;
 }
+ .news_author_image {
+     width: 30px;
+     height: 30px;
+     border-radius: 30px;
+ }
+
 /** Lastestnews **/
  .Albums {
      margin-bottom: 90px;

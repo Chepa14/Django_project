@@ -28,6 +28,8 @@ class ArtistRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = ArtistSerializer
     queryset = Artist.objects.all()
 
+    # TODO add recommendation artists with pagination
+
 
 class ArtistListCreateAPIView(ListCreateAPIView):
     permission_classes = (IsAuthenticatedOrReadOnly,)

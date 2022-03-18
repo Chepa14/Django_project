@@ -1,5 +1,7 @@
 import React, {useState} from "react";
 import {timezone} from "../index";
+import {toast} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
   const [username, setUsername] = useState('');
@@ -24,10 +26,14 @@ const Register = () => {
         'Timezone': timezone
       },
       body: JSON.stringify(user)
-    }).then(()=> {
-            /* TODO Register notification*/
-        }
-    );
+      })
+        .then(res => {
+           if(res.ok){
+               res.json().then(data => toast.success(data.detail));
+           }else{
+               toast.error(res.statusText);
+           }
+        });
   };
 
     return(
