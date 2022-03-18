@@ -7,7 +7,7 @@ from django.contrib import admin
 from .views import home
 from django_project import settings
 
-schema_view = get_swagger_view(title="Django Project Swagger")
+schema_view = get_swagger_view(title="Django Project Swagger", url='/')
 
 main_url = [
     path("user/", include("user.urls")),
@@ -33,7 +33,7 @@ urlpatterns = [
         VerifyEmailView.as_view(),
         name="account_confirm_email",
     ),
-    path("rest_docs", schema_view),
+    path("rest_docs/", schema_view),
 ]
 
 urlpatterns = urlpatterns + \
