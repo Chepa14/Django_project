@@ -4,12 +4,17 @@ from .views import (
     ArtistRetrieveUpdateDestroyAPIView,
     SongRetrieveUpdateDestroyAPIView,
     SongsListCreateAPIView,
-    # like_artist,
     LikeArtistRetrieveAPIView,
+    ArtistRecommendationListCreateAPIView,
+    ArtistLikesRecommendationListCreateAPIView
 )
 
 urlpatterns = [
     path("", ArtistListCreateAPIView.as_view(), name="list-create-view"),
+    path("recommendation/<str:pseudonym_limit>/",
+         ArtistRecommendationListCreateAPIView.as_view(), name="list-recommendation-view"),
+    path("recommendation/likes/<int:limit>/",
+         ArtistLikesRecommendationListCreateAPIView.as_view(), name="list-likes-recommendation-view"),
     path(
         "<int:pk>/",
         ArtistRetrieveUpdateDestroyAPIView.as_view(),

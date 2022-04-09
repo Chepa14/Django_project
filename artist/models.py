@@ -21,6 +21,7 @@ def get_artist_upload_path(instance, filename):
 
 class Artist(models.Model):
     pseudonym = models.CharField(max_length=20, default='')
+    genre = models.CharField(max_length=120, default='')
     first_name = models.CharField(max_length=20, default='', blank=True)
     last_name = models.CharField(max_length=30, default='', blank=True)
     image = models.ImageField(upload_to=get_artist_upload_path, null=True, blank=True)
