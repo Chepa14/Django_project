@@ -27,6 +27,7 @@ import NewsListPage from "./pages/NewsListPage";
 import NewsPage from "./pages/NewsPage";
 import ArtistsListPage from "./pages/ArtistsListPage";
 import ArtistPage from "./pages/ArtistPage";
+import AboutPage from "./pages/AboutPage";
 
 
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -35,7 +36,7 @@ ReactDOM.render(
     <BrowserRouter>
         <Switch>
             <Route exact path="/" component={HomePage} />
-            <Route path="/about" component={HomePage} />
+            <Route path="/about" component={AboutPage} />
             <Route path="/news/:id" component={NewsPage} />
             <Route path="/news" component={NewsListPage} />
             <Route path="/artists/:id" component={ArtistPage} />
