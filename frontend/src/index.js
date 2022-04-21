@@ -28,7 +28,6 @@ import NewsPage from "./pages/NewsPage";
 import ArtistsListPage from "./pages/ArtistsListPage";
 import ArtistPage from "./pages/ArtistPage";
 import AboutPage from "./pages/AboutPage";
-import {SpotiButton} from "./components/SpotifyAuthOverlay";
 
 
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -46,7 +45,6 @@ ReactDOM.render(
             <Route path="/login" component={LoginPage} />
             <Route path="/register" component={RegisterPage} />
             <Route path="/logout" component={Logout} />
-            <Route path="/clawback" component={SpotiButton}/>
             <Route path="/change_password" component={PasswordChangePage} />
         </Switch>
         <ToastContainer

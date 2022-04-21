@@ -1,26 +1,16 @@
 import React, {Component} from "react";
 import 'react-spotify-auth/dist/index.css'
-import Cookies from "js-cookie";
-import {SpotifyApiContext} from "react-spotify-api";
 import {Scopes, SpotifyAuth} from "react-spotify-auth";
 
 export const SpotiButton = () => {
-    const [token, setToken] = React.useState(Cookies.get("spotifyAuthToken"))
   return (
     <div className='app'>
-      {token ? (
-        <SpotifyApiContext.Provider value={token}>
-          {/* Your Spotify Code here */}
-          <p>You are authorized with token: {token}</p>
-        </SpotifyApiContext.Provider>
-      ) : (
-        <SpotifyAuth
-          redirectUri='http://localhost:3000/clawback' //TODO add redirect to "localhost:3000/"
-          clientID='508a7ef80a9243a2b513b7cea7fa7ead'  //TODO add it to env
+      <SpotifyAuth
+          redirectUri='http://localhost:3000'
+          clientID={process.env.REACT_APP_SPOTIFY_CLIENT_ID}
           scopes={[Scopes.userReadPrivate, 'user-read-email']}
-          onAccessToken={(token) => setToken(token)}
-        />
-      )}
+          onAccessToken={(token)=>{window.location.href="/"}}
+          title="Login with Spotify"/>
     </div>
   )
 }
@@ -32,7 +22,11 @@ class SpotifyAuthOverlay extends Component{
             <div className="SpotifyOverlay">
                 <div className="authBox">
                     <button className="close" onClick={this.props.onclick}>&times;</button>
-                    <div style={{justifyContent: "center", alignItems: 'center', display: "flex", width: "100%"}}>
+                    <div style={{justifyContent: "center", alignItems: 'center', display: "flex", width: "100%",
+                        flexWrap: "wrap"}}>
+                        <h1 style={{fontSize: "18px", width: "450px", color: "white", textAlign: "center"}}>
+                            To provide a working maximum of our recommendation systems and get
+                            the ability to listen to the songs, please login to Spotify:</h1>
                         <SpotiButton/>
                     </div>
                 </div>
