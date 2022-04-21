@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import SpotifySong from "./SpotifyWidgets";
 
 class Footer extends Component{
     render() {
@@ -14,7 +15,6 @@ class Footer extends Component{
                                     <li><img src="../icon/2.png" alt="icon"/>Phone : ( +380 98323**** )
                                     </li>
                                     <li><img src="../icon/3.png" alt="icon"/>Email : ivanchepets14@gmail.com</li>
-
                                 </ul>
 
                                 <ul className="contant_icon">
@@ -61,18 +61,11 @@ class Footer extends Component{
                             <div className="address">
                                 <h3>New Music </h3>
                                 <div className="row">
-                                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 ">
-                                        <figure><img src="../images/music1.jpg" alt=""/></figure>
-                                    </div>
-                                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 ">
-                                        <figure><img src="../images/music2.jpg" alt=""/></figure>
-                                    </div>
-                                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 ">
-                                        <figure><img src="../images/music3.jpg" alt=""/></figure>
-                                    </div>
-                                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 ">
-                                        <figure><img src="../images/music4.jpg" alt=""/></figure>
-                                    </div>
+                                    {/*<div id="embed-iframe"></div>*/}
+                                    <SpotifySong id="3KsS9NkC5ZlPAIWpGoL5Sx" isLarge={false}/>
+                                    <SpotifySong id="0OyQns5ayNK2OVaES0Vb8t" isLarge={false}/>
+                                    <SpotifySong id="7uDTc1eJwsD7iMZLhdp8LH" isLarge={false}/>
+                                    <SpotifySong id="6MO2bfLHKykUgCChFdw91H" isLarge={false}/>
                                 </div>
 
                             </div>

@@ -8,9 +8,9 @@ class Banner extends Component{
                     <img src="../images/Banner.jpg" alt=""/>
                     <div className="container">
                         <div className="text-bg relative">
-                            <h1>
-                                {this.title}
-                                <br/>
+                            <h1 className="glitch">
+                                {/*{this.title}*/}
+                                {/*<br/>*/}
                                 <span className="Perfect">THE PERFECT HIP-HOP MUSIC</span>
                             </h1>
                         </div>

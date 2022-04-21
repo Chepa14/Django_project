@@ -1,15 +1,14 @@
 import React, {Component} from "react";
+import {Link} from "react-router-dom";
 
 class CentralBox extends Component{
-    background_img = "https://wallpapers-hub.art/wallpaper-images/781042.jpg";
-
     render() {
         return(
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12 padding">
                         <div className="img-box">
-                            <figure><img src={this.background_img} alt="img"/></figure>
+                            <figure><img src="../images/red_wallpaper_2.jpg" alt="img"/></figure>
                         </div>
                     </div>
                     <div className="col-xl-6 col-lg-12 col-md-12 col-sm-12 padding">
@@ -20,7 +19,7 @@ class CentralBox extends Component{
                                 <p>It is a long established fact that a reader will be distracted by the readable
                                     <br/> content of a page when looking at its layout. The point of using Lorem</p>
                                 {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                                <a href="#">Read More</a>
+                                <Link to="/artists">Read More</Link>
                             </div>
                         </div>
                     </div>

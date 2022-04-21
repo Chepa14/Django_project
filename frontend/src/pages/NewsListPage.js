@@ -5,6 +5,8 @@ import ScrollButton from '../components/ScrollButton';
 import {timezone} from "../index";
 import {Link} from "react-router-dom";
 import Loader from "../components/Loader";
+import {SpotifyAlbum} from "../components/SpotifyWidgets";
+
 
 class NewsListPage extends Component{
     constructor(props) {
@@ -18,7 +20,7 @@ class NewsListPage extends Component{
     }
 
     async componentDidMount() {
-        await fetch("http://localhost:8000/api/news/", {
+        await fetch("http://localhost:8000/api/news/?limit=10", {
             headers : {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
@@ -41,8 +43,10 @@ class NewsListPage extends Component{
             }
           )
     }
+
     render() {
         const { error, isLoaded, items } = this.state;
+        const shuffled = [...items].sort(() => Math.random() - 0.5)
         if (error) {
           this.content = <div>Error: {error.message}</div>
         } else if (!isLoaded) {
@@ -78,12 +82,26 @@ class NewsListPage extends Component{
                     backgroundRepeat: "no-repeat"}}>
                     <span>RECOMMENDATION</span>
                 </div>
-                <div>
+                <div style={{marginTop: "35px"}}>
                     <React.Fragment>
-                            {items.map(news => (
+                            {shuffled.map(news => (
                                 render_news(news, true)
                             ))}
                         </React.Fragment>
+                </div>
+                <div style={{marginTop: "50px"}}>
+                    <div style={{height: "50px", width: "300px", display: "flex",
+                        alignItems: "center", justifyContent: "center",
+                        backgroundImage: "url(/images/writing_brush.png)",
+                        backgroundPosition: "center",
+                        backgroundSize: "contain",
+                        backgroundRepeat: "no-repeat",
+                        marginBottom: "20px"}}>
+                        <span>FEATURED ALBUMS</span>
+                    </div>
+                    <SpotifyAlbum isLarge={true} id="5CnpZV3q5BcESefcB3WJmz"/>
+                    <SpotifyAlbum isLarge={true} id="2QRedhP5RmKJiJ1i8VgDGR"/>
+                    <SpotifyAlbum isLarge={true} id="7dAm8ShwJLFm9SaJ6Yc58O"/>
                 </div>
             </div>
 
@@ -110,10 +128,12 @@ function render_news(news, is_recomm=false) {
     if (is_recomm) {
         symbols_limit = 100;
         return (
-        <div className="news-box">
+        <div className="news-box" style={{ paddingLeft: "10px", borderBottom: "1px solid grey"}}>
             {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
             <figure><img src={news.image} alt="News image"/></figure>
-            <h3> {news.title} </h3>
+            <Link to={"/news/" + news.id}>
+                <h3> {news.title} </h3>
+            </Link>
             <p> {news.description.slice(0, symbols_limit)}... </p>
             <div className="row" style={{height: "30px", marginLeft: "0px"}}>
                 <span> {news.create_datetime} <b>·</b> {news.author.username} </span>

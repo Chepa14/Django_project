@@ -1455,8 +1455,8 @@
 }
 /** music-box **/
  .img-box figure {
-     margin: 0px;
-}
+     margin: 10px 0px 0px;
+ }
  .padding {
      padding: 0px;
 }
@@ -1587,6 +1587,9 @@
      font-size:16px;
      line-height: 23px;
      padding: 7px 20px 20px 20px;
+}
+ .Lastestnews_fpage .news-box .links p:hover{
+     color: black;
 }
  .news_author_image {
      width: 30px;
@@ -1833,7 +1836,7 @@
      height: 32px;
 }
  .copyright {
-     background-color: #fff;
+     background-color: red;
      padding: 20px 0px;
      margin-top: 90px;
 }
@@ -2025,4 +2028,45 @@
     width: 30px;
     height: 30px;
     border-radius: 15px;
+}
+/* Spotify Authorization modal window */
+
+.SpotifyOverlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.SpotifyOverlay .authBox {
+  margin: auto;
+  width: 90%;
+  height: 90%;
+  max-height: 300px;
+  max-width: 600px;
+  background-color: black;
+  border: 2px solid darkgreen;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Close Button */
+.close {
+  position: fixed;
+  margin-top: 5px;
+  margin-right: 10px;
+  font-size: 40px;
+  background-color: transparent;
+  color: white;
+  opacity: 0.3;
+}
+.close:hover {
+  color: white;
+  opacity: 1;
 }

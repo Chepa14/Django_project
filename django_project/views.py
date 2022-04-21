@@ -1,24 +1,22 @@
-from django.shortcuts import render
-from artist.models import Artist
-from news.models import News
+import json
+import requests
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 
-def home(request):
-    artists = Artist.objects.all()
-    news = News.objects.all()
+@api_view(['POST'])
+def get_spotify_user(request):
+    print(request.data)
+    session = requests.Session()
+    print(request.COOKIES)
 
-    bckg_img = "https://wallpapers-hub.art/wallpaper-images/781042.jpg"
-    hip_hop_icon = "https://iconsplace.com/wp-content/uploads/_icons/ffffff/256/png/music-icon-18-256.png"
-    bckg_img_top = "https://www.birthplacemag.com/wp-content/uploads/2015/03/kendrick-lamar-pimp-butterfly.jpg"
+    cookies = {'sp_dc': request.data.get('sp_dc'),
+               'sp_key': request.data.get('sp_key')}
 
-    return render(
-        request,
-        "index.html",
-        {
-            "artists": artists,
-            "background_img": bckg_img,
-            "icon": hip_hop_icon,
-            "background_img_top": bckg_img_top,
-            "news": news,
-        },
-    )
+    response = session.get("https://open.spotify.com/get_access_token?reason=transport&productType=web_player",
+                           cookies=cookies)
+    response.raise_for_status()
+    data = response.content.decode("utf-8")
+    config = json.loads(data)
+
+    return Response(config)

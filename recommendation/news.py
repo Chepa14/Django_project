@@ -66,3 +66,7 @@ def find_news_by_keywords(keywords: list, limit: int = 10, df: pd.DataFrame = No
     else:
         cond = '|'.join(keywords)
         return get_news(df[df['title'].str.contains(cond)].head(limit)['id'])
+
+
+def get_news_shuffle(limit: int = 10):
+    return News.objects.order_by('?')[:limit]

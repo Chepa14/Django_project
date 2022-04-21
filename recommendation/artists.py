@@ -54,3 +54,5 @@ def recommended_artists_by_likes(df: pd.DataFrame = None, limit=10):
         df.sort_values('likes_number', ascending=False, inplace=True)
         idxs = df.head(limit)['id']
         return get_artists(idxs)
+
+# TODO Liked by user

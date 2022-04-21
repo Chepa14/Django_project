@@ -4,6 +4,7 @@ import TitleName from "../components/TitleName";
 import ScrollButton from '../components/ScrollButton';
 import {timezone} from "../index";
 import Loader from "../components/Loader";
+import {Link} from "react-router-dom";
 
 class NewsPage extends Component{
     constructor(props) {
@@ -12,6 +13,12 @@ class NewsPage extends Component{
             error: null,
             isLoaded: false,
             item: null,
+            recommendations: null,
+            recommendations_error: null,
+            recommendations_isLoaded: false,
+            author_shorts: null,
+            author_shorts_error: null,
+            author_shorts_isLoaded: false,
             id: props.match.params.id
         };
         this.content = null;
@@ -47,9 +54,90 @@ class NewsPage extends Component{
                 });
             }
           );
+
+        await fetch("http://localhost:8000/api/news/recommendations/" + this.state.item.title, {
+            headers : {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Timezone': timezone
+            }
+        })
+          .then(res => res.json())
+          .then(
+            (result) => {
+                if (result.hasOwnProperty('detail')){
+                    this.setState({
+                    recommendations_isLoaded: true,
+                    recommendations_error: result
+                    });
+                }else {
+                    this.setState({
+                        recommendations_isLoaded: true,
+                        recommendations: result
+                    });
+                }
+            },
+            (error) => {
+                this.setState({
+                    recommendations_isLoaded: true,
+                    error
+                });
+            }
+          );
+        await fetch("http://localhost:8000/api/news/recommendations/author/" + this.state.item.author.id,
+    {
+            headers : {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Timezone': timezone
+            }
+        })
+          .then(res => res.json())
+          .then(
+            (result) => {
+                if (result.hasOwnProperty('detail')){
+                    this.setState({
+                    author_shorts_isLoaded: true,
+                    author_shorts_error: result
+                    });
+                }else {
+                    this.setState({
+                        author_shorts_isLoaded: true,
+                        author_shorts: result
+                    });
+                }
+            },
+            (error) => {
+                this.setState({
+                    author_shorts: true,
+                    error
+                });
+            }
+          );
     }
+
     render() {
-        const { error, isLoaded, item} = this.state;
+        const { error, isLoaded, item, recommendations, recommendations_error, recommendations_isLoaded,
+        author_shorts, author_shorts_error, author_shorts_isLoaded} = this.state;
+
+        if (author_shorts_error) {
+          this.author_shorts = <div>Error: {author_shorts_error.detail}</div>
+        } else if (!author_shorts_isLoaded) {
+          this.author_shorts = <Loader/>
+        } else {
+            this.author_shorts =
+            <div>
+                <div style={{display: "flex", alignItems: "center", width: "700px"}}>
+                    <div id="dl_screenshot" className="news-box">
+                        <h3 style={{paddingLeft: "35%"}}>MORE FROM AUTHOR</h3>
+                        <br/>
+                        {author_shorts.map(news => (
+                                    render_news(news, false, true)))
+                            }
+                    </div>
+                </div>
+            </div>
+        }
         if (error) {
           this.content = <div>Error: {error.detail}</div>
         } else if (!isLoaded) {
@@ -62,22 +150,31 @@ class NewsPage extends Component{
                             <React.Fragment>
                                 {render_news(item)}
                             </React.Fragment>
+                            {this.author_shorts}
                         </div>
                     </div>
                 </div>
-
+        }
+        if (recommendations_error) {
+          this.recommendation = <div>Error: {recommendations_error.detail}</div>
+        } else if (!recommendations_isLoaded) {
+          this.recommendation = <Loader/>
+        } else {
             this.recommendation =
-                <div style={{width:"300px", marginLeft: "50px", backgroundColor: "#fff", border: "1px solid grey"}}>
-                    <div style={{height: "50px", width: "300px", display: "flex",
+                <div style={{width:"400px", marginTop: "30px", marginLeft: "80px", backgroundColor: "#fff"}}>
+                    <div style={{height: "50px", width: "400px", display: "flex",
                         alignItems: "center", justifyContent: "center",
                         backgroundImage: "url(/images/writing_brush.png)",
                         backgroundPosition: "center",
                         backgroundSize: "contain",
                         backgroundRepeat: "no-repeat"}}>
-                        <span>RECOMMENDATION</span>
+                        <span>RECOMMENDATIONS</span>
                     </div>
                     <div>
                         <React.Fragment>
+                            {recommendations.map(news => (
+                                    render_news(news, true)))
+                            }
                         </React.Fragment>
                     </div>
                 </div>
@@ -101,7 +198,31 @@ class NewsPage extends Component{
     }
 }
 
-function render_news(news) {
+function render_news(news, is_recomm=false, is_short=false) {
+    if (is_recomm) {
+        let symbols_limit = 100;
+        return (
+        <div className="news-box" style={{ paddingLeft: "10px", borderBottom: "1px solid grey"}}>
+            {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
+            <figure><img src={news.image} alt="News image"/></figure>
+            <Link to={"/news/" + news.id}>
+                <h3> {news.title} </h3>
+            </Link>
+            <p> {news.description.slice(0, symbols_limit)}... </p>
+            <div className="row" style={{height: "30px", marginLeft: "0px"}}>
+                <span> {news.create_datetime} <b>·</b> {news.author.username} </span>
+            </div>
+        </div>)
+    } else
+        if(is_short) {
+            return (
+                <div className="links" style={{ borderBottom: "1px solid lightgrey" }}>
+                    <Link to={"/news/" + news.id} onClick={() => window.location.href= "/news"}>
+                        <p> {news.title} </p>
+                    </Link>
+                </div>
+            )
+    }
     let news_info;
 
     if(news.author.avatar){
@@ -121,7 +242,7 @@ function render_news(news) {
             <div className="row" style={{height: "30px", marginLeft: "0px", marginRight: "0px", display: "flex",
                 justifyContent: "space-between"}}>
                 {news_info}
-                <span>{!!(news.tags && news.tags.length > 0)? "Tags:": null}
+                <span>{!!(news.tags && news.tags.length > 0)? "Tags: ": null}
                     <React.Fragment>
                         {news.tags.map(tag => (
                             render_tag(tag)
@@ -135,7 +256,9 @@ function render_news(news) {
 
 function render_tag(tag) {
     return (
-        <img className="news_author_image" src={tag.image} alt={tag.pseudonym}/> //TODO add link to artist
+        <Link to={"/artists/" + tag.id}>
+            <img className="news_author_image" src={tag.image} alt={tag.pseudonym}/>
+        </Link>
     );
 }
 export default NewsPage;

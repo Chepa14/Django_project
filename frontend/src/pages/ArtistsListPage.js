@@ -82,12 +82,14 @@ class ArtistsListPage extends Component{
 
 function render_artist(artist) {
     return (
-        <div className="news-box">
+        <div className="news-box" style={{height: '350px'}}>
             <Link to={"/artists/" + artist.id}>
                 {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
-                <figure><img src={artist.image} alt="News image"/></figure>
+                <figure><img src={artist.image} style={{height: "250px", width: "250px", objectFit: "cover"}}
+                             alt="Artist image"/></figure>
             </Link>
-            <h3 style={{display: "flex", justifyContent: "space-between"}}> {artist.pseudonym}
+            <h3 style={{display: "flex", justifyContent: "space-between", fontSize: "15px",
+                paddingRight: "5px"}}> {artist.pseudonym}
                 <LikeButtonComponent likes_number={artist.likes_number}
                                      is_liked={artist.is_liked}
                                      artist_id={artist.id}/>

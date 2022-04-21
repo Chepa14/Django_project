@@ -1,11 +1,11 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
 from news.permissions import IsAuthorOrReadAndCreate
 from news.serializers import NewsSerializer, CommentSerializer
 from news.models import News, Comment
 from news.filters import NewsListFilter
 from django.shortcuts import get_object_or_404
-from recommendation.news import recommend_by_title, recommended_by_same_author
+from recommendation.news import recommend_by_title, recommended_by_same_author, create_news_cosine_sim_matrix
 
 
 class CommentsListCreateAPIView(ListCreateAPIView):
@@ -16,6 +16,7 @@ class CommentsListCreateAPIView(ListCreateAPIView):
     def perform_create(self, serializer):
         news = get_object_or_404(News, pk=self.kwargs['pk'])
         serializer.save(author=self.request.user, news=news)
+        create_news_cosine_sim_matrix()
 
     def get_queryset(self):
         return Comment.objects.filter(news__id=self.kwargs["pk"])
@@ -28,7 +29,7 @@ class NewsRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
 
 
 class NewsTitleRecommendationsListAPIView(ListAPIView):
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (AllowAny,)
     serializer_class = NewsSerializer
 
     def get_queryset(self):
@@ -41,7 +42,7 @@ class NewsTitleRecommendationsListAPIView(ListAPIView):
 
 
 class NewsSameAuthorRecommendationsListAPIView(ListAPIView):
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (AllowAny,)
     serializer_class = NewsSerializer
 
     def get_queryset(self):
