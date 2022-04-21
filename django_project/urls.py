@@ -5,12 +5,10 @@ from rest_auth.views import LoginView, LogoutView, PasswordChangeView
 from django.urls import path, re_path, include
 from django.contrib import admin
 from django_project import settings
-from django_project.views import get_spotify_user
 
 schema_view = get_swagger_view(title="Django Project Swagger", url='/')
 
 main_url = [
-    path("spotify_user/", get_spotify_user),
     path("user/", include("user.urls")),
     path("news/", include(("news.urls", "news"), namespace="news")),
     path("artists/", include(("artist.urls", "artists"), namespace="artists"))
