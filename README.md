@@ -7,16 +7,34 @@ $ cd Django_project
 $ docker-compose up
 ```
 
-If error with port occured write following command: ```sudo kill -9 `sudo lsof -t -i:5432``` to clear port for DB.
+If error with port occured write following command: ```sudo kill 9 `sudo lsof -t -i:5432` ``` to clear port for DB.
 
 ## Requirements
 
 You must create a file `.env.dev.txt` in main folder and write the following there:
 ```
-SECRET_KEY = 'your's_secret_key'
+SECRET_KEY = 'your's secret key'
 DEBUG = True
 ALLOWED_HOSTS = '*'
+
+SENDGRID_API_KEY = 'sendgrid api key'
+
+DB_USERNAME = 'db username (default - postgres)'
+DB_PASSWORD = 'db password (default - postgres)'
+DB_NAME = 'db name (default - django_db)'
+DB_HOST = 'db host (default - db)'
+DB_PORT = 'db port (default - 5432)'
+
+EMAIL = 'email host'
+
+SPOTIFY_CLIENT_ID = 'Spotify Client ID'
+SPOTIFY_CLIENT_SECRET = 'Spotify Client Secret'
 ```
+Also you must create a file `.env` file in **/frontend** folder and write the following there:
+```
+REACT_APP_SPOTIFY_CLIENT_ID = 'Spotify Client ID'
+```
+
 ## Database dump
 
 To create dump you must run server (```docker-compose up```) and than write following command to terminal:
