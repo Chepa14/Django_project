@@ -4,7 +4,7 @@ class SpotifySong extends Component{
     isLarge;
     id;
 
-    render() { //TODO add gradient on hover (like at main page of spotify)
+    render() {
         return (
             <div style={{margin: "0px 0px 5px 10px"}}>
                 {/* eslint-disable-next-line jsx-a11y/iframe-has-title */}

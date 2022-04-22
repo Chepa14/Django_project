@@ -67,7 +67,6 @@ class Footer extends Component{
                                     <SpotifySong id="7uDTc1eJwsD7iMZLhdp8LH" isLarge={false}/>
                                     <SpotifySong id="6MO2bfLHKykUgCChFdw91H" isLarge={false}/>
                                 </div>
-
                             </div>
                         </div>
                     </div>

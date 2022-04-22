@@ -13,7 +13,7 @@ class HomePage extends Component{
     constructor(props) {
         super(props);
         this.state = {
-          isModal: Cookies.get("spotifyAuthToken")
+          isModal: typeof Cookies.get("spotifyAuthToken") !== 'undefined'
         };
         this.closeModal=this.closeModal.bind(this);
     }

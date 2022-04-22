@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import 'react-spotify-auth/dist/index.css'
 import {Scopes, SpotifyAuth} from "react-spotify-auth";
+import Cookies from "js-cookie";
 
 export const SpotiButton = () => {
   return (
@@ -9,7 +10,18 @@ export const SpotiButton = () => {
           redirectUri='http://localhost:3000'
           clientID={process.env.REACT_APP_SPOTIFY_CLIENT_ID}
           scopes={[Scopes.userReadPrivate, 'user-read-email']}
-          onAccessToken={(token)=>{window.location.href="/"}}
+          onAccessToken={async (token) => {
+              await fetch('https://api.spotify.com/v1/me', {
+                  headers: {
+                      Authorization: "Bearer " + token
+                  }
+              })
+                  .then(res => res.json())
+                  .then((result) => {
+                      Cookies.set('SpotifyUserID', result.id)
+                  })
+              window.location.href="/";
+          }}
           title="Login with Spotify"/>
     </div>
   )
