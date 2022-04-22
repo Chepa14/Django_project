@@ -1,8 +1,101 @@
 import React, { Component } from "react";
-import SpotifySong from "./SpotifyWidgets";
+import SpotifySong, {SpotifyAlbum} from "./SpotifyWidgets";
+import Cookies from "js-cookie";
+import Loader from "./Loader";
 
 class Footer extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+          isLoading: true,
+          items: [
+              {
+                  id: "3KsS9NkC5ZlPAIWpGoL5Sx",
+                  type: 'single',
+              },
+              {
+                  id: "0OyQns5ayNK2OVaES0Vb8t",
+                  type: 'single',
+              },
+              {
+                  id: "7uDTc1eJwsD7iMZLhdp8LH",
+                  type: 'single',
+              },
+              {
+                  id: "6MO2bfLHKykUgCChFdw91H",
+                  type: 'single',
+              }],
+          error: null
+        };
+    }
+
+    async componentDidMount() {
+        const accessToken = Cookies.get('spotifyAuthToken')
+        if (accessToken) {
+            await fetch('https://api.spotify.com/v1/browse/new-releases?limit=4', {
+                headers: {
+                    Authorization: "Bearer " + accessToken
+                }
+            })
+                .then(res => res.json())
+                .then(
+                    (albums) => {
+                        if (albums.hasOwnProperty('error')){
+                            this.setState({
+                                isLoading: false,
+                                error: albums.error.message
+                            })
+                        } else {
+                            this.setState({
+                                isLoading: false,
+                                items: albums.albums.items.map(item => (
+                                    {
+                                        id: item.id,
+                                        type: item.type
+                                    }
+                                ))
+                            })
+                        }
+                    })
+        } else {
+            await fetch('http://localhost:8000/api/releases/')
+                .then(res => res.json())
+                .then(
+                    (albums) => {
+                        if (albums.hasOwnProperty('error')){
+                            this.setState({
+                                isLoading: false,
+                                error: albums.error.message
+                            })
+                        } else {
+                            this.setState({
+                                isLoading: false,
+                                items: albums.albums.items.map(item => (
+                                    {
+                                        id: item.id,
+                                        type: item.type
+                                    }
+                                ))
+                            })
+                        }
+                    })
+        }
+    }
+
+    renderWidget(item) {
+        switch (item.type) {
+            case 'single':
+                return <SpotifySong id={item.id} isLarge={false}/>
+            case 'album':
+                return <SpotifyAlbum id={item.id} isLarge={false}/>
+            default:
+                return undefined
+        }
+    }
+
     render() {
+        const {isLoading, items, error} = this.state;
+
         return (
             <div className="footer">
                 <div className="container">
@@ -59,14 +152,16 @@ class Footer extends Component{
                         </div>
                         <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 width">
                             <div className="address">
-                                <h3>New Music </h3>
-                                <div className="row">
-                                    {/*<div id="embed-iframe"></div>*/}
-                                    <SpotifySong id="3KsS9NkC5ZlPAIWpGoL5Sx" isLarge={false}/>
-                                    <SpotifySong id="0OyQns5ayNK2OVaES0Vb8t" isLarge={false}/>
-                                    <SpotifySong id="7uDTc1eJwsD7iMZLhdp8LH" isLarge={false}/>
-                                    <SpotifySong id="6MO2bfLHKykUgCChFdw91H" isLarge={false}/>
-                                </div>
+                                <h3>New Releases </h3>
+                                {isLoading? <Loader/> :
+                                    error? <div>Error: {error}</div> :
+                                        <div className="row">
+                                        <React.Fragment>
+                                            {items.map(item => (
+                                                this.renderWidget(item)
+                                            ))}
+                                        </React.Fragment>
+                                        </div>}
                             </div>
                         </div>
                     </div>
