@@ -77,7 +77,7 @@ class News extends Component{
 
 function render_news(news) {
     return(
-        <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+        <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12" key={Math.random().toString()}>
             <div className="news-box">
                 <Link to={"/news/" + news.id}>
                     {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}

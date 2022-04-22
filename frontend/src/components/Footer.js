@@ -85,9 +85,9 @@ class Footer extends Component{
     renderWidget(item) {
         switch (item.type) {
             case 'single':
-                return <SpotifySong id={item.id} isLarge={false}/>
+                return <SpotifySong key={Math.random().toString()} id={item.id} isLarge={false}/>
             case 'album':
-                return <SpotifyAlbum id={item.id} isLarge={false}/>
+                return <SpotifyAlbum key={Math.random().toString()} id={item.id} isLarge={false}/>
             default:
                 return undefined
         }
@@ -139,8 +139,7 @@ class Footer extends Component{
                                                    name="Email"/>
                                         </div>
                                         <div className="col-sm-12">
-                                            <textarea className="textarea" placeholder="Message"
-                                                      type="text" name="Message"/>
+                                            <textarea className="textarea" placeholder="Message" name="Message"/>
                                         </div>
                                         <div className="col-sm-12">
                                             <button className="send">Send</button>
