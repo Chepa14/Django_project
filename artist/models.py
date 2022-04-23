@@ -28,6 +28,7 @@ class Artist(models.Model):
     description = models.TextField(blank=True)
     likes = models.ManyToManyField(User, default=[None], blank=True)
     likes_number = models.IntegerField(default=0, blank=True)
+    spotify_id = models.CharField(max_length=22, default='')
 
     def __str__(self):
         return self.pseudonym

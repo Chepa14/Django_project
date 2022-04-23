@@ -5,7 +5,8 @@ import ScrollButton from '../components/ScrollButton';
 import {timezone} from "../index";
 import {Link} from "react-router-dom";
 import Loader from "../components/Loader";
-import {SpotifyAlbum} from "../components/SpotifyWidgets";
+import SpotifySong, {SpotifyAlbum} from "../components/SpotifyWidgets";
+import Cookies from "js-cookie";
 
 
 class NewsListPage extends Component{
@@ -14,7 +15,27 @@ class NewsListPage extends Component{
         this.state = {
           error: null,
           isLoaded: false,
-          items: []
+          items: [],
+          isLoadedAlbums: false,
+          albums: [
+              {
+                  id: "5CnpZV3q5BcESefcB3WJmz",
+                  type: 'albums',
+              },
+              {
+                  id: "2QRedhP5RmKJiJ1i8VgDGR",
+                  type: 'albums',
+              },
+              {
+                  id: "7dAm8ShwJLFm9SaJ6Yc58O",
+                  type: 'albums',
+              },
+              {
+                  id: "2QRedhP5RmKJiJ1i8VgDGR",
+                  type: 'albums',
+              }
+          ],
+          albumsError: null
         };
         this.content = null;
     }
@@ -38,15 +59,77 @@ class NewsListPage extends Component{
             (error) => {
                 this.setState({
                     isLoaded: true,
-                    error
+                    error: error
                 });
             }
           )
+
+        const accessToken = Cookies.get('spotifyAuthToken')
+        if (accessToken) {
+            await fetch('https://api.spotify.com/v1/browse/new-releases?limit=5', {
+                headers: {
+                    Authorization: "Bearer " + accessToken
+                }
+            })
+                .then(res => res.json())
+                .then(
+                    (albums) => {
+                        if (albums.hasOwnProperty('error')){
+                            this.setState({
+                                isLoadedAlbums: false,
+                                albumsError: albums.error.message
+                            })
+                        } else {
+                            this.setState({
+                                isLoadedAlbums: false,
+                                albums: albums.albums.items.map(item => (
+                                    {
+                                        id: item.id,
+                                        type: item.type
+                                    }
+                                ))
+                            })
+                        }
+                    })
+        } else {
+            await fetch('http://localhost:8000/api/releases/')
+                .then(res => res.json())
+                .then(
+                    (albums) => {
+                        if (albums.hasOwnProperty('error')){
+                            this.setState({
+                                isLoadedAlbums: false,
+                                albumsError: albums.error.message
+                            })
+                        } else {
+                            this.setState({
+                                isLoadedAlbums: false,
+                                albums: albums.albums.items.map(item => (
+                                    {
+                                        id: item.id,
+                                        type: item.type
+                                    }
+                                ))
+                            })
+                        }
+                    })
+        }
+    }
+
+    renderWidget(item) {
+        switch (item.type) {
+            case 'single':
+                return <SpotifySong key={Math.random().toString()} id={item.id} isLarge={false}/>
+            case 'album':
+                return <SpotifyAlbum key={Math.random().toString()} id={item.id} isLarge={true}/>
+            default:
+                return undefined
+        }
     }
 
     render() {
-        const { error, isLoaded, items } = this.state;
-        const shuffled = [...items].sort(() => Math.random() - 0.5)
+        const { error, isLoaded, items, isLoadedAlbums, albums, albumsError } = this.state;
+        const shuffled = [...items].sort(() => Math.random() - 0.5).reverse()
         if (error) {
           this.content = <div>Error: {error.message}</div>
         } else if (!isLoaded) {
@@ -99,9 +182,15 @@ class NewsListPage extends Component{
                         marginBottom: "20px"}}>
                         <span>FEATURED ALBUMS</span>
                     </div>
-                    <SpotifyAlbum isLarge={true} id="5CnpZV3q5BcESefcB3WJmz"/>
-                    <SpotifyAlbum isLarge={true} id="2QRedhP5RmKJiJ1i8VgDGR"/>
-                    <SpotifyAlbum isLarge={true} id="7dAm8ShwJLFm9SaJ6Yc58O"/>
+                    {isLoadedAlbums? <Loader/> :
+                        albumsError? <div>Error: {error}</div> :
+                            <div className="row">
+                                <React.Fragment>
+                                    {albums.map(item => (
+                                        this.renderWidget(item)
+                                    ))}
+                                </React.Fragment>
+                            </div>}
                 </div>
             </div>
 

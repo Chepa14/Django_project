@@ -75,7 +75,7 @@ class Artist extends Component {
 function render_artist(artist) {
     return(
         <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12" key={Math.random().toString()}>
-            <div className="news-box" style={{height: '800px'}}>
+            <div className="news-box" style={{height: 'auto'}}>
                 <Link to={"/artists/" + artist.id}>
                 {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
                 <figure><img src={artist.image} style={{height: "350px", width: "350px", objectFit: "cover"}}

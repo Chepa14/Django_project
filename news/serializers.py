@@ -46,7 +46,8 @@ class NewsSerializer(serializers.ModelSerializer):
             'username': instance.author.username,
             'avatar': instance.author.avatar.url if instance.author.avatar else None
         }
-        ret['tags'] = [{'id': x.id, 'pseudonym': x.pseudonym, 'image': x.image.url} for x in instance.tags.all()]
+        ret['tags'] = [{'id': x.id, 'pseudonym': x.pseudonym, 'image': x.image.url, 'spotify_id': x.spotify_id}
+                       for x in instance.tags.all()]
         last_comment = instance.comments.last()
         if last_comment:
             ret['last_comment'] = CommentSerializer(last_comment).to_representation(last_comment)
