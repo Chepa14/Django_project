@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
+import {logout} from "../requests/requests";
 
 const Logout = () => {
   const [loading, setLoading] = useState(true);
@@ -11,23 +12,10 @@ const Logout = () => {
     }
   }, []);
 
-  const handleLogout = e => {
+  const handleLogout = async e => {
     e.preventDefault();
 
-    fetch('http://localhost:8000/auth/logout/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Token ${localStorage.getItem('token')}`
-      },
-      credentials: "include"
-    })
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-        localStorage.clear();
-        window.location.replace('http://localhost:3000/login');
-      });
+    await logout(localStorage.getItem('token'))
   };
 
   return (

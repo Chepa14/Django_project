@@ -1,7 +1,6 @@
 import React, {useState} from "react";
-import {timezone} from "../index";
-import {toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import {register} from "../requests/requests";
 
 const Register = () => {
   const [username, setUsername] = useState('');
@@ -9,7 +8,7 @@ const Register = () => {
   const [password1, setPassword1] = useState('');
   const [password2, setPassword2] = useState('');
 
-  const onSubmit = e => {
+  const onSubmit = async e => {
     e.preventDefault();
 
     const user = {
@@ -19,21 +18,7 @@ const Register = () => {
       password2: password2
     };
 
-    fetch('http://localhost:8000/auth/registration/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Timezone': timezone
-      },
-      body: JSON.stringify(user)
-      })
-        .then(res => {
-           if(res.ok){
-               res.json().then(data => toast.success(data.detail));
-           }else{
-               toast.error(res.statusText);
-           }
-        });
+    await register(user)
   };
 
     return(

@@ -2,11 +2,11 @@ import React, {Component} from "react";
 import Header from "../components/Header";
 import TitleName from "../components/TitleName";
 import ScrollButton from '../components/ScrollButton';
-import {timezone} from "../index";
 import {Link} from "react-router-dom";
 import Loader from "../components/Loader";
 import SpotifySong, {SpotifyAlbum} from "../components/SpotifyWidgets";
 import Cookies from "js-cookie";
+import {getLastNews, getNewReleases, getNewReleasesFromBackend} from "../requests/requests";
 
 
 class NewsListPage extends Component{
@@ -41,78 +41,13 @@ class NewsListPage extends Component{
     }
 
     async componentDidMount() {
-        await fetch("http://localhost:8000/api/news/?limit=10", {
-            headers : {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Timezone': timezone
-            }
-        })
-          .then(res => res.json())
-          .then(
-            (result) => {
-                this.setState({
-                    isLoaded: true,
-                    items: result
-                });
-            },
-            (error) => {
-                this.setState({
-                    isLoaded: true,
-                    error: error
-                });
-            }
-          )
+        this.setState(await getLastNews(0, 10))
 
         const accessToken = Cookies.get('spotifyAuthToken')
         if (accessToken) {
-            await fetch('https://api.spotify.com/v1/browse/new-releases?limit=5', {
-                headers: {
-                    Authorization: "Bearer " + accessToken
-                }
-            })
-                .then(res => res.json())
-                .then(
-                    (albums) => {
-                        if (albums.hasOwnProperty('error')){
-                            this.setState({
-                                isLoadedAlbums: false,
-                                albumsError: albums.error.message
-                            })
-                        } else {
-                            this.setState({
-                                isLoadedAlbums: false,
-                                albums: albums.albums.items.map(item => (
-                                    {
-                                        id: item.id,
-                                        type: item.type
-                                    }
-                                ))
-                            })
-                        }
-                    })
+            this.setState(await getNewReleases(accessToken, 1, 5))
         } else {
-            await fetch('http://localhost:8000/api/releases/')
-                .then(res => res.json())
-                .then(
-                    (albums) => {
-                        if (albums.hasOwnProperty('error')){
-                            this.setState({
-                                isLoadedAlbums: false,
-                                albumsError: albums.error.message
-                            })
-                        } else {
-                            this.setState({
-                                isLoadedAlbums: false,
-                                albums: albums.albums.items.map(item => (
-                                    {
-                                        id: item.id,
-                                        type: item.type
-                                    }
-                                ))
-                            })
-                        }
-                    })
+            this.setState(await getNewReleasesFromBackend(1))
         }
     }
 

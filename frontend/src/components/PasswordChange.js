@@ -1,11 +1,11 @@
 import React, {useState} from "react";
-import Cookies from "js-cookie";
+import {passwordChange} from "../requests/requests";
 
 const PasswordChange = () => {
   const [password1, setPassword1] = useState('');
   const [password2, setPassword2] = useState('');
 
-  const onSubmit = e => {
+  const onSubmit = async e => {
     e.preventDefault();
 
     const passwords = {
@@ -13,18 +13,7 @@ const PasswordChange = () => {
       new_password2: password2
     };
 
-    fetch('http://localhost:8000/auth/change_password/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Token ${localStorage.getItem('token')}`,
-        'X-CSRFToken': Cookies.get('csrftoken')
-      },
-      credentials: 'include',
-      body: JSON.stringify(passwords)
-    }).then(()=> {
-        window.location.replace('http://localhost:3000/');
-    })
+    await passwordChange(passwords, localStorage.getItem('token'))
   };
 
     return(

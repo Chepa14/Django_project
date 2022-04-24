@@ -2,11 +2,16 @@ import React, {Component} from "react";
 import Header from "../components/Header";
 import TitleName from "../components/TitleName";
 import ScrollButton from '../components/ScrollButton';
-import {timezone} from "../index";
 import Loader from "../components/Loader";
 import {Link} from "react-router-dom";
 import Cookies from "js-cookie";
 import SpotifySong, {SpotifyAlbum} from "../components/SpotifyWidgets";
+import {
+    getArtistTopTracks,
+    getNewsByID,
+    getRecommendationByAuthor,
+    getRecommendationByTitle
+} from "../requests/requests";
 
 class NewsPage extends Component{
     constructor(props) {
@@ -30,125 +35,13 @@ class NewsPage extends Component{
     }
 
     async componentDidMount() {
-        await fetch("http://localhost:8000/api/news/" + this.state.id, {
-            headers : {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Timezone': timezone
-            }
-        })
-          .then(res => res.json())
-          .then(
-            (result) => {
-                if (result.hasOwnProperty('detail')){
-                    this.setState({
-                    isLoaded: true,
-                    error: result
-                    });
-                }else {
-                    this.setState({
-                        isLoaded: true,
-                        item: result
-                    });
-                }
-            },
-            (error) => {
-                this.setState({
-                    isLoaded: true,
-                    error
-                });
-            }
-          );
-
-        await fetch("http://localhost:8000/api/news/recommendations/" + this.state.item.title, {
-            headers : {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Timezone': timezone
-            }
-        })
-          .then(res => res.json())
-          .then(
-            (result) => {
-                if (result.hasOwnProperty('detail')){
-                    this.setState({
-                    recommendations_isLoaded: true,
-                    recommendations_error: result
-                    });
-                }else {
-                    this.setState({
-                        recommendations_isLoaded: true,
-                        recommendations: result
-                    });
-                }
-            },
-            (error) => {
-                this.setState({
-                    recommendations_isLoaded: true,
-                    error
-                });
-            }
-          );
-        await fetch("http://localhost:8000/api/news/recommendations/author/" + this.state.item.author.id,
-    {
-            headers : {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Timezone': timezone
-            }
-        })
-          .then(res => res.json())
-          .then(
-            (result) => {
-                if (result.hasOwnProperty('detail')){
-                    this.setState({
-                    author_shorts_isLoaded: true,
-                    author_shorts_error: result
-                    });
-                }else {
-                    this.setState({
-                        author_shorts_isLoaded: true,
-                        author_shorts: result
-                    });
-                }
-            },
-            (error) => {
-                this.setState({
-                    author_shorts: true,
-                    error
-                });
-            }
-          );
+        this.setState(await getNewsByID(this.state.id))
+        this.setState(await getRecommendationByTitle(this.state.item.title))
+        this.setState(await getRecommendationByAuthor(this.state.item.author.id))
 
         const accessToken = Cookies.get('spotifyAuthToken')
         if (this.state.item.tags !== [] && accessToken) {
-            await fetch(`https://api.spotify.com/v1/artists/${this.state.item.tags[0].spotify_id}/top-tracks?market=US`,
-    {
-            headers : {
-                Authorization: "Bearer " + accessToken
-            }
-        })
-          .then(res => res.json())
-          .then(
-            (result) => {
-                if (result.hasOwnProperty('error')){
-                    this.setState({
-                        topTracks_isLoaded: true,
-                        topTracks_error: result.error.message
-                    })
-                } else {
-                    this.setState({
-                        topTracks_isLoaded: true,
-                        topTracks: result.tracks.map(item => (
-                            {
-                                id: item.id,
-                                type: item.type
-                            }
-                        ))
-                    })
-                }
-            }
-          );
+            this.setState(await getArtistTopTracks(accessToken, this.state.item.tags[0].spotify_id))
         }
     }
 

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import {timezone} from "../index";
 import {Link} from "react-router-dom";
+import {getArtistRecommendations} from "../requests/requests";
 
 class Artist extends Component {
     constructor(props) {
@@ -13,28 +13,7 @@ class Artist extends Component {
     }
 
   async componentDidMount() {
-    await fetch("http://localhost:8000/api/artists/recommendation/likes/3", {
-      headers : {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Timezone': timezone
-       }
-    })
-      .then(res => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            isLoaded: true,
-            items: result
-          });
-        },
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      )
+        this.setState(await getArtistRecommendations(3))
   }
   render() {
     const { error, isLoaded, items } = this.state;

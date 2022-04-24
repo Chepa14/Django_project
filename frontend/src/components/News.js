@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import {timezone} from "../index";
 import Loader from "./Loader";
 import {Link} from "react-router-dom";
+import {getLastNews} from "../requests/requests";
 
 class News extends Component{
     constructor(props) {
@@ -14,28 +14,7 @@ class News extends Component{
     }
 
     async componentDidMount() {
-        await fetch("http://localhost:8000/api/news/?limit=3", {
-            headers : {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Timezone': timezone
-            }
-        })
-          .then(res => res.json())
-          .then(
-            (result) => {
-                this.setState({
-                    isLoaded: true,
-                    items: result
-                });
-            },
-            (error) => {
-                this.setState({
-                    isLoaded: true,
-                    error
-                });
-            }
-          )
+        this.setState(await getLastNews(0, 3))
     }
 
     render() {

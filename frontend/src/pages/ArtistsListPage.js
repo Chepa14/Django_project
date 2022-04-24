@@ -2,10 +2,10 @@ import React, {Component} from "react";
 import Header from "../components/Header";
 import TitleName from "../components/TitleName";
 import ScrollButton from '../components/ScrollButton';
-import {timezone} from "../index";
 import Loader from "../components/Loader";
 import {LikeButtonComponent} from "../components/LikeButtonComponent";
 import {Link} from "react-router-dom";
+import {getArtists} from "../requests/requests";
 
 class ArtistsListPage extends Component{
     constructor(props) {
@@ -19,29 +19,7 @@ class ArtistsListPage extends Component{
     }
 
     async componentDidMount() {
-        await fetch("http://localhost:8000/api/artists/", {
-            headers : {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Timezone': timezone,
-            },
-            credentials: 'include'
-        })
-          .then(res => res.json())
-          .then(
-            (result) => {
-                this.setState({
-                    isLoaded: true,
-                    items: result
-                });
-            },
-            (error) => {
-                this.setState({
-                    isLoaded: true,
-                    error
-                });
-            }
-          )
+        this.setState(await getArtists(10))
     }
     render() {
         const { error, isLoaded, items } = this.state;

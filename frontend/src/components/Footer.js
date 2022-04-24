@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import SpotifySong, {SpotifyAlbum} from "./SpotifyWidgets";
 import Cookies from "js-cookie";
 import Loader from "./Loader";
+import {getNewReleases, getNewReleasesFromBackend} from "../requests/requests";
 
 class Footer extends Component{
     constructor(props) {
@@ -32,53 +33,9 @@ class Footer extends Component{
     async componentDidMount() {
         const accessToken = Cookies.get('spotifyAuthToken')
         if (accessToken) {
-            await fetch('https://api.spotify.com/v1/browse/new-releases?limit=4', {
-                headers: {
-                    Authorization: "Bearer " + accessToken
-                }
-            })
-                .then(res => res.json())
-                .then(
-                    (albums) => {
-                        if (albums.hasOwnProperty('error')){
-                            this.setState({
-                                isLoading: false,
-                                error: albums.error.message
-                            })
-                        } else {
-                            this.setState({
-                                isLoading: false,
-                                items: albums.albums.items.map(item => (
-                                    {
-                                        id: item.id,
-                                        type: item.type
-                                    }
-                                ))
-                            })
-                        }
-                    })
+            this.setState(await getNewReleases(accessToken, 0, 4))
         } else {
-            await fetch('http://localhost:8000/api/releases/')
-                .then(res => res.json())
-                .then(
-                    (albums) => {
-                        if (albums.hasOwnProperty('error')){
-                            this.setState({
-                                isLoading: false,
-                                error: albums.error.message
-                            })
-                        } else {
-                            this.setState({
-                                isLoading: false,
-                                items: albums.albums.items.map(item => (
-                                    {
-                                        id: item.id,
-                                        type: item.type
-                                    }
-                                ))
-                            })
-                        }
-                    })
+            this.setState(await getNewReleasesFromBackend())
         }
     }
 

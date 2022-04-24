@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import Cookies from "js-cookie";
+import {getCurrentUser, updateUser, updateUserImage} from "../requests/requests";
 
 const User = () => {
     const [user, setUser] = useState({});
@@ -10,33 +10,23 @@ const User = () => {
     const [avatar, setAvatar] = useState(null);
 
     useEffect(() => {
-        if (localStorage.getItem('token') == null) {
+        const token = localStorage.getItem('token')
+        if (token == null) {
           window.location.replace('http://localhost:3000/login');
         } else {
-          fetch('http://localhost:8000/api/user/', {
-            headers: {
-              "Content-Type": "application/json",
-              'Authorization': `Token ${localStorage.getItem('token')}`,
-              'X-CSRFToken': Cookies.get('csrftoken')
-            },
-            credentials: 'include'
-          })
-            .then(res => res.json())
-            .then(data => {
-              if (data['detail']){
-                  localStorage.clear();
-                  window.location.replace('http://localhost:3000/login');
-              }
-              setUser(data);
-              setFirstname(data.first_name);
-              setLastname(data.last_name);
-              setAbout(data.about_me);
-              setLoading(false);
-            });
+            const fetchData = async () => {
+                const data = await getCurrentUser(token)
+                setUser(data);
+                setFirstname(data.first_name);
+                setLastname(data.last_name);
+                setAbout(data.about_me);
+                setLoading(false);
+            }
+            fetchData().catch(console.error)
         }
     }, []);
 
-    const onSubmit = e => {
+    const onSubmit = async e => {
         e.preventDefault();
 
         if(first_name || last_name || about) {
@@ -46,41 +36,16 @@ const User = () => {
               about_me: about
             };
 
-            fetch('http://localhost:8000/api/user/', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Token ${localStorage.getItem('token')}`,
-                    'X-CSRFToken': Cookies.get('csrftoken'),
-                },
-                body: JSON.stringify(user),
-                credentials: 'include'
-            })
-                .then(res => res.json())
-                .then(data => {
-                    setUser(data);
-                    setLoading(false);
-                });
+            setUser(await updateUser(user, localStorage.getItem('token')))
+            setLoading(false);
         }
 
         if (avatar) {
             const formData = new FormData();
             formData.append('avatar', avatar);
 
-            fetch('http://localhost:8000/api/user/', {
-                method: 'PATCH',
-                headers: {
-                    'Authorization': `Token ${localStorage.getItem('token')}`,
-                    'X-CSRFToken': Cookies.get('csrftoken'),
-                },
-                body: formData,
-                credentials: 'include'
-            })
-                .then(res => res.json())
-                .then(data => {
-                    setUser(data);
-                    setLoading(false);
-                });
+            setUser(await updateUserImage(formData, localStorage.getItem('token')))
+            setLoading(false);
         }
     };
 
