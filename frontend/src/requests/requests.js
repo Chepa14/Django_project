@@ -1,6 +1,7 @@
 import {timezone} from "../index";
 import Cookies from "js-cookie";
 import {toast} from "react-toastify";
+import {local_backend_url, local_frontend_url} from "./constants";
 
 const releasesTypes = [
     {
@@ -87,7 +88,7 @@ export async function getNewReleasesFromBackend(type) {
     let result = JSON.parse(JSON.stringify(releasesTypes[type]))
 
 
-    await fetch('http://localhost:8000/api/releases/')
+    await fetch(`${local_backend_url}/api/releases/`)
                 .then(res => res.json())
                 .then(
                     (albums) => {
@@ -138,7 +139,7 @@ export async function getLastNews(type, limit=10) {
         error: null,
         items: []
     }
-    await fetch("http://localhost:8000/api/news/?limit=" + limit, {
+    await fetch(`${local_backend_url}/api/news/?limit=${limit}`, {
             headers : {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
@@ -165,7 +166,7 @@ export async function getNewsByID(id) {
         error: null,
         item: null
     }
-    await fetch("http://localhost:8000/api/news/" + id, {
+    await fetch(`${local_backend_url}/api/news/${id}`, {
             headers : {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
@@ -193,7 +194,7 @@ export async function getRecommendationByTitle(title) {
         recommendations_error: null,
         recommendations: []
     }
-    await fetch("http://localhost:8000/api/news/recommendations/" + title, {
+    await fetch(`${local_backend_url}/api/news/recommendations/${title}`, {
             headers : {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
@@ -221,7 +222,7 @@ export async function getRecommendationByAuthor(id) {
         author_shorts_error: null,
         author_shorts: []
     }
-    await fetch("http://localhost:8000/api/news/recommendations/author/" + id,
+    await fetch(`${local_backend_url}/api/news/recommendations/author/${id}`,
     {
             headers : {
                 'Content-Type': 'application/json',
@@ -282,7 +283,7 @@ export async function getArtistRecommendations(limit=3) {
         isLoaded: false,
         items: []
     }
-    await fetch("http://localhost:8000/api/artists/recommendation/likes/" + limit, {
+    await fetch(`${local_backend_url}/api/artists/recommendation/likes/${limit}`, {
       headers : {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -305,7 +306,7 @@ export async function getArtists(limit= 10) {
         isLoaded: false,
         items: []
     }
-    await fetch("http://localhost:8000/api/artists/", {
+    await fetch(`${local_backend_url}/api/artists/`, {
         headers : {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -334,7 +335,7 @@ export async function getArtistByID(id) {
         isLoaded: false,
         item: null
     }
-    await fetch("http://localhost:8000/api/artists/" + id, {
+    await fetch(`${local_backend_url}/api/artists/${id}`, {
         headers : {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -359,7 +360,7 @@ export async function getArtistByID(id) {
 
 export async function getCurrentUser(token) {
     let user = {}
-    await fetch('http://localhost:8000/api/user/', {
+    await fetch(`${local_backend_url}/api/user/`, {
         headers: {
           "Content-Type": "application/json",
           'Authorization': `Token ${token}`,
@@ -371,7 +372,7 @@ export async function getCurrentUser(token) {
         .then((result) => {
           if (result.hasOwnProperty('detail')){
               localStorage.clear();
-              window.location.replace('http://localhost:3000/login');
+              window.location.replace(`${local_frontend_url}/login`);
           } else {
               user = result
           }
@@ -381,7 +382,7 @@ export async function getCurrentUser(token) {
 
 export async function updateUser(data, token) {
     let user = {}
-    fetch('http://localhost:8000/api/user/', {
+    fetch(`${local_backend_url}/api/user/`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -400,7 +401,7 @@ export async function updateUser(data, token) {
 
 export async function updateUserImage(formData, token) {
     let user = {}
-    await fetch('http://localhost:8000/api/user/', {
+    await fetch(`${local_backend_url}/api/user/`, {
         method: 'PATCH',
         headers: {
             'Authorization': `Token ${token}`,
@@ -417,7 +418,7 @@ export async function updateUserImage(formData, token) {
 }
 
 export async function login(user) {
-    await fetch('http://localhost:8000/auth/login/', {
+    await fetch(`${local_backend_url}/auth/login/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -431,7 +432,7 @@ export async function login(user) {
           .then(data => {
             if (data.key) {
               localStorage.setItem('token', data.key);
-              window.location.replace('http://localhost:3000/profile');
+              window.location.replace(`${local_frontend_url}/profile`);
             } else {
               toast.warning("Cannot log in with provided credentials!");
             }
@@ -439,7 +440,7 @@ export async function login(user) {
 }
 
 export async function logout(token) {
-    await fetch('http://localhost:8000/auth/logout/', {
+    await fetch(`${local_backend_url}/auth/logout/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -450,12 +451,12 @@ export async function logout(token) {
       .then(res => res.json())
       .then(data => {
         localStorage.clear();
-        window.location.replace('http://localhost:3000/login');
+        window.location.replace(`${local_frontend_url}/login`);
       });
 }
 
 export async function register(user) {
-    await fetch('http://localhost:8000/auth/registration/', {
+    await fetch(`${local_backend_url}/auth/registration/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -473,7 +474,7 @@ export async function register(user) {
 }
 
 export async function passwordChange(passwords, token) {
-    await fetch('http://localhost:8000/auth/change_password/', {
+    await fetch(`${local_backend_url}/auth/change_password/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -483,7 +484,7 @@ export async function passwordChange(passwords, token) {
       credentials: 'include',
       body: JSON.stringify(passwords)
     }).then(()=> {
-        window.location.replace('http://localhost:3000/');
+        window.location.replace(`${local_frontend_url}/`);
     })
 }
 
