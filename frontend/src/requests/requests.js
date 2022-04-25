@@ -484,7 +484,8 @@ export async function passwordChange(passwords, token) {
       credentials: 'include',
       body: JSON.stringify(passwords)
     }).then(()=> {
-        window.location.replace(`${local_frontend_url}/`);
+        //TODO tostify all errors
+        window.location.replace(`${local_frontend_url}/profile`);
     })
 }
 
