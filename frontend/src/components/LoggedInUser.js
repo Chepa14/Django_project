@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {Link} from "react-router-dom";
-import {getCurrentUser} from "../requests/requests";
+import {getCurrentUser, logout} from "../requests/requests";
+import {local_frontend_url} from "../requests/constants";
 
 const IsLoggedUser = () => {
   const [authorized, setAuthorized] = useState(false);
@@ -14,6 +15,11 @@ const IsLoggedUser = () => {
         }
     }, [authorized]);
 
+    async function toLogout() {
+        await logout(localStorage.getItem('token'))
+        window.location.replace(`${local_frontend_url}/`)
+    }
+
     return(
         <div style={{margin: "auto", width: "12%"}}>
             {authorized &&
@@ -23,7 +29,7 @@ const IsLoggedUser = () => {
                 <div className="dropdown-content">
                     <Link to="/profile">Profile</Link>
                     <li><Link to="/change_password">Change password</Link></li>
-                    <li><Link to="/logout">Logout</Link></li>
+                    <li onClick={toLogout}><Link to="#">Logout</Link></li>
                 </div>
             </div>
             }
