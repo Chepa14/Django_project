@@ -359,7 +359,7 @@ export async function getArtistByID(id) {
 
 export async function getCurrentUser(token) {
     let user = {}
-    fetch('http://localhost:8000/api/user/', {
+    await fetch('http://localhost:8000/api/user/', {
         headers: {
           "Content-Type": "application/json",
           'Authorization': `Token ${token}`,
@@ -368,14 +368,14 @@ export async function getCurrentUser(token) {
         credentials: 'include'
       })
         .then(res => res.json())
-        .then(data => {
-        if (data['detail']){
+        .then((result) => {
+          if (result.hasOwnProperty('detail')){
               localStorage.clear();
               window.location.replace('http://localhost:3000/login');
           } else {
-            user = data
-        }
-        });
+              user = result
+          }
+        })
     return user
 }
 
@@ -400,7 +400,7 @@ export async function updateUser(data, token) {
 
 export async function updateUserImage(formData, token) {
     let user = {}
-    fetch('http://localhost:8000/api/user/', {
+    await fetch('http://localhost:8000/api/user/', {
         method: 'PATCH',
         headers: {
             'Authorization': `Token ${token}`,
@@ -417,30 +417,29 @@ export async function updateUserImage(formData, token) {
 }
 
 export async function login(user) {
-    fetch('http://localhost:8000/auth/login/', {
+    await fetch('http://localhost:8000/auth/login/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': Cookies.get('csrftoken'),
             'Timezone': timezone
           },
-          body: JSON.stringify(user)
+          body: JSON.stringify(user),
+          credentials: "include"
         })
           .then(res => res.json())
           .then(data => {
             if (data.key) {
-              localStorage.clear();
               localStorage.setItem('token', data.key);
               window.location.replace('http://localhost:3000/profile');
             } else {
               toast.warning("Cannot log in with provided credentials!");
-              localStorage.clear();
             }
           });
 }
 
 export async function logout(token) {
-    fetch('http://localhost:8000/auth/logout/', {
+    await fetch('http://localhost:8000/auth/logout/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -456,7 +455,7 @@ export async function logout(token) {
 }
 
 export async function register(user) {
-    fetch('http://localhost:8000/auth/registration/', {
+    await fetch('http://localhost:8000/auth/registration/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -474,7 +473,7 @@ export async function register(user) {
 }
 
 export async function passwordChange(passwords, token) {
-    fetch('http://localhost:8000/auth/change_password/', {
+    await fetch('http://localhost:8000/auth/change_password/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

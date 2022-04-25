@@ -958,6 +958,7 @@ ALTER TABLE ONLY public.user_user_user_permissions ALTER COLUMN id SET DEFAULT n
 
 COPY public.account_emailaddress (id, email, verified, "primary", user_id) FROM stdin;
 1	i.chepets@quantumobile.com	t	t	1
+2	nacih15594@viemery.com	t	t	2
 \.
 
 
@@ -965,7 +966,7 @@ COPY public.account_emailaddress (id, email, verified, "primary", user_id) FROM 
 -- Name: account_emailaddress_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.account_emailaddress_id_seq', 1, true);
+SELECT pg_catalog.setval('public.account_emailaddress_id_seq', 2, true);
 
 
 --
@@ -1179,6 +1180,7 @@ SELECT pg_catalog.setval('public.auth_permission_id_seq', 72, true);
 --
 
 COPY public.authtoken_token (key, created, user_id) FROM stdin;
+29125ea2cf6f97ce9825937772876b492e9c95c4	2022-04-25 14:05:52.383983+00	2
 \.
 
 
@@ -1384,6 +1386,8 @@ kr1y1rqv2vj1p6pbs8l0ujv8owfkcoay	.eJxVjDsOwjAQBe_iGln-r6GkzxmsjXeDA8iW4qRC3B0ipY
 cmvna5kia36jujzyi165lb59bzszj9nf	.eJxVjDsOwjAQBe_iGln-r6GkzxmsjXeDA8iW4qRC3B0ipYD2zcx7iYTbWtLWeUkziYvQ4vS7jZgfXHdAd6y3JnOr6zKPclfkQbscGvHzerh_BwV7-dZh8jZwnjxpjwbHEPLEjiByNAo0QT6zBfIq-gAKLQSnHEQDWpMFyOL9AebPNyY:1nY7zS:_6k_k0QGexVEwSB34BpgZdJi08Ql831kwdpgNZ71q7U	2022-04-09 15:06:06.481741+00
 2zkvx5f6l4bqqxbbxkoz7otikf5hwt2e	.eJxVjDsOwjAQBe_iGln-r6GkzxmsjXeDA8iW4qRC3B0ipYD2zcx7iYTbWtLWeUkziYvQ4vS7jZgfXHdAd6y3JnOr6zKPclfkQbscGvHzerh_BwV7-dZh8jZwnjxpjwbHEPLEjiByNAo0QT6zBfIq-gAKLQSnHEQDWpMFyOL9AebPNyY:1nY83S:YC26S8TQrZc-HZ39zQFSTrLqzZRVHU30y8iJxeqap4w	2022-04-09 15:10:14.314208+00
 5kpk33xsy2b8nhj8bks4pdub1t2it0s1	.eJxVjDsOwjAQBe_iGln-r6GkzxmsjXeDA8iW4qRC3B0ipYD2zcx7iYTbWtLWeUkziYvQ4vS7jZgfXHdAd6y3JnOr6zKPclfkQbscGvHzerh_BwV7-dZh8jZwnjxpjwbHEPLEjiByNAo0QT6zBfIq-gAKLQSnHEQDWpMFyOL9AebPNyY:1nej6C:y6zuzcpT_JyEl7b2vohuhxgLOWoXEp8yvcuVT5iej5s	2022-04-27 19:56:20.802939+00
+6zq22p5m3t7fwctxeqa3lag34bp01qzy	eyJhY2NvdW50X3ZlcmlmaWVkX2VtYWlsIjpudWxsLCJhY2NvdW50X3VzZXIiOiIyIn0:1nizLd:-IdqZ7sIFTb_jng8aWJxABorUCa95SV4x6zZ322S9nE	2022-05-09 14:05:53.872103+00
+nr7lc39uo0yxgyexvuycy2c4mz7q2x5p	.eJxVjEEOwiAQRe_C2pACM6V16d4zNAPDSNVAUtqV8e7apAvd_vfef6mJtjVPW0vLNLM6K6tOv1ug-EhlB3yncqs61rIuc9C7og_a9LVyel4O9-8gU8vf2gB7i4Mh7ziIIPQo6NAJBQcdhH7sIqFNAGh5kCjQJe-NBM8-JhjV-wPVkTfb:1nizM9:xPapfhU1JE1jewLwv92Us82ar2ZRTpmbYaRd4DTmUoA	2022-05-09 14:06:25.670372+00
 \.
 
 
@@ -1530,6 +1534,7 @@ SELECT pg_catalog.setval('public.socialaccount_socialtoken_id_seq', 1, false);
 
 COPY public.user_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined, avatar, about_me) FROM stdin;
 1	pbkdf2_sha256$260000$XcYaS9qlyRf0K3PpwCqtUv$tNoO+i90ftlsCclqujXTE1WG8wBK43Yyuq2m/h+QnmQ=	2022-04-13 19:56:20.798775+00	t	i.chepets			i.chepets@quantumobile.com	t	t	2021-11-01 10:53:29.746654+00		
+2	pbkdf2_sha256$260000$LkZMTl1chlP3nLktREGZJz$sWZDgx3KWgy3s1nEagFLpzjlZw/OY7Ofj76R0x8V3/g=	2022-04-25 14:06:25.666332+00	f	Tester			nacih15594@viemery.com	f	t	2022-04-25 14:05:52.188555+00		
 \.
 
 
@@ -1552,7 +1557,7 @@ SELECT pg_catalog.setval('public.user_user_groups_id_seq', 1, false);
 -- Name: user_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.user_user_id_seq', 1, true);
+SELECT pg_catalog.setval('public.user_user_id_seq', 2, true);
 
 
 --

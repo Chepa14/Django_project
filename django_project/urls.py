@@ -1,4 +1,4 @@
-from rest_auth.registration.views import RegisterView, VerifyEmailView
+from rest_auth.registration.views import RegisterView, VerifyEmailView, ConfirmEmailView
 from rest_framework_swagger.views import get_swagger_view
 from django.conf.urls.static import static
 from rest_auth.views import LoginView, LogoutView, PasswordChangeView
@@ -30,7 +30,7 @@ urlpatterns = [
     ),
     re_path(
         r"account-confirm-email/(?P<key>[-:\w]+)/$",
-        VerifyEmailView.as_view(),
+        ConfirmEmailView.as_view(),
         name="account_confirm_email",
     ),
     path("rest_docs/", schema_view),
