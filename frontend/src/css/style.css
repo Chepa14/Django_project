@@ -1762,7 +1762,7 @@
      margin-bottom: 25px;
      padding: 12px 19px;
      color: #000 !important;
-     width: 100%;
+     width: 90%;
      border: #b1b0b0 solid 1px;
      border-radius: 10px;
 }
@@ -1955,6 +1955,8 @@
      border-radius: 10px;
      font-size: 20px;
      border: 1px solid grey;
+     padding: 0 0 0 19px;
+     width: 90%;
  }
  /* Unauthorized message*/
  .message-wrapper {

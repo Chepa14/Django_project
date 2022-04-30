@@ -382,7 +382,7 @@ export async function getCurrentUser(token) {
 
 export async function updateUser(data, token) {
     let user = {}
-    fetch(`${local_backend_url}/api/user/`, {
+    await fetch(`${local_backend_url}/api/user/`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

@@ -10,8 +10,12 @@ const IsLoggedUser = () => {
   useEffect(() => {
         const token = localStorage.getItem('token')
         if (token !== null) {
-          setAuthorized(true);
-          setUser(getCurrentUser(token))
+          const fetchData = async () => {
+            const data = await getCurrentUser(token)
+            setUser(data);
+            setAuthorized(true);
+          }
+          fetchData().catch(console.error)
         }
     }, [authorized]);
 
