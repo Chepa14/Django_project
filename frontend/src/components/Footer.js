@@ -1,7 +1,58 @@
 import React, { Component } from "react";
+import SpotifySong, {SpotifyAlbum} from "./SpotifyWidgets";
+import Cookies from "js-cookie";
+import Loader from "./Loader";
+import {getNewReleases, getNewReleasesFromBackend} from "../requests/requests";
 
 class Footer extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+          isLoading: true,
+          items: [
+              {
+                  id: "3KsS9NkC5ZlPAIWpGoL5Sx",
+                  type: 'single',
+              },
+              {
+                  id: "0OyQns5ayNK2OVaES0Vb8t",
+                  type: 'single',
+              },
+              {
+                  id: "7uDTc1eJwsD7iMZLhdp8LH",
+                  type: 'single',
+              },
+              {
+                  id: "6MO2bfLHKykUgCChFdw91H",
+                  type: 'single',
+              }],
+          error: null
+        };
+    }
+
+    async componentDidMount() {
+        const accessToken = Cookies.get('spotifyAuthToken')
+        if (accessToken) {
+            this.setState(await getNewReleases(accessToken, 0, 4))
+        } else {
+            this.setState(await getNewReleasesFromBackend(0))
+        }
+    }
+
+    renderWidget(item) {
+        switch (item.type) {
+            case 'single':
+                return <SpotifySong key={Math.random().toString()} id={item.id} isLarge={false}/>
+            case 'album':
+                return <SpotifyAlbum key={Math.random().toString()} id={item.id} isLarge={false}/>
+            default:
+                return undefined
+        }
+    }
+
     render() {
+        const {isLoading, items, error} = this.state;
+
         return (
             <div className="footer">
                 <div className="container">
@@ -14,7 +65,6 @@ class Footer extends Component{
                                     <li><img src="../icon/2.png" alt="icon"/>Phone : ( +380 98323**** )
                                     </li>
                                     <li><img src="../icon/3.png" alt="icon"/>Email : ivanchepets14@gmail.com</li>
-
                                 </ul>
 
                                 <ul className="contant_icon">
@@ -46,8 +96,7 @@ class Footer extends Component{
                                                    name="Email"/>
                                         </div>
                                         <div className="col-sm-12">
-                                            <textarea className="textarea" placeholder="Message"
-                                                      type="text" name="Message"/>
+                                            <textarea className="textarea" placeholder="Message" name="Message"/>
                                         </div>
                                         <div className="col-sm-12">
                                             <button className="send">Send</button>
@@ -59,22 +108,16 @@ class Footer extends Component{
                         </div>
                         <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 width">
                             <div className="address">
-                                <h3>New Music </h3>
-                                <div className="row">
-                                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 ">
-                                        <figure><img src="../images/music1.jpg" alt=""/></figure>
-                                    </div>
-                                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 ">
-                                        <figure><img src="../images/music2.jpg" alt=""/></figure>
-                                    </div>
-                                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 ">
-                                        <figure><img src="../images/music3.jpg" alt=""/></figure>
-                                    </div>
-                                    <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 ">
-                                        <figure><img src="../images/music4.jpg" alt=""/></figure>
-                                    </div>
-                                </div>
-
+                                <h3>New Releases </h3>
+                                {isLoading? <Loader/> :
+                                    error? <div>Error: {error}</div> :
+                                        <div className="row">
+                                        <React.Fragment>
+                                            {items.map(item => (
+                                                this.renderWidget(item)
+                                            ))}
+                                        </React.Fragment>
+                                        </div>}
                             </div>
                         </div>
                     </div>

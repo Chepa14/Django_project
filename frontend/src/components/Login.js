@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Cookies from 'js-cookie';
-import {timezone} from "../index";
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {login} from "../requests/requests";
 
 
 const Login = () => {
@@ -18,34 +16,14 @@ const Login = () => {
         }
     }, []);
 
-    const onSubmit = e => {
+    const onSubmit = async e => {
         e.preventDefault();
 
         const user = {
           username: username,
           password: password
         };
-
-        fetch('http://localhost:8000/auth/login/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': Cookies.get('csrftoken'),
-            'Timezone': timezone
-          },
-          body: JSON.stringify(user)
-        })
-          .then(res => res.json())
-          .then(data => {
-            if (data.key) {
-              localStorage.clear();
-              localStorage.setItem('token', data.key);
-              window.location.replace('http://localhost:3000/profile');
-            } else {
-              toast.warning("Cannot log in with provided credentials!");
-              localStorage.clear();
-            }
-          });
+        await login(user)
     };
 
     return (

@@ -2,9 +2,12 @@ import React, {Component} from "react";
 import Header from "../components/Header";
 import TitleName from "../components/TitleName";
 import ScrollButton from '../components/ScrollButton';
-import {timezone} from "../index";
 import {Link} from "react-router-dom";
 import Loader from "../components/Loader";
+import SpotifySong, {SpotifyAlbum} from "../components/SpotifyWidgets";
+import Cookies from "js-cookie";
+import {getLastNews, getNewReleases, getNewReleasesFromBackend} from "../requests/requests";
+
 
 class NewsListPage extends Component{
     constructor(props) {
@@ -12,37 +15,56 @@ class NewsListPage extends Component{
         this.state = {
           error: null,
           isLoaded: false,
-          items: []
+          items: [],
+          isLoadedAlbums: false,
+          albums: [
+              {
+                  id: "5CnpZV3q5BcESefcB3WJmz",
+                  type: 'albums',
+              },
+              {
+                  id: "2QRedhP5RmKJiJ1i8VgDGR",
+                  type: 'albums',
+              },
+              {
+                  id: "7dAm8ShwJLFm9SaJ6Yc58O",
+                  type: 'albums',
+              },
+              {
+                  id: "2QRedhP5RmKJiJ1i8VgDGR",
+                  type: 'albums',
+              }
+          ],
+          albumsError: null
         };
         this.content = null;
     }
 
     async componentDidMount() {
-        await fetch("http://localhost:8000/api/news/", {
-            headers : {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Timezone': timezone
-            }
-        })
-          .then(res => res.json())
-          .then(
-            (result) => {
-                this.setState({
-                    isLoaded: true,
-                    items: result
-                });
-            },
-            (error) => {
-                this.setState({
-                    isLoaded: true,
-                    error
-                });
-            }
-          )
+        this.setState(await getLastNews(0, 10))
+
+        const accessToken = Cookies.get('spotifyAuthToken')
+        if (accessToken) {
+            this.setState(await getNewReleases(accessToken, 1, 5))
+        } else {
+            this.setState(await getNewReleasesFromBackend(1))
+        }
     }
+
+    renderWidget(item) {
+        switch (item.type) {
+            case 'single':
+                return <SpotifySong key={Math.random().toString()} id={item.id} isLarge={false}/>
+            case 'album':
+                return <SpotifyAlbum key={Math.random().toString()} id={item.id} isLarge={true}/>
+            default:
+                return undefined
+        }
+    }
+
     render() {
-        const { error, isLoaded, items } = this.state;
+        const { error, isLoaded, items, isLoadedAlbums, albums, albumsError } = this.state;
+        const shuffled = [...items].sort(() => Math.random() - 0.5).reverse()
         if (error) {
           this.content = <div>Error: {error.message}</div>
         } else if (!isLoaded) {
@@ -78,12 +100,32 @@ class NewsListPage extends Component{
                     backgroundRepeat: "no-repeat"}}>
                     <span>RECOMMENDATION</span>
                 </div>
-                <div>
+                <div style={{marginTop: "35px"}}>
                     <React.Fragment>
-                            {items.map(news => (
+                            {shuffled.map(news => (
                                 render_news(news, true)
                             ))}
                         </React.Fragment>
+                </div>
+                <div style={{marginTop: "50px"}}>
+                    <div style={{height: "50px", width: "300px", display: "flex",
+                        alignItems: "center", justifyContent: "center",
+                        backgroundImage: "url(/images/writing_brush.png)",
+                        backgroundPosition: "center",
+                        backgroundSize: "contain",
+                        backgroundRepeat: "no-repeat",
+                        marginBottom: "20px"}}>
+                        <span>FEATURED ALBUMS</span>
+                    </div>
+                    {isLoadedAlbums? <Loader/> :
+                        albumsError? <div>Error: {error}</div> :
+                            <div className="row">
+                                <React.Fragment>
+                                    {albums.map(item => (
+                                        this.renderWidget(item)
+                                    ))}
+                                </React.Fragment>
+                            </div>}
                 </div>
             </div>
 
@@ -110,10 +152,12 @@ function render_news(news, is_recomm=false) {
     if (is_recomm) {
         symbols_limit = 100;
         return (
-        <div className="news-box">
+        <div className="news-box" style={{ paddingLeft: "10px", borderBottom: "1px solid grey"}}>
             {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
             <figure><img src={news.image} alt="News image"/></figure>
-            <h3> {news.title} </h3>
+            <Link to={"/news/" + news.id}>
+                <h3> {news.title} </h3>
+            </Link>
             <p> {news.description.slice(0, symbols_limit)}... </p>
             <div className="row" style={{height: "30px", marginLeft: "0px"}}>
                 <span> {news.create_datetime} <b>·</b> {news.author.username} </span>

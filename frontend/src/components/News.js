@@ -1,6 +1,7 @@
 import React, {Component} from "react";
-import {timezone} from "../index";
 import Loader from "./Loader";
+import {Link} from "react-router-dom";
+import {getLastNews} from "../requests/requests";
 
 class News extends Component{
     constructor(props) {
@@ -13,28 +14,7 @@ class News extends Component{
     }
 
     async componentDidMount() {
-        await fetch("http://localhost:8000/api/news/", {
-            headers : {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Timezone': timezone
-            }
-        })
-          .then(res => res.json())
-          .then(
-            (result) => {
-                this.setState({
-                    isLoaded: true,
-                    items: result
-                });
-            },
-            (error) => {
-                this.setState({
-                    isLoaded: true,
-                    error
-                });
-            }
-          )
+        this.setState(await getLastNews(0, 3))
     }
 
     render() {
@@ -62,7 +42,7 @@ class News extends Component{
                         </div>
                         <div className="row">
                             <React.Fragment>
-                                {items.slice(0, 3).map(news => (
+                                {items.map(news => (
                                     render_news(news)
                                 ))}
                             </React.Fragment>
@@ -76,11 +56,13 @@ class News extends Component{
 
 function render_news(news) {
     return(
-        <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+        <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12" key={Math.random().toString()}>
             <div className="news-box">
-                {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
-                <figure><img src={news.image} alt="News image"/></figure>
-                <h3> {news.title} </h3>
+                <Link to={"/news/" + news.id}>
+                    {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
+                    <figure><img src={news.image} alt="News image"/></figure>
+                    <h3> {news.title} </h3>
+                </Link>
                 <span> {news.create_datetime} </span>
                 <p> {news.description.slice(0, 444)}... </p>
             </div>

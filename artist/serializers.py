@@ -13,6 +13,7 @@ class ArtistSerializer(serializers.ModelSerializer):
             "image",
             "likes_number",
             "description",
+            "spotify_id"
         )
         read_only_fields = ("likes_number",)
 

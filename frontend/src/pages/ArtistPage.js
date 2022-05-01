@@ -2,9 +2,9 @@ import React, {Component} from "react";
 import Header from "../components/Header";
 import TitleName from "../components/TitleName";
 import ScrollButton from '../components/ScrollButton';
-import {timezone} from "../index";
 import Loader from "../components/Loader";
 import {LikeButtonComponent} from "../components/LikeButtonComponent";
+import {getArtistByID} from "../requests/requests";
 
 class ArtistPage extends Component{
     constructor(props) {
@@ -19,36 +19,7 @@ class ArtistPage extends Component{
     }
 
     async componentDidMount() {
-        await fetch("http://localhost:8000/api/artists/" + this.state.id, {
-            headers : {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Timezone': timezone,
-            },
-            credentials: 'include'
-        })
-          .then(res => res.json())
-          .then(
-            (result) => {
-                if (result.hasOwnProperty('detail')){
-                    this.setState({
-                    isLoaded: true,
-                    error: result
-                    });
-                }else {
-                    this.setState({
-                        isLoaded: true,
-                        item: result
-                    });
-                }
-            },
-            (error) => {
-                this.setState({
-                    isLoaded: true,
-                    error
-                });
-            }
-          );
+        this.setState(await getArtistByID(this.state.id))
     }
 
     render() {
