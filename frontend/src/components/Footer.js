@@ -35,7 +35,7 @@ class Footer extends Component{
         if (accessToken) {
             this.setState(await getNewReleases(accessToken, 0, 4))
         } else {
-            this.setState(await getNewReleasesFromBackend())
+            this.setState(await getNewReleasesFromBackend(0))
         }
     }
 

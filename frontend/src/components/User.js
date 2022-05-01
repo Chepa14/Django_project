@@ -1,7 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import {getCurrentUser, updateUser, updateUserImage} from "../requests/requests";
 import {local_frontend_url} from "../requests/constants";
-import {Link} from "react-router-dom";
 
 const User = () => {
     const [user, setUser] = useState({});
